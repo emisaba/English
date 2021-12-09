@@ -15,8 +15,8 @@ class SpeakingCardView: CardView {
     
     // MARK: - Lifecycle
     
-    override init(viewmodel: CardViewmodel, type: CardType, shouldHideJapanese: Bool) {
-        super.init(viewmodel: viewmodel, type: type, shouldHideJapanese: shouldHideJapanese)
+    override init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
+        super.init(viewModel: viewModel, type: type, shouldHideJapanese: shouldHideJapanese, id: id)
         
         configureUI()
     }
@@ -45,7 +45,7 @@ class SpeakingCardView: CardView {
                                     paddingRight: 20,
                                     height: 80)
         englishLabel.centerX(inView: self)
-        englishLabel.text = viewmodel.sentenceEnglish
+        englishLabel.text = viewModel.sentenceEnglish
         
         addSubview(showAnswerView)
         showAnswerView.anchor(top: englishLabel.bottomAnchor,
@@ -56,7 +56,7 @@ class SpeakingCardView: CardView {
                                    paddingRight: 20,
                                    height: 150)
         showAnswerView.centerX(inView: self)
-        showAnswerView.englishArray = viewmodel.englishArray
+        showAnswerView.englishArray = viewModel.englishArray
         
         addSubview(micButton)
         micButton.anchor(top: showAnswerView.bottomAnchor,

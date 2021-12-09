@@ -6,14 +6,28 @@ extension CardViewController: CaptureCardViewDelegate {
     
     // MARK: - API
     
-    func createCardService(info: CategoryInfo) {
+    func createSentence(sentenceInfo: SentenceInfo) {
+        let sentenceInfo = SentenceInfo(categoryID: sentenceInfo.categoryID,
+                                        collectionID: sentenceInfo.collectionID,
+                                        sentence: sentenceInfo.sentence,
+                                        transratedSentence: sentenceInfo.transratedSentence,
+                                        sentenceArray: sentenceInfo.sentenceArray)
         
-        CreateCardService.registerNewCards(categoryInfo: info) { error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
+        CardService.createSentence(sentenceInfo: sentenceInfo) { _ in
             
+            self.wordsInfo.forEach { wordInfo in
+                let wordInfo = WordInfo(categoryID: sentenceInfo.categoryID,
+                                        collectionID: sentenceInfo.collectionID,
+                                        word: wordInfo.word,
+                                        translatedWord: wordInfo.translatedWord)
+                
+                CardService.createWord(wordInfo: wordInfo) { error in
+                    if let error = error {
+                        print("failed to upload:\(error.localizedDescription)")
+                        return
+                    }
+                }
+            }
             self.wordsInfo = []
         }
         topCard = cardViews.last
@@ -25,16 +39,7 @@ extension CardViewController: CaptureCardViewDelegate {
         
         view.removeFromSuperview()
         cardViews.removeAll(where: { view == $0 as! CaptureCardView } )
-        
-        let categoryTitle = categoryInfo.categoryTitle
-        let collectionTitle = categoryInfo.collectionTitle
-        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-                                        collectionTitle: collectionTitle,
-                                        image: nil,
-                                        sentence: sentenceInfo,
-                                        word: wordsInfo)
-        
-        createCardService(info: categoryInfo)
+        createSentence(sentenceInfo: sentenceInfo)
     }
     
     func topViewSentence(card: CaptureCardView, text: String) {

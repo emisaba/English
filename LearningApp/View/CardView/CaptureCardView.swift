@@ -24,8 +24,8 @@ class CaptureCardView: CardView {
     
     // MARK: - Lifecycle
     
-    override init(viewmodel: CardViewmodel, type: CardType, shouldHideJapanese: Bool) {
-        super.init(viewmodel: viewmodel, type: type, shouldHideJapanese: shouldHideJapanese)
+    override init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
+        super.init(viewModel: viewModel, type: type, shouldHideJapanese: shouldHideJapanese, id: id)
         
         configureUI()
         getInfoFromCameraView()
@@ -101,11 +101,13 @@ class CaptureCardView: CardView {
                 
                 guard let sentence = self.captureTextView.text else { return }
                 guard let transratedSentence = self.translatedTextView.text else { return }
+                let sentenceInfo = SentenceInfo(categoryID: self.id.category,
+                                                collectionID: self.id.collection,
+                                                sentence:  sentence.lowercased(),
+                                                transratedSentence: transratedSentence,
+                                                sentenceArray: self.wordsArray)
                 
-                self.captureCardDelegate?.saveInfo(view: self,
-                                                   sentenceInfo: SentenceInfo(sentence: sentence.lowercased(),
-                                                                              transratedSentence: transratedSentence,
-                                                                              sentenceArray: self.wordsArray))
+                self.captureCardDelegate?.saveInfo(view: self, sentenceInfo: sentenceInfo)
             }
         }
     }

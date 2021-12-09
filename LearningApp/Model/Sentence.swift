@@ -7,8 +7,8 @@ struct Sentence {
     let sentenceArray: [String]
     let correct: Bool
     
-    init(sentenceID: String, dictionary: [String: Any]) {
-        self.sentenceID = sentenceID
+    init(dictionary: [String: Any]) {
+        self.sentenceID = dictionary["sentenceID"] as? String ?? ""
         self.sentence = dictionary["sentence"] as? String ?? ""
         self.transratedSentence = dictionary["translatedSentence"] as? String ?? ""
         self.sentenceArray = dictionary["sentenceArray"] as? [String] ?? []

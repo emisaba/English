@@ -27,8 +27,8 @@ class ShadowingCardView: CardView {
     
     // MARK: - Lifecycle
     
-    override init(viewmodel: CardViewmodel, type: CardType, shouldHideJapanese: Bool) {
-        super.init(viewmodel: viewmodel, type: type, shouldHideJapanese: shouldHideJapanese)
+    override init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
+        super.init(viewModel: viewModel, type: type, shouldHideJapanese: shouldHideJapanese, id: id)
         
         configureUI()
     }
@@ -86,7 +86,7 @@ class ShadowingCardView: CardView {
         TextToSpeechService.speechSynthesizer.delegate = self
         
         if playCount > 0 {
-            TextToSpeechService.startSpeech(text: self.viewmodel.sentenceEnglish)
+            TextToSpeechService.startSpeech(text: self.viewModel.sentenceEnglish)
         } else {
             playCount = setValue
         }

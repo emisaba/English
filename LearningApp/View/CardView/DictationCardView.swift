@@ -15,8 +15,8 @@ class DictationCardView: CardView {
     
     // MARK: - Lifecycle
     
-    override init(viewmodel: CardViewmodel, type: CardType, shouldHideJapanese: Bool) {
-        super.init(viewmodel: viewmodel, type: type, shouldHideJapanese: shouldHideJapanese)
+    override init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
+        super.init(viewModel: viewModel, type: type, shouldHideJapanese: shouldHideJapanese, id: id)
         
         configureUI()
         dictationTextView.delegate = self
@@ -44,7 +44,7 @@ class DictationCardView: CardView {
                              paddingLeft: 10,
                              paddingRight: 10)
         japaneseLabel.centerX(inView: self)
-        japaneseLabel.text = viewmodel.sentenceJapanese
+        japaneseLabel.text = viewModel.sentenceJapanese
         
         addSubview(dictationTextView)
         dictationTextView.anchor(top: japaneseLabel.bottomAnchor,
@@ -69,7 +69,7 @@ class DictationCardView: CardView {
     func showAnswer() {
         if textViewTextCount > 0 { return }
 
-        let answerArray = self.viewmodel.sentenceEnglish.lowercased().components(separatedBy: " ")
+        let answerArray = self.viewModel.sentenceEnglish.lowercased().components(separatedBy: " ")
         self.answerCollectionView.answerArray = answerArray
         self.answerCollectionView.correctInputNumbers = []
 
@@ -88,7 +88,7 @@ extension DictationCardView: UITextViewDelegate {
     }
     
     func changeTextColorIfCorrect(textView: UITextView) {
-        if textView.text.lowercased() == viewmodel.sentenceEnglish.lowercased() {
+        if textView.text.lowercased() == viewModel.sentenceEnglish.lowercased() {
             textView.textColor = .systemGreen
         }
     }
@@ -106,7 +106,7 @@ extension DictationCardView: UITextViewDelegate {
     func searchCorrctWordInInputArray(textView: UITextView) {
         
         let inputTextArray = textView.text.lowercased().components(separatedBy: " ")
-        let answerArray = self.viewmodel.sentenceEnglish.lowercased().components(separatedBy: " ")
+        let answerArray = self.viewModel.sentenceEnglish.lowercased().components(separatedBy: " ")
         
         var correctWordNumber = 0
         var correctWordNumbers = [Int]()

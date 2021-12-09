@@ -8,8 +8,8 @@ class VocabularyCardView: CardView {
     
     // MARK: - Lifecycle
     
-    override init(viewmodel: CardViewmodel, type: CardType, shouldHideJapanese: Bool) {
-        super.init(viewmodel: viewmodel, type: type, shouldHideJapanese: shouldHideJapanese)
+    override init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
+        super.init(viewModel: viewModel, type: type, shouldHideJapanese: shouldHideJapanese, id: id)
         
         configureUI()
         vocabraryTextView.delegate = self
@@ -38,7 +38,7 @@ class VocabularyCardView: CardView {
                              paddingLeft: 10,
                              paddingRight: 10)
         japaneseLabel.centerX(inView: self)
-        japaneseLabel.text = viewmodel.wordJapanese
+        japaneseLabel.text = viewModel.wordJapanese
         
         addSubview(vocabraryTextView)
         vocabraryTextView.anchor(top: japaneseLabel.bottomAnchor,
@@ -56,7 +56,7 @@ class VocabularyCardView: CardView {
 
 extension VocabularyCardView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.lowercased() == viewmodel.wordEnglish.lowercased() {
+        if textView.text.lowercased() == viewModel.wordEnglish.lowercased() {
             textView.textColor = .systemGreen
         }
     }

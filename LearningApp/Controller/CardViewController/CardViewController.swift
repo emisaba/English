@@ -69,7 +69,7 @@ class CardViewController: UIViewController {
     public var topCard: Any?
     
     public var wordsInfo = [WordInfo]()
-    public var categoryInfo: CategoryInfo
+    public var itemInfo: ItemInfo
     
     public var testCardType: QuestionType = .all
     
@@ -78,17 +78,20 @@ class CardViewController: UIViewController {
     public var correctCount: CGFloat = 0
     public var swipeCount: CGFloat = 0
     
+    private var itemViewController: ItemViewController?
+    
     // MARK: - Lifecycles
     
-    init(cardType: CardType, categoryInfo: CategoryInfo, sentences: [Sentence]?,
-         words: [Word]?, testCardType: QuestionType, japanese: Bool) {
+    init(cardType: CardType, itemInfo: ItemInfo, sentences: [Sentence]?,
+         words: [Word]?, testCardType: QuestionType, japanese: Bool, itemViewController: ItemViewController?) {
         
         self.cardType = cardType
-        self.categoryInfo = categoryInfo
+        self.itemInfo = itemInfo
         self.sentences = sentences
         self.words = words
         self.testCardType = testCardType
         self.shouldHideJapanese = japanese
+        self.itemViewController = itemViewController
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -101,7 +104,7 @@ class CardViewController: UIViewController {
         super.viewDidLoad()
         if cardType != .capture { fetchCardInfo() }
         
-        view.backgroundColor = .white
+        view.backgroundColor = .clear
         configureUI()
         
         showDictionaryViewController()
@@ -111,19 +114,19 @@ class CardViewController: UIViewController {
     
     func fetchCardInfo() {
         
-        let categoryTitle = categoryInfo.categoryTitle
-        let collectionTitle = categoryInfo.collectionTitle
-        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-                                        collectionTitle: collectionTitle,
-                                        image: nil, sentence: nil, word: nil)
-        
-        CreateCardService.fetchSentence(categoryInfo: categoryInfo) { sentences in
-            self.sentences = sentences
-            
-            CreateCardService.fetchWord(categoryInfo: categoryInfo) { words in
-                self.words = words
-            }
-        }
+//        let categoryTitle = collectionInfo.categoryTitle
+//        let collectionTitle = collectionInfo.collectionTitle
+//        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
+//                                        collectionTitle: collectionTitle,
+//                                        image: nil, sentence: nil, word: nil)
+//
+//        CardService.fetchSentence(categoryInfo: categoryInfo) { sentences in
+//            self.sentences = sentences
+//
+//            CardService.fetchWord(categoryInfo: categoryInfo) { words in
+//                self.words = words
+//            }
+//        }
     }
     
     // MARK: - Actions
@@ -134,7 +137,8 @@ class CardViewController: UIViewController {
             navigationController?.popToRootViewController(animated: true)
             
         } else {
-            navigationController?.popViewController(animated: true)
+            itemViewController?.configureUIParts()
+            dismiss(animated: true, completion: nil)
         }
     }
     
@@ -156,7 +160,7 @@ class CardViewController: UIViewController {
             
         case .word:
             guard let wordTopCard = topCard as? VocabularyCardView else { return }
-            wordTopCard.vocabraryTextView.text = wordTopCard.viewmodel.wordEnglish
+            wordTopCard.vocabraryTextView.text = wordTopCard.viewModel.wordEnglish
             wordTopCard.vocabraryTextView.textColor = .systemRed
             
         default:
@@ -210,14 +214,13 @@ class CardViewController: UIViewController {
                     
                     guard let english = words?[0] else { return }
                     guard let japanese = words?[1] else { return }
-                    print("inputEnglishView: \(english)/\(japanese)")
                     
-                    self.wordsInfo.append(WordInfo(word: english, translatedWord: japanese))
+                    self.wordsInfo.append(WordInfo(categoryID: self.itemInfo.categoryID,
+                                                   collectionID: self.itemInfo.collectionID,
+                                                   word: english, translatedWord: japanese))
                 }
                 
-                self.present(dictionaryViewController, animated: true) {
-                    
-                }
+                self.present(dictionaryViewController, animated: true, completion: nil)
             }
         }
     }

@@ -14,11 +14,11 @@ class CardView: UIView {
     // MARK: - Properties
     
     public var delegate: CardViewDelegate?
-    public var viewmodel: CardViewmodel
+    public var viewModel: CardViewModel
     
     public lazy var startButton = createButton(image: #imageLiteral(resourceName: "camera"), selector: #selector(didTapStartButton))
-    public lazy var japaneseLabel = createLabel(language: viewmodel.sentenceJapanese)
-    public lazy var englishLabel = createLabel(language: viewmodel.sentenceEnglish)
+    public lazy var japaneseLabel = createLabel(language: viewModel.sentenceJapanese)
+    public lazy var englishLabel = createLabel(language: viewModel.sentenceEnglish)
     
     private let identifier = "identifier"
     public lazy var showAnswerView: ShowAnswerView = {
@@ -49,12 +49,15 @@ class CardView: UIView {
     private var showDictationAnswer = false
     public var textViewTextCount = 0
     
+    public let id: ID
+    
     // MARK: - Lifecycle
     
-    init(viewmodel: CardViewmodel, type: CardType, shouldHideJapanese: Bool) {
-        self.viewmodel = viewmodel
+    init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
+        self.viewModel = viewModel
         self.cardType = type
         self.shouldHideJapanese = shouldHideJapanese
+        self.id = id
 
         super.init(frame: .zero)
         backgroundColor = .white
@@ -72,7 +75,7 @@ class CardView: UIView {
     @objc func didTapStartButton() {
         
         if cardType == .shadowing { return }
-        TextToSpeechService.startSpeech(text: cardType == .word ? viewmodel.wordEnglish : viewmodel.sentenceEnglish)
+        TextToSpeechService.startSpeech(text: cardType == .word ? viewModel.wordEnglish : viewModel.sentenceEnglish)
     }
     
     @objc func handlePanGesture(sender: UIPanGestureRecognizer) {

@@ -47,12 +47,22 @@ class AddCategoryViewController: UIViewController {
     // MARK: - API
     
     func createNewCategory(categoryInfo: CategoryInfo) {
-        CreateCardService.createNewCategory(categoryInfo: categoryInfo) { error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            let vc = CardViewController(cardType: .capture, categoryInfo: categoryInfo, sentences: nil, words: nil, testCardType: .all, japanese: false)
+        
+        CardService.createUserCategory(categoryInfo: categoryInfo) { id in
+            
+            guard let collectionImage = self.selectedImage else { return }
+            let itemInfo = ItemInfo(categoryID: id.category,
+                                    collectionID: id.collection,
+                                    image: collectionImage)
+            
+            let vc = CardViewController(cardType: .capture,
+                                        itemInfo: itemInfo,
+                                        sentences: nil,
+                                        words: nil,
+                                        testCardType: .all,
+                                        japanese: false,
+                                        itemViewController: nil)
+            
             vc.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(vc, animated: true)
         }

@@ -22,9 +22,9 @@ extension CardViewController {
                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
                             right: view.rightAnchor,
                             paddingTop: 50,
-                            paddingLeft: 20,
+                            paddingLeft: 30,
                             paddingBottom: 100,
-                            paddingRight: 20)
+                            paddingRight: 30)
         }
     }
     
@@ -33,8 +33,13 @@ extension CardViewController {
         guard let words = words else { return }
         
         words.forEach { word in
-            let wordViewmodel = CardViewmodel(sentence: nil, word: word)
-            let cardView = VocabularyCardView(viewmodel: wordViewmodel, type: .word, shouldHideJapanese: shouldHideJapanese)
+            let wordViewmodel = CardViewModel(sentence: nil, word: word)
+            let id = ID(category: itemInfo.categoryID, collection: itemInfo.collectionID)
+            
+            let cardView = VocabularyCardView(viewModel: wordViewmodel,
+                                              type: .word,
+                                              shouldHideJapanese: shouldHideJapanese,
+                                              id: id)
             deckView.addSubview(cardView)
             cardView.fillSuperview()
             
@@ -52,18 +57,22 @@ extension CardViewController {
             
             guard let sentences = sentences else { return }
             guard let cardType = cardType else { return }
+            let id = ID(category: itemInfo.categoryID, collection: itemInfo.collectionID)
             
             sentences.forEach { sentence in
                 
                 if testCardType == .correct && sentence.correct == false { return }
                 if testCardType == .inCorrect && sentence.correct == true { return }
                 
-                let cardViewmodel = CardViewmodel(sentence: sentence, word: nil)
+                let cardViewmodel = CardViewModel(sentence: sentence, word: nil)
                 
                 switch cardType {
                 
                 case .listening:
-                    let cardView = ListeningCardView(viewmodel: cardViewmodel, type: .listening, shouldHideJapanese: shouldHideJapanese)
+                    let cardView = ListeningCardView(viewModel: cardViewmodel,
+                                                     type: .listening,
+                                                     shouldHideJapanese: shouldHideJapanese,
+                                                     id: id)
                     cardView.delegate = self
                     cardView.cardID = sentence.sentenceID
                     cardView.shouldHideJapanese = shouldHideJapanese
@@ -75,7 +84,10 @@ extension CardViewController {
                     topCard = cardViews.last
                     
                 case .speaking:
-                    let cardView = SpeakingCardView(viewmodel: cardViewmodel, type: .speaking, shouldHideJapanese: shouldHideJapanese)
+                    let cardView = SpeakingCardView(viewModel: cardViewmodel,
+                                                    type: .speaking,
+                                                    shouldHideJapanese: shouldHideJapanese,
+                                                    id: id)
                     cardView.delegate = self
                     cardView.cardID = sentence.sentenceID
                     cardView.shouldHideJapanese = shouldHideJapanese
@@ -87,7 +99,10 @@ extension CardViewController {
                     topCard = cardViews.last
                     
                 case .writing:
-                    let cardView = WritingCardView(viewmodel: cardViewmodel, type: .writing, shouldHideJapanese: shouldHideJapanese)
+                    let cardView = WritingCardView(viewModel: cardViewmodel,
+                                                   type: .writing,
+                                                   shouldHideJapanese: shouldHideJapanese,
+                                                   id: id)
                     cardView.delegate = self
                     cardView.cardID = sentence.sentenceID
                     cardView.shouldHideJapanese = shouldHideJapanese
@@ -99,7 +114,10 @@ extension CardViewController {
                     topCard = cardViews.last
                     
                 case .dictation:
-                    let cardView = DictationCardView(viewmodel: cardViewmodel, type: .dictation, shouldHideJapanese: shouldHideJapanese)
+                    let cardView = DictationCardView(viewModel: cardViewmodel,
+                                                     type: .dictation,
+                                                     shouldHideJapanese: shouldHideJapanese,
+                                                     id: id)
                     cardView.delegate = self
                     cardView.cardID = sentence.sentenceID
                     cardView.shouldHideJapanese = shouldHideJapanese
@@ -111,7 +129,10 @@ extension CardViewController {
                     topCard = cardViews.last
                     
                 case .shadowing:
-                    let cardView = ShadowingCardView(viewmodel: cardViewmodel, type: .shadowing, shouldHideJapanese: shouldHideJapanese)
+                    let cardView = ShadowingCardView(viewModel: cardViewmodel,
+                                                     type: .shadowing,
+                                                     shouldHideJapanese: shouldHideJapanese,
+                                                     id: id)
                     cardView.delegate = self
                     cardView.cardID = sentence.sentenceID
                     cardView.shouldHideJapanese = shouldHideJapanese
@@ -130,8 +151,12 @@ extension CardViewController {
     }
     
     func configureCaptureCard() {
+        let id = ID(category: itemInfo.categoryID, collection: itemInfo.collectionID)
+        
         (0 ..< 50).forEach { _ in
-            let cardView = CaptureCardView(viewmodel: CardViewmodel(sentence: nil, word: nil), type: .capture, shouldHideJapanese: shouldHideJapanese)
+            let cardView = CaptureCardView(viewModel: CardViewModel(sentence: nil, word: nil),
+                                           type: .capture,
+                                           shouldHideJapanese: shouldHideJapanese, id: id)
             cardView.captureCardDelegate = self
             deckView.addSubview(cardView)
             cardView.fillSuperview()

@@ -37,4 +37,23 @@ struct ImageUploader {
             }
         }
     }
+    
+    static func uploadUserIconImage(image: UIImage, completion: @escaping(String) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
+        let fileName = UUID().uuidString
+        
+        let ref = Storage.storage().reference(withPath: "user_image/\(fileName)")
+        
+        ref.putData(imageData, metadata: nil) { _, error in
+            if let error = error {
+                print("failed to upload user image: \(error.localizedDescription)")
+                return
+            }
+            
+            ref.downloadURL { url, _ in
+                guard let urlString = url?.absoluteString else { return }
+                completion(urlString)
+            }
+        }
+    }
 }

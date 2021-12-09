@@ -49,9 +49,8 @@ class ItemViewController: UIViewController {
     private lazy var closeButton = createButton(title: "close", closeButton: true)
     private lazy var addCardButton = createButton(title: "+", closeButton: false)
     
-    private var imageViewFrame: CGRect
-    private var category: Category?
-    private var categoryInfo: CategoryInfo
+    private var category: UserCategory?
+    private var itemInfo: ItemInfo
     
     private var isWordHidden = false
     private var shoudHideJapanese = false
@@ -67,9 +66,8 @@ class ItemViewController: UIViewController {
     
     // MARK: - Lifecycle
     
-    init(imageViewFrame: CGRect, categoryInfo: CategoryInfo) {
-        self.imageViewFrame = imageViewFrame
-        self.categoryInfo = categoryInfo
+    init(itemInfo: ItemInfo) {
+        self.itemInfo = itemInfo
         
         super.init(nibName: nil, bundle: nil)
         
@@ -77,10 +75,10 @@ class ItemViewController: UIViewController {
         view.addSubview(baseView)
         
         view.addSubview(imageView)
-        imageView.frame = imageViewFrame
+        imageView.frame = view.bounds
         
         view.addSubview(visualEffectView)
-        visualEffectView.frame = imageViewFrame
+        visualEffectView.frame = view.bounds
     }
     
     required init?(coder: NSCoder) {
@@ -90,8 +88,8 @@ class ItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        imageView.image = categoryInfo.image
-        fetchCollection()
+        imageView.image = itemInfo.image
+        fetchSentenceAndWord()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,16 +100,12 @@ class ItemViewController: UIViewController {
     
     // MARK: - API
     
-    func fetchCollection() {
+    func fetchSentenceAndWord() {
         
-        let categoryTitle = categoryInfo.categoryTitle
-        let collectionTitle = categoryInfo.collectionTitle
+        let accessID = ID(category: itemInfo.categoryID,
+                          collection: itemInfo.collectionID)
         
-        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-                                        collectionTitle: collectionTitle,
-                                        image: nil, sentence: nil, word: nil)
-        
-        CreateCardService.fetchSentence(categoryInfo: categoryInfo) { sentences in
+        CardService.fetchSentences(accessID: accessID) { sentences in
             
             if sentences.count != 0 {
                 self.sentences = sentences
@@ -119,7 +113,7 @@ class ItemViewController: UIViewController {
                 self.tableView.isHidden = true
             }
             
-            CreateCardService.fetchWord(categoryInfo: categoryInfo) { words in
+            CardService.fetchWords(accessID: accessID) { words in
                 
                 if words.count != 0 {
                     self.words = words
@@ -128,50 +122,66 @@ class ItemViewController: UIViewController {
                 }
             }
         }
+        
+        
+//        CardService.fetchSentence(sentenceInfo: SentenceInfo) { sentences in
+//
+//            if sentences.count != 0 {
+//                self.sentences = sentences
+//            } else {
+//                self.tableView.isHidden = true
+//            }
+//
+//            CardService.fetchWord(wordInfo: WordInfo) { words in
+//
+//                if words.count != 0 {
+//                    self.words = words
+//                } else {
+//                    self.isWordHidden = true
+//                }
+//            }
+//        }
     }
     
     // MARK: - Actions
     
     @objc func didTapTestTypeButton(sender: UIButton) {
         
-        let categoryTitle = categoryInfo.categoryTitle
-        let collectionTitle = categoryInfo.collectionTitle
-        let image = imageView.image
-        
-        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-                                        collectionTitle: collectionTitle,
-                                        image: image, sentence: nil, word: nil)
-        
         var viewController = UIViewController()
         
         switch sender.accessibilityLabel {
         case "shadowing":
-            viewController = CardViewController(cardType: .shadowing, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese)
+            viewController = CardViewController(cardType: .shadowing, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese,
+                                                itemViewController: self)
         case "Listening":
-            viewController = CardViewController(cardType: .listening, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese)
+            viewController = CardViewController(cardType: .listening, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese,
+                                                itemViewController: self)
         case "Speaking":
-            viewController = CardViewController(cardType: .speaking, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese)
+            viewController = CardViewController(cardType: .speaking, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese,
+                                                itemViewController: self)
         case "writing":
-            viewController = CardViewController(cardType: .writing, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese)
+            viewController = CardViewController(cardType: .writing, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese,
+                                                itemViewController: self)
         case "dictation":
-            viewController = CardViewController(cardType: .dictation, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese)
+            viewController = CardViewController(cardType: .dictation, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese,
+                                                itemViewController: self)
         case "vocabulary":
-            viewController = CardViewController(cardType: .word, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese)
+            viewController = CardViewController(cardType: .word, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: testCardType, japanese: shoudHideJapanese,
+                                                itemViewController: self)
         default: break
         }
         
-        navigationController?.pushViewController(viewController, animated: true)
+        moveToCardView(vc: viewController)
     }
     
     @objc func didTapCloseButton(sender: UIButton) {
         
-        let imageViewFrame = imageViewFrame
         let hideViews = [tableView, addCardButton, closeButton]
         
         UIView.animate(withDuration: 0.25) {
@@ -180,8 +190,8 @@ class ItemViewController: UIViewController {
         } completion: { _ in
             
             UIView.animate(withDuration: 0.25) {
-                self.imageView.frame = imageViewFrame
-                self.visualEffectView.frame = imageViewFrame
+                self.imageView.frame = self.view.bounds
+                self.visualEffectView.frame = self.view.bounds
                 
             } completion: { _ in
                 self.navigationController?.popViewController(animated: false)
@@ -190,9 +200,10 @@ class ItemViewController: UIViewController {
     }
     
     @objc func didTapAddButton(sender: UIButton) {
-        let viewController = CardViewController(cardType: .capture, categoryInfo: categoryInfo, sentences: sentences,
-                                                words: words, testCardType: .all, japanese: false)
-        navigationController?.pushViewController(viewController, animated: true)
+        let viewController = CardViewController(cardType: .capture, itemInfo: itemInfo, sentences: sentences,
+                                                words: words, testCardType: .all, japanese: false,
+                                                itemViewController: self)
+        moveToCardView(vc: viewController)
     }
 
     // MARK: - Helpers
@@ -208,30 +219,47 @@ class ItemViewController: UIViewController {
             self.visualEffectView.frame = self.view.frame
             
         } completion: { _ in
-            self.view.addSubview(self.closeButton)
-            self.closeButton.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
-                                    right: self.view.rightAnchor,
-                                    paddingTop: 5, paddingRight: 30)
-            self.closeButton.setDimensions(height: 40, width: 40)
-            
-            self.view.addSubview(self.tableView)
-            self.tableView.anchor(top: self.closeButton.bottomAnchor,
-                                  left: self.view.leftAnchor,
-                                  bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                  right: self.view.rightAnchor,
-                                  paddingTop: 25,
-                                  paddingLeft: 25,
-                                  paddingBottom: 30,
-                                  paddingRight: 25)
-            self.tableView.setDimensions(height: 500, width: self.view.frame.width - 50)
-            
-            self.view.addSubview(self.addCardButton)
-            self.addCardButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                      paddingBottom: 15)
-            self.addCardButton.setDimensions(height: 60, width: 60)
-            self.addCardButton.centerX(inView: self.view)
-            self.addCardButton.layer.cornerRadius = 30
+            self.configureUIParts()
         }
+    }
+    
+    func configureUIParts() {
+        self.view.addSubview(self.closeButton)
+        self.closeButton.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
+                                right: self.view.rightAnchor,
+                                paddingTop: 5, paddingRight: 30)
+        self.closeButton.setDimensions(height: 40, width: 40)
+        
+        self.view.addSubview(self.tableView)
+        self.tableView.anchor(top: self.closeButton.bottomAnchor,
+                              left: self.view.leftAnchor,
+                              bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                              right: self.view.rightAnchor,
+                              paddingTop: 25,
+                              paddingLeft: 25,
+                              paddingBottom: 30,
+                              paddingRight: 25)
+        self.tableView.setDimensions(height: 500, width: self.view.frame.width - 50)
+        
+        self.view.addSubview(self.addCardButton)
+        self.addCardButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                  paddingBottom: 15)
+        self.addCardButton.setDimensions(height: 60, width: 60)
+        self.addCardButton.centerX(inView: self.view)
+        self.addCardButton.layer.cornerRadius = 30
+    }
+    
+    func moveToCardView(vc: UIViewController) {
+        
+        view.subviews.forEach {
+            if $0 == imageView || $0 == visualEffectView { return }
+            $0.removeFromSuperview()
+        }
+
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .overCurrentContext
+        
+        present(vc, animated: true)
     }
 }
 

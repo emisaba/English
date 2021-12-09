@@ -38,7 +38,7 @@ class CollectionViewController: UIViewController {
     }()
     
     private var selectedImage: UIImage?
-    private var categories: [Category] = [] {
+    private var categories: [UserCategory] = [] {
         didSet { collectionView.reloadData() }
     }
     
@@ -67,15 +67,15 @@ class CollectionViewController: UIViewController {
     private var cellInfos: [[String: Any]] = [[:]]
     private var categoryTitle: String?
     
-    public var viewModel: CategoryViewmodel
-    private var collections: [Collection]? {
+    public var viewModel: CategoryViewModel
+    private var collections: [UserCollection]? {
         didSet { collectionView.reloadData() }
     }
     
     // MARK: - Lifecycle
     
-    init(category: Category, frame: CGRect) {
-        self.viewModel = CategoryViewmodel(category: category)
+    init(category: UserCategory, frame: CGRect) {
+        self.viewModel = CategoryViewModel(category: category)
         self.headerImageFrame = frame
         self.headerView.frame = frame
         
@@ -99,26 +99,63 @@ class CollectionViewController: UIViewController {
     // MARK: - API
     
     func fetchCollections() {
-        guard let categoryTitle = viewModel.categoryTitle else { return }
+        let categoryID = viewModel.category.categoryID
         
-        CreateCardService.fetchCollections(categoryTitle: categoryTitle) { collections in
+        CardService.fetchUserCollections(categoryID: categoryID) { collections in
             self.collections = collections
         }
     }
     
-    func createNewCollection(info: CategoryInfo) {
+    func createNewCollection(collectionInfo: CollectionInfo) {
         
-        CreateCardService.createCollection(categoryInfo: info) { error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            let vc = CardViewController(cardType: .capture, categoryInfo: info,
-                                        sentences: nil, words: nil,
-                                        testCardType: .all, japanese: false)
+        CardService.createUserCollection(collectionInfo: collectionInfo) { collectionID in
+            
+            let itemInfo = ItemInfo(categoryID: collectionInfo.categoryID,
+                                    collectionID: collectionID,
+                                    image: collectionInfo.image)
+            
+            let vc = CardViewController(cardType: .capture,
+                                        itemInfo: itemInfo,
+                                        sentences: nil,
+                                        words: nil,
+                                        testCardType: .all,
+                                        japanese: false,
+                                        itemViewController: nil)
             
             vc.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @objc func didTapAddCardButton() {
+        
+        UIView.animate(withDuration: 0.3) {
+            self.backgroundViewForAlert.alpha = 0.5
+            
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3) {
+                self.addCartAlert.frame.origin.y = 100
+                
+            }
+        }
+    }
+    
+    @objc func didTapBackToHome() {
+        
+        let hideViews = [addCardButton, backToHomeButton, collectionView]
+        
+        UIView.animate(withDuration: 0.25) {
+            self.hideViews(views: hideViews)
+            
+        } completion: { _ in
+            UIView.animate(withDuration: 0.25) {
+                self.headerView.frame = self.headerImageFrame
+                
+            } completion: { _ in
+                self.navigationController?.popViewController(animated: false)
+            }
         }
     }
     
@@ -181,38 +218,6 @@ class CollectionViewController: UIViewController {
     func hideViews(views: [UIView]) {
         views.forEach { $0.isHidden = true }
     }
-    
-    // MARK: - Actions
-    
-    @objc func didTapAddCardButton() {
-        
-        UIView.animate(withDuration: 0.3) {
-            self.backgroundViewForAlert.alpha = 0.5
-            
-        } completion: { _ in
-            UIView.animate(withDuration: 0.3) {
-                self.addCartAlert.frame.origin.y = 100
-                
-            }
-        }
-    }
-    
-    @objc func didTapBackToHome() {
-        
-        let hideViews = [addCardButton, backToHomeButton, collectionView]
-        
-        UIView.animate(withDuration: 0.25) {
-            self.hideViews(views: hideViews)
-            
-        } completion: { _ in
-            UIView.animate(withDuration: 0.25) {
-                self.headerView.frame = self.headerImageFrame
-                
-            } completion: { _ in
-                self.navigationController?.popViewController(animated: false)
-            }
-        }
-    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -241,21 +246,14 @@ extension CollectionViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         guard let cell = collectionView.cellForItem(at: indexPath) as? collectionViewCell else { return }
-        let headerViewHeight: CGFloat = 200
-        var frame = cell.frame
-        frame.origin.y += headerViewHeight
+        guard let image = cell.imageView.image else { return }
+        guard let selectedCollection = collections?[indexPath.row] else { return }
         
-        guard let categoryTitle = viewModel.categoryTitle else { return }
-        guard let collectionTitle = collections?[indexPath.row].collectionTitle else { return }
-        let image = cell.imageView.image
+        let itemInfo = ItemInfo(categoryID: selectedCollection.categoryID,
+                                collectionID: selectedCollection.collectionID,
+                                image: image)
         
-        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-                                        collectionTitle: collectionTitle,
-                                        image: image,
-                                        sentence: nil,
-                                        word: nil)
-        
-        let vc = ItemViewController(imageViewFrame: frame, categoryInfo: categoryInfo)
+        let vc = ItemViewController(itemInfo: itemInfo)
         vc.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(vc, animated: false)
     }
@@ -293,15 +291,14 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout  {
 extension CollectionViewController: CustomAlertViewDelegate {
     
     func showRegisterView(view: CustomAlertView) {
-        guard let categoryTitle = viewModel.categoryTitle else { return }
-        guard let collectionTitle = view.inputNameField.text else { return }
+        guard let collectionTitle = view.nameTextField.text else { return }
         guard let image = selectedImage else { return }
         
-        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-                                        collectionTitle: collectionTitle,
-                                        image: image, sentence: nil, word: nil)
+        let collectionInfo = CollectionInfo(categoryID: viewModel.category.categoryID,
+                                            collectionTitle: collectionTitle,
+                                            image: image)
         
-        createNewCollection(info: categoryInfo)
+        createNewCollection(collectionInfo: collectionInfo)
     }
 
     func imagePicker() {

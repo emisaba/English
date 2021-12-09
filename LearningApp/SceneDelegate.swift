@@ -17,14 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
-//        window?.rootViewController = TestViewController(cardType: .listening,
-//                                                        bigCategory: BigCategoryInfo(title: "test", icon: #imageLiteral(resourceName: "pooh")),
-//                                                        smallCategory: SmallCategoryInfo(title: "test", image: #imageLiteral(resourceName: "avichi")),
-//                                                        sentences: [Sentence(sentenceID: "aaa", dictionary: ["sentence":"this place would've got the best of him."])],
-//                                                        words: [Word(wordID: "aaa", dictionary: ["word":"CONSISTS"])])
-        
-        window?.rootViewController = UINavigationController(rootViewController: TopViewController())
-//        window?.rootViewController = TodoListViewController()
+        window?.rootViewController = TabBarController()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

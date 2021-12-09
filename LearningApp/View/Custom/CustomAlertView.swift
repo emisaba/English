@@ -20,7 +20,7 @@ class CustomAlertView: UIView {
         return button
     }()
     
-    public let inputNameField = CustomTextField(placeholderText: "コレクションを入力")
+    public let nameTextField = CustomTextField(placeholderText: "コレクションを入力")
     
     private lazy var doneButton: UIButton = {
        let button = UIButton()
@@ -67,8 +67,8 @@ class CustomAlertView: UIView {
         addImageButton.setDimensions(height: 120, width: 120)
         addImageButton.centerX(inView: self)
         
-        addSubview(inputNameField)
-        inputNameField.anchor(top: addImageButton.bottomAnchor,
+        addSubview(nameTextField)
+        nameTextField.anchor(top: addImageButton.bottomAnchor,
                         left: leftAnchor,
                         right: rightAnchor,
                         paddingTop: 20,

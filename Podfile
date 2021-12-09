@@ -9,6 +9,7 @@ target 'LearningApp' do
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
   pod 'GoogleMLKit/TextRecognition','2.3.0'
   pod 'GoogleMLKit/Translate', '2.3.0'
   pod 'SDWebImage'

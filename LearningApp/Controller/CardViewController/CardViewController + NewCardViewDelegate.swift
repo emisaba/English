@@ -8,17 +8,17 @@ extension CardViewController: CardViewDelegate {
     
     func saveSentence(correct: Bool, cardID: String, view: CardView) {
         
-        let categoryInfo = categoryInfo
-        
-        CreateCardService.saveSentenceTestResult(categoryInfo: categoryInfo, cardID: cardID, correct: correct) { error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            self.prepareForNextCard()
-            self.checkIfLastCard(correct: correct)
-        }
+//        let categoryInfo = collectionInfo
+//
+//        CardService.saveSentenceTestResult(categoryInfo: categoryInfo, cardID: cardID, correct: correct) { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//            
+//            self.prepareForNextCard()
+//            self.checkIfLastCard(correct: correct)
+//        }
     }
     
     // MARK: - Helpers

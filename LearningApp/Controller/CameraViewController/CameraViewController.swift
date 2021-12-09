@@ -73,10 +73,8 @@ class CameraViewController: UIViewController {
     
     private var wordInfos = [WordInfo]()
     
-    private var sentenceInfo: SentenceInfo = SentenceInfo(sentence: "", transratedSentence: "", sentenceArray: [""])
-    
     private var cardInfo: CategoryInfo?
-    private var category: Category?
+    private var category: UserCategory?
     
     private lazy var targetViewframeWidth = view.frame.width - 40
     private var targetViewframeHeight: CGFloat = 30

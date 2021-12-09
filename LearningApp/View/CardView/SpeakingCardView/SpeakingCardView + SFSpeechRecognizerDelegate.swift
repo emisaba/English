@@ -41,7 +41,7 @@ extension SpeakingCardView: SFSpeechRecognizerDelegate {
         var splitMessage = [String]()
         var checkNumber = 0
         
-        if checkNumber >= self.viewmodel.englishArray.count { return }
+        if checkNumber >= self.viewModel.englishArray.count { return }
         
         let message = result.bestTranscription.formattedString
         splitMessage = message.split(separator: " ").map { String($0) }
@@ -49,7 +49,7 @@ extension SpeakingCardView: SFSpeechRecognizerDelegate {
         guard let lastText = splitMessage.last else { return }
         self.speakingLabel.text = lastText
         
-        if self.viewmodel.englishArray[checkNumber].lowercased() == lastText.lowercased() {
+        if self.viewModel.englishArray[checkNumber].lowercased() == lastText.lowercased() {
             NotificationCenter.default.post(name: Notification.Name("speach"), object: lastText)
             checkNumber += 1
         }
