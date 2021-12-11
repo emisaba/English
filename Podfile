@@ -17,6 +17,7 @@ target 'LearningApp' do
   pod 'ViewAnimator'
   pod 'FSCalendar'
   pod 'WCLShineButton'
+  pod 'Hero'
 
   target 'LearningAppTests' do
     inherit! :search_paths

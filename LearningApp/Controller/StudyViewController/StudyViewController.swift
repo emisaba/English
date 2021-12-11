@@ -1,54 +1,64 @@
 import UIKit
+import Hero
 
 class StudyViewController: UIViewController {
     
     // MARK: - Properties
     
-    private lazy var menuBar: MenuBar = {
-        let view = MenuBar()
-        view.delegate = self
-        return view
-    }()
-    
     private let identifier = "identifier"
     
-    private lazy var collectionView: UICollectionView = {
+    private lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        
+        layout.minimumLineSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .white
         cv.dataSource = self
         cv.delegate = self
-        cv.backgroundColor = .white
-        cv.isPagingEnabled = true
-        cv.register(StudyCell.self,
-                    forCellWithReuseIdentifier: identifier)
+        cv.register(CategoryView.self, forCellWithReuseIdentifier: identifier)
         return cv
     }()
     
-    public var categories: [UserCategory]? {
-        didSet { collectionView.reloadData() }
+    private lazy var addCategoryButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemPink
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 25
+        button.layer.shadowOffset = CGSize(width: 5, height: 5)
+        button.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
+        button.layer.shadowRadius = 5
+        button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        return button
+    }()
+    
+    public var categories: [UserCategory] = [] {
+        didSet { categoryCollectionView.reloadData() }
     }
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.isHidden = true
-        
         fetchCategory()
-        collectionView.reloadData()
-        Dimension.safeAreaTopHeight = view.safeAreaInsets.top
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+        Dimension.safeAreaTopHeight = view.safeAreaInsets.top
+        
+        guard let tabBar = tabBarController as? TabBarController else { return }
+        tabBar.tabBarView.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let tabBar = tabBarController as? TabBarController else { return }
+        tabBar.tabBarView.isHidden = true
     }
     
     // MARK: - API
@@ -58,24 +68,27 @@ class StudyViewController: UIViewController {
             self.categories = categories
         }
     }
+    
+    // MARK: - Action
+    
+    @objc func didTapAddButton() {
+        let vc = AddCategoryViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     // MARK: - Helpers
     
     func configureUI() {
         view.backgroundColor = .white
         
-        view.addSubview(menuBar)
-        menuBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                       paddingTop: 10)
-        menuBar.setDimensions(height: 50, width: 200)
-        menuBar.centerX(inView: view)
+        view.addSubview(categoryCollectionView)
+        categoryCollectionView.fillSuperview()
         
-        view.addSubview(collectionView)
-        collectionView.anchor(top: menuBar.bottomAnchor,
-                              left: view.leftAnchor,
-                              bottom: view.bottomAnchor,
-                              right: view.rightAnchor,
-                              paddingTop: 10)
+        categoryCollectionView.addSubview(addCategoryButton)
+        addCategoryButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                 right: view.rightAnchor,
+                                 paddingBottom: 130, paddingRight: 30)
+        addCategoryButton.setDimensions(height: 50, width: 50)
     }
 }
 
@@ -83,25 +96,14 @@ class StudyViewController: UIViewController {
 
 extension StudyViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! StudyCell
-        cell.categories = categories
-        cell.delegate = self
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! CategoryView
+        cell.viewModel = CategoryViewModel(category: categories[indexPath.row])
+        cell.isStudyVC = true
         return cell
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollViewWidth = view.frame.width * 2
-        let ratio = menuBar.frame.width / scrollViewWidth
-        menuBar.underBar.frame.origin.x = scrollView.contentOffset.x * ratio
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let item = Int(targetContentOffset.move().x / view.frame.width)
-        menuBar.collectionView.selectItem(at: IndexPath(item: item, section: 0), animated: true, scrollPosition: .centeredHorizontally)
     }
 }
 
@@ -109,47 +111,37 @@ extension StudyViewController: UICollectionViewDataSource {
 
 extension StudyViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height - view.safeAreaInsets.top - 60)
+        return CGSize(width: view.frame.width, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryView else { return }
+        cell.hero.id = "moveToCollectionVC"
+        
+        let category = categories[indexPath.row]
+        
+        let vc = CollectionViewController(category: category, selectedCategory: cell)
+        vc.headerView.hero.id = "moveToCollectionVC"
+        vc.isHeroEnabled = true
+        vc.modalPresentationStyle = .fullScreen
+        
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        cell.alpha = 0
+        
+        UIView.animate(withDuration: 0.25, delay: 0.05 * Double(indexPath.row)) {
+            cell.alpha = 1
+        }
     }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension StudyViewController: UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
-    }
-}
-
-// MARK: - MenuBarDelegate
-
-extension StudyViewController: MenuBarDelegate {
-    func didSelectMenu(indexPath: IndexPath) {
-        collectionView.isPagingEnabled = false
-        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
-        collectionView.isPagingEnabled = true
-    }
-}
-
-// MARK: - TopViewCellDelegate
-
-extension StudyViewController: TopViewControllerCellDelegate {
-    
-    func didTapAddCategoryButton() {
-        let vc = AddCategoryViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func didTapCategory(indexPath: IndexPath, collectionView: UICollectionView) {
-        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
-        let cellY = Dimension.safeAreaTopHeight + 60
-        let cellFrame = CGRect(x: 0, y: cellY, width: cell.frame.size.width, height: cell.frame.size.height)
-        
-        if let categories = categories {
-            let category = categories[indexPath.row]
-            let vc = CollectionViewController(category: category, frame: cellFrame)
-            vc.modalPresentationStyle = .fullScreen
-            navigationController?.pushViewController(vc, animated: false)
-        }
     }
 }

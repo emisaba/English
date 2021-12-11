@@ -83,6 +83,9 @@
 		82D642302762200900346190 /* CollectionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D6422F2762200900346190 /* CollectionInfo.swift */; };
 		82D642322762431700346190 /* ItemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D642312762431300346190 /* ItemInfo.swift */; };
 		82D642342762743400346190 /* SearchCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D642332762743400346190 /* SearchCollectionViewModel.swift */; };
+		82D64236276443CE00346190 /* DownloadCollectionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D64235276443C500346190 /* DownloadCollectionInfo.swift */; };
+		82D6423827645FB600346190 /* SelectedCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D6423727645FB400346190 /* SelectedCategoryViewController.swift */; };
+		82D6423A276462F200346190 /* SelectCategoryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D64239276462F200346190 /* SelectCategoryViewCell.swift */; };
 		82ED60A926F8B59F002A2612 /* ItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ED60A826F8B59F002A2612 /* ItemViewCell.swift */; };
 		82ED60AB26F9CA0B002A2612 /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ED60AA26F9CA09002A2612 /* ItemViewModel.swift */; };
 		82ED60AD26FAE5C4002A2612 /* CalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82ED60AC26FAE5C2002A2612 /* CalenderView.swift */; };
@@ -229,6 +232,9 @@
 		82D6422F2762200900346190 /* CollectionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionInfo.swift; sourceTree = "<group>"; };
 		82D642312762431300346190 /* ItemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInfo.swift; sourceTree = "<group>"; };
 		82D642332762743400346190 /* SearchCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewModel.swift; sourceTree = "<group>"; };
+		82D64235276443C500346190 /* DownloadCollectionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadCollectionInfo.swift; sourceTree = "<group>"; };
+		82D6423727645FB400346190 /* SelectedCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedCategoryViewController.swift; sourceTree = "<group>"; };
+		82D64239276462F200346190 /* SelectCategoryViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryViewCell.swift; sourceTree = "<group>"; };
 		82ED60A826F8B59F002A2612 /* ItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewCell.swift; sourceTree = "<group>"; };
 		82ED60AA26F9CA09002A2612 /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		82ED60AC26FAE5C2002A2612 /* CalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderView.swift; sourceTree = "<group>"; };
@@ -329,6 +335,7 @@
 			children = (
 				82107078274F7FBF0033F56C /* CategoryInfo.swift */,
 				82D6422F2762200900346190 /* CollectionInfo.swift */,
+				82D64235276443C500346190 /* DownloadCollectionInfo.swift */,
 				8210707A274F7FE60033F56C /* SentenceInfo.swift */,
 				8210707C274F802A0033F56C /* WordInfo.swift */,
 				82D642312762431300346190 /* ItemInfo.swift */,
@@ -560,6 +567,7 @@
 		82D5463226E45CEA007727C9 /* botsu */ = {
 			isa = PBXGroup;
 			children = (
+				825B995126FDB0FC00C93BCF /* StudyCell.swift */,
 				82F82C64274C97B40048B978 /* TopViewController + DiaryView.swift */,
 				82107083274F813F0033F56C /* botsu + Extension.swift */,
 				825B994D26FDAFA400C93BCF /* MenuBar */,
@@ -593,6 +601,7 @@
 			isa = PBXGroup;
 			children = (
 				82D6421F2761103E00346190 /* SearchViewController.swift */,
+				82D6423727645FB400346190 /* SelectedCategoryViewController.swift */,
 			);
 			path = SearchViewController;
 			sourceTree = "<group>";
@@ -617,6 +626,7 @@
 			isa = PBXGroup;
 			children = (
 				82D642272761DE9E00346190 /* SearchViewCell.swift */,
+				82D6423B276463BD00346190 /* SelectedCategoryView */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -628,6 +638,14 @@
 				82D6422C2761F7F800346190 /* AllCollection.swift */,
 			);
 			path = Collection;
+			sourceTree = "<group>";
+		};
+		82D6423B276463BD00346190 /* SelectedCategoryView */ = {
+			isa = PBXGroup;
+			children = (
+				82D64239276462F200346190 /* SelectCategoryViewCell.swift */,
+			);
+			path = SelectedCategoryView;
 			sourceTree = "<group>";
 		};
 		82EDA7C526F0E57700EE2E9E /* CardView */ = {
@@ -683,7 +701,6 @@
 		82F82C69274CAF040048B978 /* StudyView */ = {
 			isa = PBXGroup;
 			children = (
-				825B995126FDB0FC00C93BCF /* StudyCell.swift */,
 				8206F70B26F32A5700697BE0 /* CategoryView.swift */,
 			);
 			path = StudyView;
@@ -1097,12 +1114,15 @@
 				8234FCB226E87F5F00376323 /* CategoryViewModel.swift in Sources */,
 				82EDA7CB26F0E5CA00EE2E9E /* WritingCardView.swift in Sources */,
 				82A9BC0526E756AD002E7461 /* SpeechToText.swift in Sources */,
+				82D6423A276462F200346190 /* SelectCategoryViewCell.swift in Sources */,
 				82EDA7CD26F0E5DC00EE2E9E /* DictationCardView.swift in Sources */,
 				82107084274F813F0033F56C /* botsu + Extension.swift in Sources */,
 				8278CECA26E8585500C2788F /* ImageUploader.swift in Sources */,
 				821B6AAB26FD62EE00AB4FB8 /* StudyViewController.swift in Sources */,
 				82D6421327608B5400346190 /* RegisterViewController.swift in Sources */,
+				82D64236276443CE00346190 /* DownloadCollectionInfo.swift in Sources */,
 				82107079274F7FBF0033F56C /* CategoryInfo.swift in Sources */,
+				82D6423827645FB600346190 /* SelectedCategoryViewController.swift in Sources */,
 				8201B23226FF05DB007FBFF3 /* AddCategoryViewController.swift in Sources */,
 				82FBC8A826FC3D8C00241DEC /* SearchCell.swift in Sources */,
 				823A159627020A46008D3513 /* CustomStepper.swift in Sources */,

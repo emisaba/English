@@ -1,9 +1,15 @@
 import UIKit
 import SDWebImage
 
+protocol SearchViewCellDelegate {
+    func download(cellNumber: Int)
+}
+
 class SearchViewCell: UICollectionViewCell {
     
     // MARK: - Properties
+    
+    public var delegate: SearchViewCellDelegate?
     
     public var viewModel: SearchCollectionViewModel? {
         didSet { configureViewModel() }
@@ -43,6 +49,14 @@ class SearchViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "タイトル"
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .lexendDecaBold(size: 16)
+        return label
+    }()
     
     private let wordCountLabel: UILabel = {
         let label = UILabel()
@@ -53,13 +67,14 @@ class SearchViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let downloadButton: UIButton = {
+    private lazy var downloadButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "pooh"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         button.backgroundColor = .systemYellow
         button.layer.cornerRadius = 30
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(didTapDownloadButton), for: .touchUpInside)
         return button
     }()
     
@@ -73,6 +88,13 @@ class SearchViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Action
+    
+    @objc func didTapDownloadButton() {
+        guard let cellNumber = viewModel?.cellNumber else { return }
+        delegate?.download(cellNumber: cellNumber)
     }
     
     // MARK: - Helper
@@ -103,19 +125,20 @@ class SearchViewCell: UICollectionViewCell {
         downloadButton.centerX(inView: self)
         downloadButton.setDimensions(height: 60, width: 60)
         
-        let stackView = UIStackView(arrangedSubviews: [sentenceCountLabel, wordCountLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, sentenceCountLabel, wordCountLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.spacing = 20
         
         addSubview(stackView)
-        stackView.centerY(inView: self)
-        stackView.centerX(inView: self)
+        stackView.centerY(inView: cardImageView)
+        stackView.centerX(inView: cardImageView)
     }
     
     func configureViewModel() {
         guard let viewModel = viewModel else { return }
         
+        titleLabel.text = viewModel.title
         userNameLabel.text = viewModel.userName
         iconImageView.sd_setImage(with: viewModel.userImageUrl, completed: nil)
         cardImageView.sd_setImage(with: viewModel.cardImageUrl, completed: nil)

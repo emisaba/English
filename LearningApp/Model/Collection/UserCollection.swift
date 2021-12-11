@@ -7,6 +7,7 @@ struct UserCollection {
     let collectionImageUrl: String
     let userName: String
     let usesrImageUrl: String
+    let currentUid: String
     let sentenceCount: Int
     let wordCount: Int
     
@@ -17,6 +18,7 @@ struct UserCollection {
         self.collectionImageUrl = data["collectionImageUrl"] as? String ?? ""
         self.userName = data["userName"] as? String ?? ""
         self.usesrImageUrl = data["usesrImageUrl"] as? String ?? ""
+        self.currentUid = data["currentUid"] as? String ?? ""
         self.sentenceCount = data["sentenceCount"] as? Int ?? 0
         self.wordCount = data["wordCount"] as? Int ?? 0
     }

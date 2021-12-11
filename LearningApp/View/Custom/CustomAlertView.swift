@@ -3,6 +3,7 @@ import UIKit
 protocol CustomAlertViewDelegate {
     func showRegisterView(view: CustomAlertView)
     func imagePicker()
+    func beginEditing()
 }
 
 class CustomAlertView: UIView {
@@ -20,7 +21,11 @@ class CustomAlertView: UIView {
         return button
     }()
     
-    public let nameTextField = CustomTextField(placeholderText: "コレクションを入力")
+    public lazy var nameTextField: CustomTextField = {
+        let tf = CustomTextField(placeholderText: "コレクションを入力")
+        tf.delegate = self
+        return tf
+    }()
     
     private lazy var doneButton: UIButton = {
        let button = UIButton()
@@ -32,6 +37,8 @@ class CustomAlertView: UIView {
         button.layer.cornerRadius = 5
         return button
     }()
+    
+    private var isSaved = false
     
     // MARK: - Lifecycle
     
@@ -47,6 +54,7 @@ class CustomAlertView: UIView {
     // MARK: - Actions
     
     @objc func didTapSaveButton() {
+        isSaved = true
         delegate?.showRegisterView(view: self)
     }
     
@@ -84,5 +92,14 @@ class CustomAlertView: UIView {
                           paddingBottom: 20,
                           paddingRight: 20,
                           height: 50)
+    }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension CustomAlertView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if isSaved { return }
+        delegate?.beginEditing()
     }
 }

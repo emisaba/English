@@ -7,6 +7,20 @@ class CardViewController: UIViewController {
     public var sentences: [Sentence]?
     public var words: [Word]?
     
+    public lazy var captureBackgroundImage: UIImageView = {
+        let blur = UIBlurEffect(style: .dark)
+        let effectView = UIVisualEffectView(effect: blur)
+        effectView.alpha = 0.7
+        
+        let iv = UIImageView()
+        iv.image = itemInfo.image
+        iv.contentMode = .scaleAspectFill
+        
+        iv.addSubview(effectView)
+        effectView.fillSuperview()
+        return iv
+    }()
+    
     public lazy var closeButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "pooh"), for: .normal)
@@ -79,6 +93,9 @@ class CardViewController: UIViewController {
     public var swipeCount: CGFloat = 0
     
     private var itemViewController: ItemViewController?
+    public var addCategoryViewController: AddCategoryViewController?
+    public var collectionViewController: CollectionViewController?
+    public var collectionAddImageButton: UIButton?
     
     // MARK: - Lifecycles
     
@@ -102,31 +119,15 @@ class CardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if cardType != .capture { fetchCardInfo() }
+        
+        if cardType == .capture {
+            configureCaptureCardUI()
+            
+        } else {
+            configureCardUIexceptCaptureView()
+        }
         
         view.backgroundColor = .clear
-        configureUI()
-        
-        showDictionaryViewController()
-    }
-    
-    // MARK: - API
-    
-    func fetchCardInfo() {
-        
-//        let categoryTitle = collectionInfo.categoryTitle
-//        let collectionTitle = collectionInfo.collectionTitle
-//        let categoryInfo = CategoryInfo(categoryTitle: categoryTitle,
-//                                        collectionTitle: collectionTitle,
-//                                        image: nil, sentence: nil, word: nil)
-//
-//        CardService.fetchSentence(categoryInfo: categoryInfo) { sentences in
-//            self.sentences = sentences
-//
-//            CardService.fetchWord(categoryInfo: categoryInfo) { words in
-//                self.words = words
-//            }
-//        }
     }
     
     // MARK: - Actions
@@ -134,7 +135,17 @@ class CardViewController: UIViewController {
     @objc func didTapCloseButton() {
         
         if cardType == .capture && sentences == nil {
-            navigationController?.popToRootViewController(animated: true)
+            
+            dismiss(animated: false) {
+                if self.addCategoryViewController != nil {
+                    guard let addCategoryVC = self.addCategoryViewController?.navigationController else { return }
+                    addCategoryVC.popToRootViewController(animated: true)
+                    
+                } else {
+                    self.collectionAddImageButton?.hero.id = ""
+                    self.collectionAddImageButton?.setImage(UIImage(), for: .normal)
+                }
+            }
             
         } else {
             itemViewController?.configureUIParts()
@@ -179,7 +190,7 @@ class CardViewController: UIViewController {
         indicatorAnimation.add(animation, forKey: "animation")
     }
     
-    func configureUI() {
+    func configureCardUIexceptCaptureView() {
         
         view.addSubview(answerButton)
         answerButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -197,6 +208,30 @@ class CardViewController: UIViewController {
         closeButton.setDimensions(height: 50, width: 50)
         
         configureCard()
+    }
+    
+    func configureCaptureCardUI() {
+        view.addSubview(captureBackgroundImage)
+        captureBackgroundImage.fillSuperview()
+        
+        view.addSubview(closeButton)
+        closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                           right: view.rightAnchor, paddingTop: 10,
+                           paddingRight: 20)
+        closeButton.setDimensions(height: 50, width: 50)
+        
+        view.addSubview(deckView)
+        deckView.anchor(top: closeButton.bottomAnchor,
+                        left: view.leftAnchor,
+                        bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                        right: view.rightAnchor,
+                        paddingTop: 50,
+                        paddingLeft: 30,
+                        paddingBottom: 100,
+                        paddingRight: 30)
+        
+        configureCaptureCard()
+        showDictionaryViewController()
     }
     
     func showDictionaryViewController() {

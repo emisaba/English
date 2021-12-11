@@ -7,16 +7,11 @@ class ItemViewController: UIViewController {
     private var sentences: [Sentence]?
     private var words: [Word]?
     
-    private let baseView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private let imageView: UIImageView = {
+    public lazy var imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.image = itemInfo.image
         return iv
     }()
     
@@ -26,7 +21,7 @@ class ItemViewController: UIViewController {
         return view
     }()
     
-    private let visualEffectView: UIVisualEffectView = {
+    public let visualEffectView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
         let effectView = UIVisualEffectView(effect: blur)
         effectView.alpha = 0.7
@@ -64,21 +59,21 @@ class ItemViewController: UIViewController {
                                        Section(title: "dictation", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
                                        Section(title: "vocabulary", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false)]
     
+    private let selectedCollection: CollectionViewCell
+    
     // MARK: - Lifecycle
     
-    init(itemInfo: ItemInfo) {
+    init(itemInfo: ItemInfo, selectedCollection: CollectionViewCell) {
         self.itemInfo = itemInfo
+        self.selectedCollection = selectedCollection
         
         super.init(nibName: nil, bundle: nil)
         
-        baseView.frame = view.frame
-        view.addSubview(baseView)
-        
         view.addSubview(imageView)
-        imageView.frame = view.bounds
+        imageView.fillSuperview()
         
         view.addSubview(visualEffectView)
-        visualEffectView.frame = view.bounds
+        visualEffectView.fillSuperview()
     }
     
     required init?(coder: NSCoder) {
@@ -87,8 +82,6 @@ class ItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        imageView.image = itemInfo.image
         fetchSentenceAndWord()
     }
     
@@ -122,25 +115,6 @@ class ItemViewController: UIViewController {
                 }
             }
         }
-        
-        
-//        CardService.fetchSentence(sentenceInfo: SentenceInfo) { sentences in
-//
-//            if sentences.count != 0 {
-//                self.sentences = sentences
-//            } else {
-//                self.tableView.isHidden = true
-//            }
-//
-//            CardService.fetchWord(wordInfo: WordInfo) { words in
-//
-//                if words.count != 0 {
-//                    self.words = words
-//                } else {
-//                    self.isWordHidden = true
-//                }
-//            }
-//        }
     }
     
     // MARK: - Actions
@@ -181,22 +155,7 @@ class ItemViewController: UIViewController {
     }
     
     @objc func didTapCloseButton(sender: UIButton) {
-        
-        let hideViews = [tableView, addCardButton, closeButton]
-        
-        UIView.animate(withDuration: 0.25) {
-            self.hideViews(views: hideViews)
-            
-        } completion: { _ in
-            
-            UIView.animate(withDuration: 0.25) {
-                self.imageView.frame = self.view.bounds
-                self.visualEffectView.frame = self.view.bounds
-                
-            } completion: { _ in
-                self.navigationController?.popViewController(animated: false)
-            }
-        }
+        dismiss(animated: true) { self.selectedCollection.hero.id = "" }
     }
     
     @objc func didTapAddButton(sender: UIButton) {
@@ -207,10 +166,6 @@ class ItemViewController: UIViewController {
     }
 
     // MARK: - Helpers
-    
-    func hideViews(views: [UIView]) {
-        views.forEach { $0.isHidden = true }
-    }
     
     func configureUI() {
         

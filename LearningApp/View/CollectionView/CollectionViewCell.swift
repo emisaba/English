@@ -1,6 +1,6 @@
 import UIKit
 
-class collectionViewCell: UICollectionViewCell {
+class CollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     

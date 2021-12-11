@@ -1,6 +1,7 @@
 import UIKit
 import SDWebImage
 import ViewAnimator
+import Hero
 
 class CollectionViewController: UIViewController {
     
@@ -24,7 +25,7 @@ class CollectionViewController: UIViewController {
         return button
     }()
     
-    private lazy var addCartAlert: CustomAlertView = {
+    private lazy var addCollectionAlert: CustomAlertView = {
         let alert = CustomAlertView()
         alert.delegate = self
         return alert
@@ -49,8 +50,14 @@ class CollectionViewController: UIViewController {
         return iv
     }()
     
-    private let headerImageFrame: CGRect
-    private let headerView = CategoryView()
+    public lazy var headerView: CategoryView = {
+        let view = CategoryView()
+        view.delegate = self
+        view.isStudyVC = false
+        view.imageView.sd_setImage(with: viewModel.imageUrl, completed: nil)
+        view.titleLabel.text = viewModel.categoryTitle
+        return view
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -59,7 +66,7 @@ class CollectionViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
-        cv.register(collectionViewCell.self, forCellWithReuseIdentifier: self.identifier)
+        cv.register(CollectionViewCell.self, forCellWithReuseIdentifier: self.identifier)
         cv.alpha = 0
         return cv
     }()
@@ -68,16 +75,24 @@ class CollectionViewController: UIViewController {
     private var categoryTitle: String?
     
     public var viewModel: CategoryViewModel
-    private var collections: [UserCollection]? {
+    
+    private var collectionType: CollectionType = .user
+    
+    private var userCollections: [UserCollection] = [] {
         didSet { collectionView.reloadData() }
     }
     
+    private var downloadCollections: [UserCollection] = [] {
+        didSet { collectionView.reloadData() }
+    }
+    
+    private let selectedCategory: CategoryView
+    
     // MARK: - Lifecycle
     
-    init(category: UserCategory, frame: CGRect) {
+    init(category: UserCategory, selectedCategory: CategoryView) {
         self.viewModel = CategoryViewModel(category: category)
-        self.headerImageFrame = frame
-        self.headerView.frame = frame
+        self.selectedCategory = selectedCategory
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,25 +103,47 @@ class CollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchCollections()
+        
+        fetchUserCollections()
+        fetchDownloadCollections()
+        
+        configureHeader()
+        configureCollection()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        view.backgroundColor = .white
-        configureHeaderVIew()
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+        
+        UIView.animate(withDuration: 0.3) {
+            self.backgroundViewForAlert.alpha = 0
+            
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3) {
+                self.addCollectionAlert.frame.origin.y = -350
+            }
+        }
     }
     
     // MARK: - API
     
-    func fetchCollections() {
+    func fetchUserCollections() {
         let categoryID = viewModel.category.categoryID
         
         CardService.fetchUserCollections(categoryID: categoryID) { collections in
-            self.collections = collections
+            self.userCollections = collections
         }
     }
     
-    func createNewCollection(collectionInfo: CollectionInfo) {
+    func fetchDownloadCollections() {
+        let categoryID = viewModel.category.categoryID
+        
+        CardService.fetchDownloadCollection(categoryID: categoryID) { collections in
+            self.downloadCollections = collections
+        }
+    }
+    
+    func createNewCollection(collectionInfo: CollectionInfo, alertView: CustomAlertView) {
         
         CardService.createUserCollection(collectionInfo: collectionInfo) { collectionID in
             
@@ -114,16 +151,7 @@ class CollectionViewController: UIViewController {
                                     collectionID: collectionID,
                                     image: collectionInfo.image)
             
-            let vc = CardViewController(cardType: .capture,
-                                        itemInfo: itemInfo,
-                                        sentences: nil,
-                                        words: nil,
-                                        testCardType: .all,
-                                        japanese: false,
-                                        itemViewController: nil)
-            
-            vc.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.presentCaptureView(itemInfo: itemInfo, alertView: alertView)
         }
     }
     
@@ -136,59 +164,36 @@ class CollectionViewController: UIViewController {
             
         } completion: { _ in
             UIView.animate(withDuration: 0.3) {
-                self.addCartAlert.frame.origin.y = 100
-                
+                self.addCollectionAlert.center.y = self.view.frame.height / 2
             }
         }
     }
     
     @objc func didTapBackToHome() {
-        
-        let hideViews = [addCardButton, backToHomeButton, collectionView]
-        
-        UIView.animate(withDuration: 0.25) {
-            self.hideViews(views: hideViews)
-            
-        } completion: { _ in
-            UIView.animate(withDuration: 0.25) {
-                self.headerView.frame = self.headerImageFrame
-                
-            } completion: { _ in
-                self.navigationController?.popViewController(animated: false)
-            }
-        }
+        dismiss(animated: true) { self.selectedCategory.hero.id = "" }
     }
     
     // MARK: - Helpers
     
-    func configureHeaderVIew() {
+    func configureHeader() {
+        view.addSubview(headerView)
+        headerView.anchor(top: view.topAnchor,
+                          left: view.leftAnchor,
+                          right: view.rightAnchor,
+                          height: 240)
         
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut) {
-            self.view.addSubview(self.headerView)
-            self.headerView.frame = CGRect(x: 0, y: 0,
-                                           width: self.view.frame.width,
-                                           height: 240)
-            self.headerView.imageView.sd_setImage(with: self.viewModel.imageUrl)
-            self.headerView.titleLabel.text = self.viewModel.categoryTitle
-            
-        } completion: { done in
-            if done {
-                
-                self.view.addSubview(self.backToHomeButton)
-                self.backToHomeButton.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
-                                             left: self.view.leftAnchor,
-                                             paddingTop: 10, paddingLeft: 10)
-                self.backToHomeButton.setDimensions(height: 50, width: 50)
-                
-                self.view.addSubview(self.addCardButton)
-                self.addCardButton.anchor(right: self.view.rightAnchor,
-                                          paddingRight: 30)
-                self.addCardButton.setDimensions(height: 50, width: 50)
-                self.addCardButton.centerY(inView: self.headerView)
-                
-                self.configureCollection()
-            }
-        }
+        view.addSubview(backToHomeButton)
+        backToHomeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                left: view.leftAnchor,
+                                paddingTop: 10,
+                                paddingLeft: 10)
+        backToHomeButton.setDimensions(height: 50, width: 50)
+        
+        view.addSubview(addCardButton)
+        addCardButton.anchor(right: view.rightAnchor,
+                             paddingRight: 10)
+        addCardButton.setDimensions(height: 50, width: 50)
+        addCardButton.centerY(inView: headerView)
     }
     
     func configureCollection() {
@@ -196,7 +201,7 @@ class CollectionViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.anchor(top: view.topAnchor,
                               left: view.leftAnchor,
-                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              bottom: view.bottomAnchor,
                               right: view.rightAnchor,
                               paddingTop: 240)
         collectionView.backgroundColor = .white
@@ -204,19 +209,43 @@ class CollectionViewController: UIViewController {
         view.addSubview(backgroundViewForAlert)
         backgroundViewForAlert.fillSuperview()
         
-        view.addSubview(addCartAlert)
-        addCartAlert.center.x = view.frame.width / 2
-        addCartAlert.frame = CGRect(x: 0, y: -350,
+        view.addSubview(addCollectionAlert)
+        addCollectionAlert.frame = CGRect(x: 0, y: -350,
                                     width: view.frame.width - 40,
                                     height: 350)
+        addCollectionAlert.center.x = view.frame.width / 2
         
         UIView.animate(withDuration: 0.25) {
             self.collectionView.alpha = 1
         }
     }
     
-    func hideViews(views: [UIView]) {
-        views.forEach { $0.isHidden = true }
+    func presentCaptureView(itemInfo: ItemInfo, alertView: CustomAlertView) {
+        
+        let vc = CardViewController(cardType: .capture,
+                                    itemInfo: itemInfo,
+                                    sentences: nil,
+                                    words: nil,
+                                    testCardType: .all,
+                                    japanese: false,
+                                    itemViewController: nil)
+        
+        vc.collectionAddImageButton = alertView.addImageButton
+        alertView.addImageButton.hero.id = "moveToCaptureView"
+        
+        vc.captureBackgroundImage.hero.id = "moveToCaptureView"
+        vc.modalPresentationStyle = .fullScreen
+        vc.collectionViewController = self
+        vc.isHeroEnabled = true
+        
+        self.present(vc, animated: true) { [weak self] in
+            
+            guard let `self` = self else { return }
+            `self`.addCollectionAlert.frame.origin.y = -350
+            `self`.backgroundViewForAlert.alpha = 0
+
+            alertView.nameTextField.text = ""
+        }
     }
 }
 
@@ -225,15 +254,14 @@ class CollectionViewController: UIViewController {
 extension CollectionViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collections?.count ?? 0
+        return collectionType == .user ? userCollections.count : downloadCollections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! collectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! CollectionViewCell
         
-        if let collections = collections {
-            cell.viewModel = CollectionViewmodel(collection: collections[indexPath.row])
-        }
+        let collection = collectionType == .user ? userCollections[indexPath.row] : downloadCollections[indexPath.row]
+        cell.viewModel = CollectionViewmodel(collection: collection)
         
         return cell
     }
@@ -245,17 +273,23 @@ extension CollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let cell = collectionView.cellForItem(at: indexPath) as? collectionViewCell else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell else { return }
         guard let image = cell.imageView.image else { return }
-        guard let selectedCollection = collections?[indexPath.row] else { return }
+        let selectedCollection = userCollections[indexPath.row]
         
         let itemInfo = ItemInfo(categoryID: selectedCollection.categoryID,
                                 collectionID: selectedCollection.collectionID,
                                 image: image)
         
-        let vc = ItemViewController(itemInfo: itemInfo)
+        cell.hero.id = "moveToItemVC"
+        
+        let vc = ItemViewController(itemInfo: itemInfo, selectedCollection: cell)
         vc.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(vc, animated: false)
+        vc.imageView.hero.id = "moveToItemVC"
+        vc.visualEffectView.hero.id = "moveToItemVC"
+        vc.isHeroEnabled = true
+        
+        present(vc, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -289,8 +323,14 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout  {
 // MARK: - CustomAlertViewDelegate
 
 extension CollectionViewController: CustomAlertViewDelegate {
+    func beginEditing() {
+        UIView.animate(withDuration: 0.3) {
+            self.addCollectionAlert.center.y -= 150
+        }
+    }
     
     func showRegisterView(view: CustomAlertView) {
+        
         guard let collectionTitle = view.nameTextField.text else { return }
         guard let image = selectedImage else { return }
         
@@ -298,9 +338,9 @@ extension CollectionViewController: CustomAlertViewDelegate {
                                             collectionTitle: collectionTitle,
                                             image: image)
         
-        createNewCollection(collectionInfo: collectionInfo)
+        self.createNewCollection(collectionInfo: collectionInfo, alertView: view)
     }
-
+    
     func imagePicker() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -317,8 +357,25 @@ extension CollectionViewController: UIImagePickerControllerDelegate, UINavigatio
 
         guard let image = info[.editedImage] as? UIImage else { return }
         selectedImage = image
-        addCartAlert.addImageButton.setImage(image, for: .normal)
+        addCollectionAlert.addImageButton.setImage(image, for: .normal)
 
         dismiss(animated: true, completion: nil)
+    }
+}
+
+// MARK: - CategoryViewDelegate
+
+extension CollectionViewController: CategoryViewDelegate {
+    
+    func didSelectCategory(categoryType: CollectionType) {
+        switch categoryType {
+        case .user:
+            collectionType = .user
+            
+        case .download:
+            collectionType = .download
+        }
+        
+        collectionView.reloadData()
     }
 }

@@ -1,4 +1,5 @@
 import UIKit
+import Hero
 
 class AddCategoryViewController: UIViewController {
     
@@ -63,8 +64,13 @@ class AddCategoryViewController: UIViewController {
                                         japanese: false,
                                         itemViewController: nil)
             
+            self.imageSelectButton.hero.id = "moveToCaptureView"
+            vc.captureBackgroundImage.hero.id = "moveToCaptureView"
             vc.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(vc, animated: true)
+            vc.addCategoryViewController = self
+            vc.isHeroEnabled = true
+            
+            self.present(vc, animated: true, completion: nil)
         }
     }
     
@@ -82,6 +88,7 @@ class AddCategoryViewController: UIViewController {
     }
     
     @objc func didTapSaveButton() {
+        view.endEditing(true)
         
         guard let categoryTitle = categoryTextField.text else { return }
         guard let collectionTitle = collectionTextField.text else { return }

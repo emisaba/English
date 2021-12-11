@@ -36,7 +36,6 @@ extension CardViewController: CaptureCardViewDelegate {
     // MARK: - Helpers
     
     func saveInfo(view: CaptureCardView, sentenceInfo: SentenceInfo) {
-        
         view.removeFromSuperview()
         cardViews.removeAll(where: { view == $0 as! CaptureCardView } )
         createSentence(sentenceInfo: sentenceInfo)
