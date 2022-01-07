@@ -14,7 +14,7 @@ class ShowAnswerViewCell: UICollectionViewCell {
     
     private let underline: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .white
         return view
     }()
     

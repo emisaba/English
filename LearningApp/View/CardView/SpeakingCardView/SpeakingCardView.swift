@@ -5,7 +5,7 @@ class SpeakingCardView: CardView {
     
     // MARK: - Properties
     
-    private lazy var micButton = createButton(image: #imageLiteral(resourceName: "camera"), selector: #selector(didTapMicButton))
+    private lazy var micButton = createButton(image: #imageLiteral(resourceName: "mic"), selector: #selector(didTapMicButton))
     public lazy var speakingLabel = createLabel(language: nil)
     
     public let speechRecognizer = SFSpeechRecognizer()

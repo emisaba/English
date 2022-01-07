@@ -30,6 +30,9 @@
 		8234FCB026E87E6400376323 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8234FCAF26E87E6400376323 /* HomeCollectionViewCell.swift */; };
 		8234FCB226E87F5F00376323 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8234FCB126E87F5F00376323 /* CategoryViewModel.swift */; };
 		823A159627020A46008D3513 /* CustomStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823A159527020A46008D3513 /* CustomStepper.swift */; };
+		8246546C2786BC49002BD067 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546B2786BC47002BD067 /* UIColor + Extension.swift */; };
+		8246546E2786D1FB002BD067 /* CollectionViewController + UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */; };
+		824654702786E8DA002BD067 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546F2786E8DA002BD067 /* UILabel + Extension.swift */; };
 		8248AFDB270B571500D14FC4 /* DictationAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8248AFDA270B571400D14FC4 /* DictationAnswerView.swift */; };
 		8248AFDD270C858000D14FC4 /* DictationAnswerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8248AFDC270C858000D14FC4 /* DictationAnswerViewCell.swift */; };
 		825B995226FDB0FC00C93BCF /* StudyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825B995126FDB0FC00C93BCF /* StudyCell.swift */; };
@@ -172,6 +175,9 @@
 		8234FCAF26E87E6400376323 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		8234FCB126E87F5F00376323 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		823A159527020A46008D3513 /* CustomStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepper.swift; sourceTree = "<group>"; };
+		8246546B2786BC47002BD067 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewController + UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
+		8246546F2786E8DA002BD067 /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
 		8248AFDA270B571400D14FC4 /* DictationAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationAnswerView.swift; sourceTree = "<group>"; };
 		8248AFDC270C858000D14FC4 /* DictationAnswerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationAnswerViewCell.swift; sourceTree = "<group>"; };
 		825B995126FDB0FC00C93BCF /* StudyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCell.swift; sourceTree = "<group>"; };
@@ -350,6 +356,8 @@
 				8210707F274F80D80033F56C /* UIFont + Extension.swift */,
 				82107081274F81000033F56C /* UIImage + Extension.swift */,
 				82D6421427608C6C00346190 /* UIButton + Extension.swift */,
+				8246546B2786BC47002BD067 /* UIColor + Extension.swift */,
+				8246546F2786E8DA002BD067 /* UILabel + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -730,6 +738,7 @@
 			isa = PBXGroup;
 			children = (
 				82A9BC0626E7AC72002E7461 /* CollectionViewController.swift */,
+				8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */,
 			);
 			path = CollectionViewController;
 			sourceTree = "<group>";
@@ -1098,6 +1107,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8246546E2786D1FB002BD067 /* CollectionViewController + UICollectionViewDelegate.swift in Sources */,
 				82A9BC0926E7B1B2002E7461 /* CustomAlertView.swift in Sources */,
 				82D6422427613FE800346190 /* NotificationVC.swift in Sources */,
 				82F82C6F274CBB0C0048B978 /* CardViewController + ConfigureCard.swift in Sources */,
@@ -1118,6 +1128,7 @@
 				82EDA7CD26F0E5DC00EE2E9E /* DictationCardView.swift in Sources */,
 				82107084274F813F0033F56C /* botsu + Extension.swift in Sources */,
 				8278CECA26E8585500C2788F /* ImageUploader.swift in Sources */,
+				824654702786E8DA002BD067 /* UILabel + Extension.swift in Sources */,
 				821B6AAB26FD62EE00AB4FB8 /* StudyViewController.swift in Sources */,
 				82D6421327608B5400346190 /* RegisterViewController.swift in Sources */,
 				82D64236276443CE00346190 /* DownloadCollectionInfo.swift in Sources */,
@@ -1130,6 +1141,7 @@
 				8210707B274F7FE60033F56C /* SentenceInfo.swift in Sources */,
 				8234FCB026E87E6400376323 /* HomeCollectionViewCell.swift in Sources */,
 				82F82C67274C99B40048B978 /* Dimension.swift in Sources */,
+				8246546C2786BC49002BD067 /* UIColor + Extension.swift in Sources */,
 				8289689826DC94E7005F42DF /* InputViewController.swift in Sources */,
 				8217E82226E8A00D0062583A /* ItemViewController.swift in Sources */,
 				82F82C8B274E22C00048B978 /* Section.swift in Sources */,

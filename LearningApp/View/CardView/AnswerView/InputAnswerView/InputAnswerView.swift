@@ -55,12 +55,13 @@ class InputAnswerView: UICollectionView {
         cell.layer.add(shake, forKey: nil)
     }
     
-    func checkIfAnswerIsCorrect(targetCell: UICollectionViewCell, targetCellNumber: Int) {
+    func checkIfAnswerIsCorrect(targetCell: InputAnswerViewCell, targetCellNumber: Int) {
         let targetWord = shuffledArray[targetCellNumber]
         
         if targetWord == englishArray[checkWord] {
             NotificationCenter.default.post(name: Notification.Name("targetWord"), object: targetWord)
-            targetCell.backgroundColor = .systemGray
+            targetCell.backgroundColor = .white
+            targetCell.label.textColor = .lightGray
             
             checkWord += 1
         } else {
@@ -84,9 +85,9 @@ extension InputAnswerView: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! InputAnswerViewCell
         
         if cardType == .listening || cardType == .writing {
-            cell.label.text = shuffledArray[indexPath.row]
+            cell.labelText = shuffledArray[indexPath.row]
         } else {
-            cell.label.text = englishArray[indexPath.row]
+            cell.labelText = englishArray[indexPath.row]
         }
         
         return cell
@@ -99,7 +100,7 @@ extension InputAnswerView: UICollectionViewDataSource {
 extension InputAnswerView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? InputAnswerViewCell else { return }
         
         switch cardType {
         case .listening, .writing:

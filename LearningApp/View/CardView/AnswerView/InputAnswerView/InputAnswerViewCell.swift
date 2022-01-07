@@ -4,20 +4,23 @@ class InputAnswerViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    public let label: UILabel = {
-        let label = UILabel()
-        label.font = .lexendDecaRegular(size: 16)
-        label.textColor = .systemGray
-        return label
-    }()
+    public var labelText: String? {
+        didSet {
+            let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 6]
+            label.attributedText = NSAttributedString(string: labelText ?? "", attributes: attrubutes)
+            label.textColor = .white
+        }
+    }
+    
+    public let label = UILabel()
     
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        layer.cornerRadius = 5
-        layer.borderWidth = 2
+        layer.cornerRadius = 3
+        layer.borderWidth = 1
         layer.borderColor = UIColor.white.cgColor
         
         addSubview(label)

@@ -31,13 +31,7 @@ class CategoryView: UICollectionViewCell {
         return iv
     }()
     
-    public var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.font = .lexendDecaBold(size: 25)
-        label.textColor = .white
-        return label
-    }()
+    public var titleLabel = UILabel.createLabel(text: "", size: 25)
     
     private lazy var visualEffectView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .dark)
@@ -47,14 +41,21 @@ class CategoryView: UICollectionViewCell {
         return visualEffectView
     }()
     
-    private lazy var userCategoryButton = createButton()
-    private lazy var downloadCategoryButton = createButton()
+    private lazy var userCategoryButton = UIButton.createImageButton(image: #imageLiteral(resourceName: "user"), target: self, action: #selector(didTapUserCategoryButton))
+    private lazy var downloadCategoryButton = UIButton.createImageButton(image: #imageLiteral(resourceName: "import"), target: self, action: #selector(didTapDownloadCategoryButton))
     
     private let selectedBar: UIView = {
         let view = UIView()
         view.backgroundColor = .systemYellow
         view.layer.cornerRadius = 5
         return view
+    }()
+    
+    private let gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        layer.locations = [0.5, 1]
+        layer.colors = [UIColor.black.withAlphaComponent(0).cgColor, UIColor.darkColor().withAlphaComponent(1).cgColor]
+        return layer
     }()
     
     // MARK: - LifeCycle
@@ -71,33 +72,28 @@ class CategoryView: UICollectionViewCell {
         super.layoutSubviews()
         if isStudyVC { return }
         
+        gradientLayer.frame = frame
         addSubview(selectedBar)
         selectedBar.frame = CGRect(x: 25,
-                                   y: frame.height - 10,
+                                   y: frame.height - 40,
                                    width: 50,
                                    height: 10)
     }
     
     // MARK: - action
     
-    @objc func selectCategory(sender: UIButton) {
-        
-        switch sender {
-        case userCategoryButton:
-            UIView.animate(withDuration: 0.25) {
-                self.selectedBar.frame.origin.x = 25
-            }
-            delegate?.didSelectCategory(categoryType: .user)
-            
-        case downloadCategoryButton:
-            UIView.animate(withDuration: 0.25) {
-                self.selectedBar.frame.origin.x = 125
-            }
-            delegate?.didSelectCategory(categoryType: .download)
-            
-        default:
-            break
+    @objc func didTapUserCategoryButton() {
+        UIView.animate(withDuration: 0.25) {
+            self.selectedBar.frame.origin.x = 25
         }
+        delegate?.didSelectCategory(categoryType: .user)
+    }
+    
+    @objc func didTapDownloadCategoryButton() {
+        UIView.animate(withDuration: 0.25) {
+            self.selectedBar.frame.origin.x = 105
+        }
+        delegate?.didSelectCategory(categoryType: .download)
     }
     
     // MARK: - Helpers
@@ -106,7 +102,9 @@ class CategoryView: UICollectionViewCell {
         guard let viewModel = viewModel else { return }
         
         imageView.sd_setImage(with: viewModel.imageUrl)
-        titleLabel.text = viewModel.categoryTitle
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 25), .kern: 8]
+        titleLabel.attributedText = NSAttributedString(string: viewModel.categoryTitle ?? "", attributes: attrubutes)
     }
     
     func configureUI() {
@@ -121,29 +119,18 @@ class CategoryView: UICollectionViewCell {
         titleLabel.centerY(inView: self)
         
         if isStudyVC == false {
+            layer.addSublayer(gradientLayer)
+            
             let selectCategoryStackView = UIStackView(arrangedSubviews: [userCategoryButton, downloadCategoryButton])
             selectCategoryStackView.distribution = .fillEqually
+            selectCategoryStackView.spacing = 20
 
             addSubview(selectCategoryStackView)
             selectCategoryStackView.anchor(left: leftAnchor,
                                            bottom: bottomAnchor,
-                                           paddingBottom: 20)
-            selectCategoryStackView.setDimensions(height: 60, width: 200)
+                                           paddingLeft: 20,
+                                           paddingBottom: 50)
+            selectCategoryStackView.setDimensions(height: 60, width: 140)
         }
-    }
-    
-    func createButton() -> UIButton {
-        let iv = UIImageView()
-        iv.backgroundColor = .systemBlue
-        iv.layer.cornerRadius = 30
-
-        let button = UIButton()
-        button.addTarget(self, action: #selector(selectCategory), for: .touchUpInside)
-        button.addSubview(iv)
-        
-        iv.setDimensions(height: 60, width: 60)
-        iv.centerX(inView: button)
-        
-        return button
     }
 }

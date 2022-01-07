@@ -18,16 +18,14 @@ class SearchViewCell: UICollectionViewCell {
     private let iconImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 15
+        iv.layer.cornerRadius = 20
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "pooh")
         return iv
     }()
     
     private let userNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "ユーザー"
-        label.font = .lexendDecaRegular(size: 12)
+        label.textColor = .white
         return label
     }()
     
@@ -36,8 +34,14 @@ class SearchViewCell: UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 5
         iv.clipsToBounds = true
-        iv.image = #imageLiteral(resourceName: "back")
         return iv
+    }()
+    
+    private let effectView: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blur)
+        view.alpha = 0.5
+        return view
     }()
     
     private let sentenceCountLabel: UILabel = {
@@ -51,7 +55,6 @@ class SearchViewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "タイトル"
         label.textAlignment = .center
         label.textColor = .white
         label.font = .lexendDecaBold(size: 16)
@@ -69,9 +72,9 @@ class SearchViewCell: UICollectionViewCell {
     
     private lazy var downloadButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "pooh"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        button.backgroundColor = .systemYellow
+        button.setImage(#imageLiteral(resourceName: "import"), for: .normal)
+        button.backgroundColor = UIColor.lightColor()
+        button.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
         button.layer.cornerRadius = 30
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapDownloadButton), for: .touchUpInside)
@@ -104,9 +107,8 @@ class SearchViewCell: UICollectionViewCell {
         addSubview(iconImageView)
         iconImageView.anchor(top: topAnchor,
                              left: leftAnchor,
-                             paddingTop: 10,
-                             paddingLeft: 10)
-        iconImageView.setDimensions(height: 30, width: 30)
+                             paddingTop: 10)
+        iconImageView.setDimensions(height: 40, width: 40)
         
         addSubview(userNameLabel)
         userNameLabel.anchor(left: iconImageView.rightAnchor,
@@ -119,6 +121,9 @@ class SearchViewCell: UICollectionViewCell {
                              bottom: bottomAnchor, right: rightAnchor,
                              paddingTop: 10)
         
+        cardImageView.addSubview(effectView)
+        effectView.fillSuperview()
+        
         addSubview(downloadButton)
         downloadButton.anchor(bottom: bottomAnchor,
                               paddingBottom: -30)
@@ -128,7 +133,7 @@ class SearchViewCell: UICollectionViewCell {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, sentenceCountLabel, wordCountLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
-        stackView.spacing = 20
+        stackView.spacing = 10
         
         addSubview(stackView)
         stackView.centerY(inView: cardImageView)
@@ -139,8 +144,11 @@ class SearchViewCell: UICollectionViewCell {
         guard let viewModel = viewModel else { return }
         
         titleLabel.text = viewModel.title
-        userNameLabel.text = viewModel.userName
+        
         iconImageView.sd_setImage(with: viewModel.userImageUrl, completed: nil)
         cardImageView.sd_setImage(with: viewModel.cardImageUrl, completed: nil)
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 6]
+        userNameLabel.attributedText = NSAttributedString(string: viewModel.userName, attributes: attrubutes)
     }
 }

@@ -53,31 +53,32 @@ extension ItemViewController {
         
         let testTypeButton = UIButton()
         testTypeButton.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: sections[section].isOpened ? 90 : 70)
-        testTypeButton.layer.borderWidth = 3
+        testTypeButton.layer.borderWidth = 2
         testTypeButton.layer.borderColor = UIColor.white.cgColor
         testTypeButton.layer.cornerRadius = 20
         testTypeButton.addTarget(self, action: #selector(didTapTestTypeButton), for: .touchUpInside)
         testTypeButton.accessibilityLabel = sections[section].title
         view.addSubview(testTypeButton)
         
-        let icon = UIImageView(image: #imageLiteral(resourceName: "pooh"))
+        let icon = UIImageView()
         icon.frame = CGRect(x: 10, y: 15, width: 40, height: 40)
         icon.layer.cornerRadius = 20
         icon.clipsToBounds = true
         view.addSubview(icon)
         
         let titleLabel = UILabel()
-        titleLabel.frame = CGRect(x: 60, y: 0, width: view.frame.width - 100, height: 40)
+        titleLabel.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 40)
         titleLabel.center.y = view.frame.height / 2
-        titleLabel.text = sections[section].title
-        titleLabel.font = .lexendDecaBold(size: 18)
         titleLabel.textColor  = .white
         titleLabel.backgroundColor = .clear
+        titleLabel.textAlignment = .center
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 8]
+        titleLabel.attributedText = NSAttributedString(string: sections[section].title, attributes: attrubutes)
         view.addSubview(titleLabel)
         
         let settingButton = UIButton()
-        settingButton.frame = CGRect(x: view.frame.width - 50, y: 15, width: 40, height: 40)
-        settingButton.setImage(#imageLiteral(resourceName: "back"), for: .normal)
+        settingButton.frame = CGRect(x: view.frame.width - 50, y: 20, width: 30, height: 30)
+        settingButton.setImage(#imageLiteral(resourceName: "settings"), for: .normal)
         settingButton.clipsToBounds = true
         settingButton.layer.cornerRadius = 20
         settingButton.addTarget(self, action: #selector(didTapSettingButton), for: .touchUpInside)

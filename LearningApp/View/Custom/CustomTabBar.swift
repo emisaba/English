@@ -8,7 +8,7 @@ enum selectedTab {
 }
 
 protocol CustomTabBarDelegate {
-    func buttonTapped(selectedTab: selectedTab)
+    func buttonTapped(selectedTab: selectedTab, tab: CustomTabBar)
 }
 
 class CustomTabBar: UIView {
@@ -17,10 +17,10 @@ class CustomTabBar: UIView {
     
     public var delegate: CustomTabBarDelegate?
     
-    private lazy var studyButton = createTabButton(image: #imageLiteral(resourceName: "pooh"), tag: 0, title: "study")
-    private lazy var searchButton = createTabButton(image: #imageLiteral(resourceName: "pooh"), tag: 1, title: "search")
-    private lazy var notificationButton = createTabButton(image: #imageLiteral(resourceName: "pooh"), tag: 2, title: "notifi")
-    private lazy var myPageButton = createTabButton(image: #imageLiteral(resourceName: "pooh"), tag: 3, title: "myPage")
+    public lazy var studyButton = createTabButton(image: #imageLiteral(resourceName: "pen"), tag: 0, title: "study")
+    public lazy var searchButton = createTabButton(image: #imageLiteral(resourceName: "search"), tag: 1, title: "")
+    public lazy var notificationButton = createTabButton(image: #imageLiteral(resourceName: "notification-line"), tag: 2, title: "")
+    public lazy var myPageButton = createTabButton(image: #imageLiteral(resourceName: "user"), tag: 3, title: "")
     
     private let normalButtonWidth: CGFloat = 60
     private let space: CGFloat = 10
@@ -57,19 +57,19 @@ class CustomTabBar: UIView {
             switch sender.tag {
             case 0:
                 self.selectStudyButtonAnimation()
-                self.delegate?.buttonTapped(selectedTab: .study)
+                self.delegate?.buttonTapped(selectedTab: .study, tab: self)
                 
             case 1:
                 self.selectSearchButtonAnimation()
-                self.delegate?.buttonTapped(selectedTab: .search)
+                self.delegate?.buttonTapped(selectedTab: .search, tab: self)
                 
             case 2:
                 self.selectNotificationButtonAnimation()
-                self.delegate?.buttonTapped(selectedTab: .notification)
+                self.delegate?.buttonTapped(selectedTab: .notification, tab: self)
                 
             case 3:
                 self.selectMyPageButtonAnimation()
-                self.delegate?.buttonTapped(selectedTab: .myPage)
+                self.delegate?.buttonTapped(selectedTab: .myPage, tab: self)
                 
             default:
                 break
@@ -91,9 +91,10 @@ class CustomTabBar: UIView {
         button.tag = tag
         
         let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.textColor = .systemGray
-        titleLabel.textAlignment = .center
+        titleLabel.textColor = .white
+        titleLabel.textAlignment = .left
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 5]
+        titleLabel.attributedText = NSAttributedString(string: title, attributes: attrubutes)
         
         baseView.addSubview(button)
         button.frame = CGRect(x: 10, y: 10, width: 40, height: 40)
@@ -107,7 +108,7 @@ class CustomTabBar: UIView {
     func configureUI() {
         let baseView = UIView()
         baseView.frame = bounds
-        baseView.backgroundColor = .systemPink
+        baseView.backgroundColor = UIColor.darkColor()
         baseView.layer.cornerRadius = frame.height / 2
         addSubview(baseView)
         
@@ -115,28 +116,28 @@ class CustomTabBar: UIView {
         studyButton.frame = CGRect(x: space, y: space,
                                    width: selectedButtonWidth,
                                    height: normalButtonWidth)
-        studyButton.backgroundColor = .systemPurple
+        studyButton.backgroundColor = UIColor.lightColor()
         
         baseView.addSubview(searchButton)
         searchButton.frame = CGRect(x: searchButtonOriginalX,
                                     y: space,
                                     width: normalButtonWidth,
                                     height: normalButtonWidth)
-        searchButton.backgroundColor = .systemGreen
+        searchButton.backgroundColor = UIColor.darkColor()
 
         baseView.addSubview(notificationButton)
         notificationButton.frame =  CGRect(x: notificationButtonOriginalX,
                                            y: space,
                                            width: normalButtonWidth,
                                            height: normalButtonWidth)
-        notificationButton.backgroundColor = .systemYellow
+        notificationButton.backgroundColor = UIColor.darkColor()
         
         baseView.addSubview(myPageButton)
         myPageButton.frame =  CGRect(x: myPageButtonOriginalX,
                                      y: space,
                                      width: normalButtonWidth,
                                      height: normalButtonWidth)
-        myPageButton.backgroundColor = .systemGray
+        myPageButton.backgroundColor = UIColor.darkColor()
     }
     
     func selectStudyButtonAnimation() {

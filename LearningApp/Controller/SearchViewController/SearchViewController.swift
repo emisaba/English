@@ -4,7 +4,15 @@ class SearchViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let searchBar = UISearchBar()
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchTextField.backgroundColor = .lightColor()
+        searchBar.searchTextField.textColor = .white
+        searchBar.setImage(#imageLiteral(resourceName: "search"), for: .search, state: .normal)
+        searchBar.delegate = self
+        searchBar.backgroundImage = UIImage()
+        return searchBar
+    }()
     
     private let identifier = "identifier"
     
@@ -14,8 +22,8 @@ class SearchViewController: UIViewController {
         cv.dataSource = self
         cv.delegate = self
         cv.register(SearchViewCell.self, forCellWithReuseIdentifier: identifier)
-        cv.backgroundColor = .white
-        cv.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        cv.backgroundColor = UIColor.darkColor()
+        cv.contentInset = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
         return cv
     }()
     
@@ -84,15 +92,15 @@ class SearchViewController: UIViewController {
     // MARK: - Helper
     
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.darkColor()
         
         view.addSubview(searchBar)
-        searchBar.delegate = self
-        searchBar.backgroundImage = UIImage()
         searchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                    left: view.leftAnchor,
-                                    right: view.rightAnchor,
-                                    height: 50)
+                         left: view.leftAnchor,
+                         right: view.rightAnchor,
+                         paddingLeft: 10,
+                         paddingRight: 10,
+                         height: 70)
         
         let attribute: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.systemGray]
         UIBarButtonItem.appearance().setTitleTextAttributes(attribute, for: .normal)
@@ -132,7 +140,7 @@ extension SearchViewController: UICollectionViewDelegate {
 
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width - 30) / 2
+        let width = (view.frame.width - 60) / 2
         return CGSize(width: width, height: width + 50)
     }
     
@@ -141,7 +149,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 20
     }
 }
 

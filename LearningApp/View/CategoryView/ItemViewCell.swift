@@ -25,8 +25,9 @@ class ItemViewCell: UITableViewCell {
     private var japaneseOptionLabel: UILabel = {
         let label = UILabel()
         label.font = .lexendDecaRegular(size: 16)
-        label.text = "日本語オフ"
         label.textColor = .white
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 14), .kern: 5]
+        label.attributedText = NSAttributedString(string:  "Japanese", attributes: attrubutes)
         return label
     }()
     
@@ -50,7 +51,7 @@ class ItemViewCell: UITableViewCell {
     
     public let borderFrame: UIView = {
         let view = UIView()
-        view.layer.borderWidth = 3
+        view.layer.borderWidth = 2
         view.layer.borderColor = UIColor.white.cgColor
         return view
     }()
@@ -102,7 +103,7 @@ class ItemViewCell: UITableViewCell {
         borderFrame.frame = CGRect(x: 0, y: -10, width: frame.width + 20, height: 100)
         addSubview(borderFrame)
         
-        japaneseOptionLabel.frame = CGRect(x: 20, y: 0, width: 100, height: frame.height)
+        japaneseOptionLabel.frame = CGRect(x: 20, y: 0, width: frame.width, height: frame.height)
         addSubview(japaneseOptionLabel)
         
         japaneseOffSwitch.frame = CGRect(x: frame.width - 50, y: 0, width: 0, height: frame.height)

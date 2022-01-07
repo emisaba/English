@@ -16,7 +16,7 @@ class CardView: UIView {
     public var delegate: CardViewDelegate?
     public var viewModel: CardViewModel
     
-    public lazy var startButton = createButton(image: #imageLiteral(resourceName: "camera"), selector: #selector(didTapStartButton))
+    public lazy var startButton = createButton(image: #imageLiteral(resourceName: "play"), selector: #selector(didTapStartButton))
     public lazy var japaneseLabel = createLabel(language: viewModel.sentenceJapanese)
     public lazy var englishLabel = createLabel(language: viewModel.sentenceEnglish)
     
@@ -27,6 +27,7 @@ class CardView: UIView {
         flowlayout.scrollDirection = .vertical
         
         let cv = ShowAnswerView(frame: .zero, collectionViewLayout: flowlayout)
+        cv.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return cv
     }()
     
@@ -60,7 +61,7 @@ class CardView: UIView {
         self.id = id
 
         super.init(frame: .zero)
-        backgroundColor = .white
+        backgroundColor = UIColor.white.withAlphaComponent(0.3)
         layer.cornerRadius = 12
 
         configureGesture()

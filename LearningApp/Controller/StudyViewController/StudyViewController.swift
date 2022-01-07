@@ -9,9 +9,8 @@ class StudyViewController: UIViewController {
     
     private lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .white
+        cv.backgroundColor = UIColor.darkColor()
         cv.dataSource = self
         cv.delegate = self
         cv.register(CategoryView.self, forCellWithReuseIdentifier: identifier)
@@ -20,13 +19,14 @@ class StudyViewController: UIViewController {
     
     private lazy var addCategoryButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .systemPink
+        button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 25
         button.layer.shadowOffset = CGSize(width: 5, height: 5)
         button.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
         button.layer.shadowRadius = 5
         button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return button
     }()
     
@@ -43,13 +43,12 @@ class StudyViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        Dimension.safeAreaTopHeight = view.safeAreaInsets.top
         configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
-        Dimension.safeAreaTopHeight = view.safeAreaInsets.top
         
         guard let tabBar = tabBarController as? TabBarController else { return }
         tabBar.tabBarView.isHidden = false
@@ -82,13 +81,18 @@ class StudyViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(categoryCollectionView)
-        categoryCollectionView.fillSuperview()
+        categoryCollectionView.anchor(top: view.topAnchor,
+                                      left: view.leftAnchor,
+                                      bottom: view.bottomAnchor,
+                                      right: view.rightAnchor,
+                                      paddingTop: -Dimension.safeAreaTopHeight)
         
         categoryCollectionView.addSubview(addCategoryButton)
-        addCategoryButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+        addCategoryButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                  right: view.rightAnchor,
-                                 paddingBottom: 130, paddingRight: 30)
-        addCategoryButton.setDimensions(height: 50, width: 50)
+                                 paddingTop: -10,
+                                 paddingRight: 10)
+        addCategoryButton.setDimensions(height: 60, width: 60)
     }
 }
 
@@ -110,9 +114,6 @@ extension StudyViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 
 extension StudyViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 120)
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryView else { return }
@@ -140,6 +141,10 @@ extension StudyViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension StudyViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height / 3)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0

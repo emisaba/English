@@ -24,7 +24,7 @@ class ItemViewController: UIViewController {
     public let visualEffectView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
         let effectView = UIVisualEffectView(effect: blur)
-        effectView.alpha = 0.7
+        effectView.alpha = 1
         return effectView
     }()
     
@@ -41,8 +41,8 @@ class ItemViewController: UIViewController {
         return tv
     }()
     
-    private lazy var closeButton = createButton(title: "close", closeButton: true)
-    private lazy var addCardButton = createButton(title: "+", closeButton: false)
+    private lazy var closeButton = UIButton.createImageButton(image: #imageLiteral(resourceName: "arrow-down"), target: self, action: #selector(didTapCloseButton))
+    private lazy var addCardButton =  UIButton.createImageButton(image: #imageLiteral(resourceName: "add-circle-fill"), target: self, action: #selector(didTapAddButton))
     
     private var category: UserCategory?
     private var itemInfo: ItemInfo
@@ -52,12 +52,12 @@ class ItemViewController: UIViewController {
     
     private var testCardType: QuestionType = .all
     
-    public var sections: [Section] = [Section(title: "shadowing", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                       Section(title: "Listening", iconImage: #imageLiteral(resourceName: "pooh"),  isOpened: false),
-                                       Section(title: "Speaking", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                       Section(title: "writing", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                       Section(title: "dictation", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                       Section(title: "vocabulary", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false)]
+    public var sections: [Section] = [Section(title: "Shadowing", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
+                                      Section(title: "Listening", iconImage: #imageLiteral(resourceName: "pooh"),  isOpened: false),
+                                      Section(title: "Speaking", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
+                                      Section(title: "Writing", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
+                                      Section(title: "Dictation", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
+                                      Section(title: "Vocabulary", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false)]
     
     private let selectedCollection: CollectionViewCell
     
@@ -183,7 +183,7 @@ class ItemViewController: UIViewController {
         self.closeButton.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
                                 right: self.view.rightAnchor,
                                 paddingTop: 5, paddingRight: 30)
-        self.closeButton.setDimensions(height: 40, width: 40)
+        self.closeButton.setDimensions(height: 60, width: 60)
         
         self.view.addSubview(self.tableView)
         self.tableView.anchor(top: self.closeButton.bottomAnchor,
@@ -197,9 +197,8 @@ class ItemViewController: UIViewController {
         self.tableView.setDimensions(height: 500, width: self.view.frame.width - 50)
         
         self.view.addSubview(self.addCardButton)
-        self.addCardButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                  paddingBottom: 15)
-        self.addCardButton.setDimensions(height: 60, width: 60)
+        self.addCardButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor)
+        self.addCardButton.setDimensions(height: 80, width: 80)
         self.addCardButton.centerX(inView: self.view)
         self.addCardButton.layer.cornerRadius = 30
     }

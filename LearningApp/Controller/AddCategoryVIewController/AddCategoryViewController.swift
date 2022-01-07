@@ -7,17 +7,20 @@ class AddCategoryViewController: UIViewController {
     
     private let closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "pooh"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "angle-left"), for: .normal)
         button.addTarget(self, action: #selector(didTspClose), for: .touchUpInside)
         return button
     }()
     
     private let imageSelectButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .systemYellow
+        button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
         button.contentMode = .scaleAspectFill
+        button.contentEdgeInsets = UIEdgeInsets(top: 60, left: 60, bottom: 60, right: 60)
         button.clipsToBounds = true
         button.layer.cornerRadius = 75
+        button.layer.borderWidth = 3
+        button.layer.borderColor = UIColor.lightColor().cgColor
         button.addTarget(self, action: #selector(didTapImageSelectButton), for: .touchUpInside)
         return button
     }()
@@ -30,10 +33,11 @@ class AddCategoryViewController: UIViewController {
     private let saveButton: UIButton = {
         let button = UIButton()
         button.setTitle("save", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .lexendDecaBold(size: 18)
-        button.layer.cornerRadius = 75
+        button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
+        button.backgroundColor = UIColor.redColor()
         return button
     }()
     
@@ -103,22 +107,21 @@ class AddCategoryViewController: UIViewController {
     
     func configureUI() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.darkColor()
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                           right: view.rightAnchor,
-                           paddingTop: 10, paddingRight: 20)
+                           left: view.leftAnchor,
+                           paddingTop: 10, paddingLeft: 20)
         closeButton.setDimensions(height: 50, width: 50)
         
         view.addSubview(imageSelectButton)
-        imageSelectButton.anchor(top: closeButton.bottomAnchor,
-                                 paddingTop: 10)
+        imageSelectButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 20)
         imageSelectButton.setDimensions(height: 150, width: 150)
         imageSelectButton.centerX(inView: view)
         
         let stackView = UIStackView(arrangedSubviews: [categoryTextField, collectionTextField, saveButton])
-        stackView.spacing = 10
+        stackView.spacing = 20
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         
@@ -126,10 +129,10 @@ class AddCategoryViewController: UIViewController {
         stackView.anchor(top: imageSelectButton.bottomAnchor,
                          left: view.leftAnchor,
                          right: view.rightAnchor,
-                         paddingTop: 20,
+                         paddingTop: 30,
                          paddingLeft: 30,
                          paddingRight: 30,
-                         height: 170)
+                         height: 220)
     }
 }
 

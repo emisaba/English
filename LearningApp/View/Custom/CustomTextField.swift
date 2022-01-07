@@ -12,7 +12,11 @@ class CustomTextField: UITextField {
         
         attributedPlaceholder = NSAttributedString(string: placeholderText,
                                                    attributes: [.font: UIFont.lexendDecaRegular(size: 16),
-                                                                .foregroundColor: UIColor.lightGray.withAlphaComponent(0.5)])
+                                                                .foregroundColor: UIColor.white])
+        
+        layer.cornerRadius = 5
+        backgroundColor = UIColor.lightColor()
+        textColor = .white
     }
     
     required init?(coder: NSCoder) {

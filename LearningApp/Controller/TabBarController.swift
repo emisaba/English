@@ -58,20 +58,36 @@ class TabBarController: UITabBarController {
 
 extension TabBarController: CustomTabBarDelegate {
     
-    func buttonTapped(selectedTab: selectedTab) {
+    func buttonTapped(selectedTab: selectedTab, tab: CustomTabBar) {
         
         switch selectedTab {
         case .study:
             selectedIndex = 0
+            tab.studyButton.backgroundColor = UIColor.lightColor()
+            tab.searchButton.backgroundColor = UIColor.darkColor()
+            tab.notificationButton.backgroundColor = UIColor.darkColor()
+            tab.myPageButton.backgroundColor = UIColor.darkColor()
             
         case .search:
             selectedIndex = 1
+            tab.studyButton.backgroundColor = UIColor.darkColor()
+            tab.searchButton.backgroundColor = UIColor.lightColor()
+            tab.notificationButton.backgroundColor = UIColor.darkColor()
+            tab.myPageButton.backgroundColor = UIColor.darkColor()
             
         case .notification:
             selectedIndex = 2
+            tab.studyButton.backgroundColor = UIColor.darkColor()
+            tab.searchButton.backgroundColor = UIColor.darkColor()
+            tab.notificationButton.backgroundColor = UIColor.lightColor()
+            tab.myPageButton.backgroundColor = UIColor.darkColor()
             
         case .myPage:
             selectedIndex = 3
+            tab.studyButton.backgroundColor = UIColor.darkColor()
+            tab.searchButton.backgroundColor = UIColor.darkColor()
+            tab.notificationButton.backgroundColor = UIColor.darkColor()
+            tab.myPageButton.backgroundColor = UIColor.lightColor()
         }
     }
 }

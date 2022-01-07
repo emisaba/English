@@ -23,7 +23,7 @@ class CardViewController: UIViewController {
     
     public lazy var closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "pooh"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "arrow-down"), for: .normal)
         button.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
         return button
     }()
@@ -67,13 +67,16 @@ class CardViewController: UIViewController {
     private lazy var answerButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .lexendDecaRegular(size: 16)
-        button.setTitle("answer", for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
-        button.titleLabel?.textColor = .systemGray
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.textColor = .white
         button.layer.cornerRadius = 25
         button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.systemGray.cgColor
+        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(didTapAnswerButton), for: .touchUpInside)
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 6]
+        let attributedString = NSAttributedString(string: "answer", attributes: attrubutes)
+        button.setAttributedTitle(attributedString, for: .normal)
         return button
     }()
     
@@ -198,8 +201,8 @@ class CardViewController: UIViewController {
         answerButton.setDimensions(height: 50, width: 180)
         answerButton.centerX(inView: view)
         
-        view.layer.addSublayer(indicatorTrack)
-        view.layer.addSublayer(indicatorAnimation)
+//        view.layer.addSublayer(indicatorTrack)
+//        view.layer.addSublayer(indicatorAnimation)
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,

@@ -5,20 +5,24 @@ extension CardView {
     func createLabel(language: String? = nil) -> UILabel {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = .lexendDecaRegular(size: 16)
         label.textColor = .systemGray
         label.textAlignment = cardType == .shadowing ? .left : .center
         label.text = cardType == .speaking ? nil : language
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 6]
+        label.attributedText = NSAttributedString(string: language ?? "", attributes: attrubutes)
         return label
     }
     
     func createButton(image: UIImage, selector: Selector) -> UIButton {
         let button = UIButton()
-        button.backgroundColor = .systemPurple
+        button.backgroundColor = .lightGray.withAlphaComponent(0.3)
         button.layer.cornerRadius = 25
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
         button.setDimensions(height: 50, width: 50)
         button.setImage(image, for: .normal)
         button.addTarget(self, action: selector, for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return button
     }
     

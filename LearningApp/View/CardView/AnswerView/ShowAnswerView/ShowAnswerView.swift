@@ -22,7 +22,8 @@ class ShowAnswerView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         
-        backgroundColor = .white
+        layer.cornerRadius = 5
+        backgroundColor = .lightGray.withAlphaComponent(0.3)
         dataSource = self
         register(ShowAnswerViewCell.self, forCellWithReuseIdentifier: identifier)
         
