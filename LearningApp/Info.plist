@@ -70,6 +70,9 @@
 	<array>
 		<string>LexendDeca-Regular.ttf</string>
 		<string>LexendDeca-SemiBold.ttf</string>
+		<string>Senobi-Gothic-Regular.ttf</string>
+		<string>Senobi-Gothic-Bold.ttf</string>
+		<string>Senobi-Gothic-Medium.ttf</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

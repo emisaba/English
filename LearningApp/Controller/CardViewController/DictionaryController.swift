@@ -20,40 +20,52 @@ class DictionaryViewController: UIReferenceLibraryViewController {
     let inputEnglishView: UITextView = {
         let view = UITextView()
         view.layer.cornerRadius = 5
-        view.font = .lexendDecaBold(size: 20)
-        view.textColor = .black
+        view.font = .lexendDecaBold(size: 22)
+        view.textColor = .darkGray
         view.textAlignment = .center
         return view
     }()
     
-    private let inputJapaneseView: UITextView = {
-        let view = UITextView()
+    private lazy var inputJapaneseView: UITextField = {
+        let view = UITextField()
         view.backgroundColor = .lightGray.withAlphaComponent(0.3)
         view.layer.cornerRadius = 5
         view.font = .lexendDecaRegular(size: 18)
         view.textColor = .black
-        view.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 16), .foregroundColor: UIColor.lightGray]
+        view.attributedPlaceholder = NSAttributedString(string: "意味を入力してください", attributes: attrubutes)
+        
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: view.frame.height))
+        view.leftView = leftView
+        view.leftViewMode = .always
+        
         return view
     }()
     
     private lazy var createCardButton: UIButton = {
         let button = UIButton()
-        button.setTitle("カードを作成", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .systemPink
         button.addTarget(self, action: #selector(createCardButton(sender:)), for: .touchUpInside)
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 20), .foregroundColor: UIColor.white]
+        let attributeTitle = NSAttributedString(string: "カードを作成", attributes: attrubutes)
+        button.setAttributedTitle(attributeTitle, for: .normal)
         return button
     }()
     
     private lazy var doneButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Done", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemPink
         button.addTarget(self, action: #selector(didTapDoneButton(sender:)), for: .touchUpInside)
         button.layer.cornerRadius = 30
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.darkGray.cgColor
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 18), .foregroundColor: UIColor.darkGray, .kern: 2]
+        let attributeTitle = NSAttributedString(string: "登録", attributes: attrubutes)
+        button.setAttributedTitle(attributeTitle, for: .normal)
         return button
     }()
     
@@ -63,6 +75,7 @@ class DictionaryViewController: UIReferenceLibraryViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        showLoader(false)
         
         view.addSubview(backgroundView)
         backgroundView.fillSuperview()
@@ -98,12 +111,9 @@ class DictionaryViewController: UIReferenceLibraryViewController {
         
         createCardView.addSubview(doneButton)
         doneButton.anchor(top: inputJapaneseView.bottomAnchor,
-                          left: view.leftAnchor,
-                          right: view.rightAnchor,
-                          paddingTop: 40,
-                          paddingLeft: 60,
-                          paddingRight: 60,
-                          height: 60)
+                          paddingTop: 40)
+        doneButton.setDimensions(height: 60, width: 100)
+        doneButton.centerX(inView: view)
     }
     
     // MARK: - Actions

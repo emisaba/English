@@ -33,6 +33,10 @@
 		8246546C2786BC49002BD067 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546B2786BC47002BD067 /* UIColor + Extension.swift */; };
 		8246546E2786D1FB002BD067 /* CollectionViewController + UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */; };
 		824654702786E8DA002BD067 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546F2786E8DA002BD067 /* UILabel + Extension.swift */; };
+		8246554A278C4D99002BD067 /* Senobi-Gothic-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82465547278C4D98002BD067 /* Senobi-Gothic-Regular.ttf */; };
+		8246554B278C4D99002BD067 /* Senobi-Gothic-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82465548278C4D98002BD067 /* Senobi-Gothic-Bold.ttf */; };
+		8246554C278C4D99002BD067 /* Senobi-Gothic-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82465549278C4D98002BD067 /* Senobi-Gothic-Medium.ttf */; };
+		8246554E278C720D002BD067 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246554D278C720B002BD067 /* UIViewController + Extension.swift */; };
 		8248AFDB270B571500D14FC4 /* DictationAnswerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8248AFDA270B571400D14FC4 /* DictationAnswerView.swift */; };
 		8248AFDD270C858000D14FC4 /* DictationAnswerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8248AFDC270C858000D14FC4 /* DictationAnswerViewCell.swift */; };
 		825B995226FDB0FC00C93BCF /* StudyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825B995126FDB0FC00C93BCF /* StudyCell.swift */; };
@@ -105,7 +109,6 @@
 		82EDA7D726F1B4D000EE2E9E /* WordViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EDA7D626F1B4D000EE2E9E /* WordViewModal.swift */; };
 		82EDA7D926F1B95D00EE2E9E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EDA7D826F1B95D00EE2E9E /* Card.swift */; };
 		82EDA7E226F2C61A00EE2E9E /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EDA7E126F2C61900EE2E9E /* CustomSlider.swift */; };
-		82EDCC7826F76BF500810676 /* LexendDeca-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC6B26F76BF400810676 /* LexendDeca-VariableFont_wght.ttf */; };
 		82EDCC7926F76BF500810676 /* LexendDeca-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC6D26F76BF400810676 /* LexendDeca-Light.ttf */; };
 		82EDCC7A26F76BF500810676 /* LexendDeca-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC6E26F76BF400810676 /* LexendDeca-Bold.ttf */; };
 		82EDCC7B26F76BF500810676 /* LexendDeca-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC6F26F76BF400810676 /* LexendDeca-Medium.ttf */; };
@@ -115,7 +118,6 @@
 		82EDCC7F26F76BF500810676 /* LexendDeca-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC7326F76BF400810676 /* LexendDeca-ExtraLight.ttf */; };
 		82EDCC8026F76BF500810676 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC7426F76BF400810676 /* LexendDeca-SemiBold.ttf */; };
 		82EDCC8126F76BF500810676 /* LexendDeca-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC7526F76BF400810676 /* LexendDeca-ExtraBold.ttf */; };
-		82EDCC8226F76BF500810676 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82EDCC7626F76BF400810676 /* OFL.txt */; };
 		82F82C65274C97B50048B978 /* TopViewController + DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F82C64274C97B40048B978 /* TopViewController + DiaryView.swift */; };
 		82F82C67274C99B40048B978 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F82C66274C99B40048B978 /* Dimension.swift */; };
 		82F82C6D274CB6A10048B978 /* CardType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F82C6C274CB6A00048B978 /* CardType.swift */; };
@@ -178,6 +180,10 @@
 		8246546B2786BC47002BD067 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewController + UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		8246546F2786E8DA002BD067 /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
+		82465547278C4D98002BD067 /* Senobi-Gothic-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Senobi-Gothic-Regular.ttf"; sourceTree = "<group>"; };
+		82465548278C4D98002BD067 /* Senobi-Gothic-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Senobi-Gothic-Bold.ttf"; sourceTree = "<group>"; };
+		82465549278C4D98002BD067 /* Senobi-Gothic-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Senobi-Gothic-Medium.ttf"; sourceTree = "<group>"; };
+		8246554D278C720B002BD067 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
 		8248AFDA270B571400D14FC4 /* DictationAnswerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationAnswerView.swift; sourceTree = "<group>"; };
 		8248AFDC270C858000D14FC4 /* DictationAnswerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictationAnswerViewCell.swift; sourceTree = "<group>"; };
 		825B995126FDB0FC00C93BCF /* StudyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyCell.swift; sourceTree = "<group>"; };
@@ -257,7 +263,6 @@
 		82EDA7D626F1B4D000EE2E9E /* WordViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordViewModal.swift; sourceTree = "<group>"; };
 		82EDA7D826F1B95D00EE2E9E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		82EDA7E126F2C61900EE2E9E /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
-		82EDCC6B26F76BF400810676 /* LexendDeca-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		82EDCC6D26F76BF400810676 /* LexendDeca-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Light.ttf"; sourceTree = "<group>"; };
 		82EDCC6E26F76BF400810676 /* LexendDeca-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Bold.ttf"; sourceTree = "<group>"; };
 		82EDCC6F26F76BF400810676 /* LexendDeca-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Medium.ttf"; sourceTree = "<group>"; };
@@ -267,7 +272,6 @@
 		82EDCC7326F76BF400810676 /* LexendDeca-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-ExtraLight.ttf"; sourceTree = "<group>"; };
 		82EDCC7426F76BF400810676 /* LexendDeca-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-SemiBold.ttf"; sourceTree = "<group>"; };
 		82EDCC7526F76BF400810676 /* LexendDeca-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-ExtraBold.ttf"; sourceTree = "<group>"; };
-		82EDCC7626F76BF400810676 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		82F82C64274C97B40048B978 /* TopViewController + DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopViewController + DiaryView.swift"; sourceTree = "<group>"; };
 		82F82C66274C99B40048B978 /* Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = "<group>"; };
 		82F82C6C274CB6A00048B978 /* CardType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardType.swift; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 				82D6421427608C6C00346190 /* UIButton + Extension.swift */,
 				8246546B2786BC47002BD067 /* UIColor + Extension.swift */,
 				8246546F2786E8DA002BD067 /* UILabel + Extension.swift */,
+				8246554D278C720B002BD067 /* UIViewController + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -378,6 +383,16 @@
 				82F82C66274C99B40048B978 /* Dimension.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		82465546278C4D98002BD067 /* senobi */ = {
+			isa = PBXGroup;
+			children = (
+				82465547278C4D98002BD067 /* Senobi-Gothic-Regular.ttf */,
+				82465548278C4D98002BD067 /* Senobi-Gothic-Bold.ttf */,
+				82465549278C4D98002BD067 /* Senobi-Gothic-Medium.ttf */,
+			);
+			path = senobi;
 			sourceTree = "<group>";
 		};
 		825B994D26FDAFA400C93BCF /* MenuBar */ = {
@@ -675,9 +690,8 @@
 		82EDCC6A26F76BF400810676 /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				82EDCC6B26F76BF400810676 /* LexendDeca-VariableFont_wght.ttf */,
+				82465546278C4D98002BD067 /* senobi */,
 				82EDCC6C26F76BF400810676 /* static */,
-				82EDCC7626F76BF400810676 /* OFL.txt */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -932,16 +946,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82EDCC8226F76BF500810676 /* OFL.txt in Resources */,
-				82EDCC7826F76BF500810676 /* LexendDeca-VariableFont_wght.ttf in Resources */,
 				82B3BCB526DA3B08008C8F33 /* LaunchScreen.storyboard in Resources */,
 				82EDCC7D26F76BF500810676 /* LexendDeca-Black.ttf in Resources */,
 				82EDCC7F26F76BF500810676 /* LexendDeca-ExtraLight.ttf in Resources */,
 				82EDCC7B26F76BF500810676 /* LexendDeca-Medium.ttf in Resources */,
 				82EDCC7A26F76BF500810676 /* LexendDeca-Bold.ttf in Resources */,
+				8246554C278C4D99002BD067 /* Senobi-Gothic-Medium.ttf in Resources */,
 				82EDCC8126F76BF500810676 /* LexendDeca-ExtraBold.ttf in Resources */,
+				8246554A278C4D99002BD067 /* Senobi-Gothic-Regular.ttf in Resources */,
 				8230C77A26DD3FF500F20E1A /* GoogleService-Info.plist in Resources */,
 				82EDCC7E26F76BF500810676 /* LexendDeca-Thin.ttf in Resources */,
+				8246554B278C4D99002BD067 /* Senobi-Gothic-Bold.ttf in Resources */,
 				82EDCC8026F76BF500810676 /* LexendDeca-SemiBold.ttf in Resources */,
 				82B3BCB226DA3B08008C8F33 /* Assets.xcassets in Resources */,
 				82EDCC7C26F76BF500810676 /* LexendDeca-Regular.ttf in Resources */,
@@ -1157,6 +1172,7 @@
 				82D642302762200900346190 /* CollectionInfo.swift in Sources */,
 				8234FCAE26E87B2D00376323 /* UserCategory.swift in Sources */,
 				82EDA7D526F1A9F900EE2E9E /* Word.swift in Sources */,
+				8246554E278C720D002BD067 /* UIViewController + Extension.swift in Sources */,
 				821B6AAD26FD6D4F00AB4FB8 /* MenuBar.swift in Sources */,
 				82EDA7C726F0E59D00EE2E9E /* ListeningCardView.swift in Sources */,
 				82D5463426E45D23007727C9 /* translate.swift in Sources */,

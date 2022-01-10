@@ -69,7 +69,12 @@ class ShowAnswerView: UICollectionView {
         modifiedWordArray.forEach { word in
             if cell.label.text == word {
                 cell.label.isHidden = false
-                cell.label.textColor = .systemGray
+                
+                let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 16),
+                                                                 .foregroundColor: UIColor.white,
+                                                                 .kern: 1]
+                
+                cell.label.attributedText = NSAttributedString(string: word, attributes: attrubutes)
             }
         }
     }

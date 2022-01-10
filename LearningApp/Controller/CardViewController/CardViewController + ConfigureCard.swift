@@ -21,7 +21,7 @@ extension CardViewController {
                             left: view.leftAnchor,
                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
                             right: view.rightAnchor,
-                            paddingTop: 50,
+                            paddingTop: 25,
                             paddingLeft: 30,
                             paddingBottom: 100,
                             paddingRight: 30)
@@ -153,7 +153,7 @@ extension CardViewController {
     func configureCaptureCard() {
         let id = ID(category: itemInfo.categoryID, collection: itemInfo.collectionID)
         
-        (0 ..< 50).forEach { _ in
+        (0 ..< 5).forEach { _ in
             let cardView = CaptureCardView(viewModel: CardViewModel(sentence: nil, word: nil),
                                            type: .capture,
                                            shouldHideJapanese: shouldHideJapanese, id: id)

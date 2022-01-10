@@ -111,6 +111,13 @@ class CollectionViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let tabBar = tabBarController as? TabBarController else { return }
+        tabBar.tabBarView.isHidden = true
+    }
+    
     // MARK: - API
     
     func fetchUserCollections() {

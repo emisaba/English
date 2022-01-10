@@ -45,6 +45,7 @@ class CaptureCardView: CardView {
     // MARK: - Helpers
     
     func configureUI() {
+        backgroundColor = UIColor.white.withAlphaComponent(0.15)
         
         addSubview(captureTextView)
         captureTextView.anchor(top: topAnchor,
@@ -53,11 +54,14 @@ class CaptureCardView: CardView {
                                paddingTop: 20,
                                paddingLeft: 20,
                                paddingRight: 20)
+        captureTextView.backgroundColor = .white.withAlphaComponent(0.05)
         
         addSubview(captureButton)
+        captureButton.backgroundColor = .clear
         captureButton.anchor(bottom: captureTextView.bottomAnchor,
                              right: captureTextView.rightAnchor)
         captureButton.setDimensions(height: 50, width: 50)
+        captureButton.layer.borderWidth = 0
         
         addSubview(translatedTextView)
         translatedTextView.anchor(top: captureTextView.bottomAnchor,
@@ -67,6 +71,7 @@ class CaptureCardView: CardView {
                                   paddingLeft: 20,
                                   paddingRight: 20)
         translatedTextView.setDimensions(height: 100, width: 100)
+        translatedTextView.backgroundColor = .white.withAlphaComponent(0.05)
         
         addSubview(inputAnswerView)
         inputAnswerView.anchor(top: translatedTextView.bottomAnchor,
@@ -78,6 +83,12 @@ class CaptureCardView: CardView {
                                     paddingBottom: 20,
                                     paddingRight: 20)
         inputAnswerView.centerX(inView: self)
+        inputAnswerView.backgroundColor = .white.withAlphaComponent(0.05)
+    }
+    
+    func translationTextFont(string: String) {
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: 18), .foregroundColor: UIColor.white]
+        translatedTextView.attributedText = NSAttributedString(string: string, attributes: attributes)
     }
     
     override func resetCardPosition(sender: UIPanGestureRecognizer) {
@@ -124,7 +135,7 @@ class CaptureCardView: CardView {
             translator.translate(text) { translatedText, error in
                 guard error == nil else { return }
                 
-                self.translatedTextView.text = translatedText
+                self.translationTextFont(string: translatedText ?? "")
             }
         }
     }

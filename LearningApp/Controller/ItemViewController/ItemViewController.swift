@@ -52,12 +52,12 @@ class ItemViewController: UIViewController {
     
     private var testCardType: QuestionType = .all
     
-    public var sections: [Section] = [Section(title: "Shadowing", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                      Section(title: "Listening", iconImage: #imageLiteral(resourceName: "pooh"),  isOpened: false),
-                                      Section(title: "Speaking", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                      Section(title: "Writing", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                      Section(title: "Dictation", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false),
-                                      Section(title: "Vocabulary", iconImage: #imageLiteral(resourceName: "pooh"), isOpened: false)]
+    public var sections: [Section] = [Section(title: "シャドーイング", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
+                                      Section(title: "リスニング", iconImage: #imageLiteral(resourceName: "search"),  isOpened: false),
+                                      Section(title: "スピーキング", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
+                                      Section(title: "ライティング", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
+                                      Section(title: "ディクテーション", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
+                                      Section(title: "ボキャブラリ", iconImage: #imageLiteral(resourceName: "search"), isOpened: false)]
     
     private let selectedCollection: CollectionViewCell
     
@@ -179,28 +179,28 @@ class ItemViewController: UIViewController {
     }
     
     func configureUIParts() {
-        self.view.addSubview(self.closeButton)
-        self.closeButton.anchor(top: self.view.safeAreaLayoutGuide.topAnchor,
-                                right: self.view.rightAnchor,
-                                paddingTop: 5, paddingRight: 30)
-        self.closeButton.setDimensions(height: 60, width: 60)
+        view.addSubview(closeButton)
+        closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                                right: view.rightAnchor,
+                                paddingRight: 20)
+        closeButton.setDimensions(height: 60, width: 60)
         
-        self.view.addSubview(self.tableView)
-        self.tableView.anchor(top: self.closeButton.bottomAnchor,
-                              left: self.view.leftAnchor,
-                              bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
-                              right: self.view.rightAnchor,
+        view.addSubview(tableView)
+        tableView.anchor(top: closeButton.bottomAnchor,
+                              left: view.leftAnchor,
+                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                              right: view.rightAnchor,
                               paddingTop: 25,
                               paddingLeft: 25,
                               paddingBottom: 30,
                               paddingRight: 25)
-        self.tableView.setDimensions(height: 500, width: self.view.frame.width - 50)
+        tableView.setDimensions(height: 500, width: view.frame.width - 50)
         
-        self.view.addSubview(self.addCardButton)
-        self.addCardButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor)
-        self.addCardButton.setDimensions(height: 80, width: 80)
-        self.addCardButton.centerX(inView: self.view)
-        self.addCardButton.layer.cornerRadius = 30
+        view.addSubview(addCardButton)
+        addCardButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
+        addCardButton.setDimensions(height: 80, width: 80)
+        addCardButton.centerX(inView: view)
+        addCardButton.layer.cornerRadius = 30
     }
     
     func moveToCardView(vc: UIViewController) {

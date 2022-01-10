@@ -6,7 +6,7 @@ class InputAnswerViewCell: UICollectionViewCell {
     
     public var labelText: String? {
         didSet {
-            let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 6]
+            let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 2]
             label.attributedText = NSAttributedString(string: labelText ?? "", attributes: attrubutes)
             label.textColor = .white
         }

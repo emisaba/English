@@ -15,26 +15,9 @@ class CameraViewController: UIViewController {
     public let previewLayer = AVCaptureVideoPreviewLayer()
     public let targetAreaView = UIImageView()
     
-    private lazy var captureButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.addTarget(self, action: #selector(didTapCaptureButton), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var resetButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemPurple
-        button.addTarget(self, action: #selector(didTapResetButton), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var closeButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemPurple
-        button.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
-        return button
-    }()
+    private lazy var captureButton = createButton(selector: #selector(didTapCaptureButton), image: #imageLiteral(resourceName: "radio"))
+    private lazy var resetButton = createButton(selector: #selector(didTapResetButton), image: #imageLiteral(resourceName: "refresh"))
+    private lazy var closeButton = createButton(selector: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow-down"))
     
     private lazy var capturedTextView: CustomTextView = {
         let tv = CustomTextView()
@@ -154,27 +137,21 @@ class CameraViewController: UIViewController {
 
         view.addSubview(captureButton)
         captureButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                             right: view.rightAnchor,
-                             paddingBottom: 20,
-                             paddingRight: 20)
-        captureButton.setDimensions(height: 50, width: 50)
-        captureButton.layer.cornerRadius = 25
+                             paddingBottom: 20)
+        captureButton.setDimensions(height: 80, width: 80)
+        captureButton.centerX(inView: view)
         
         view.addSubview(resetButton)
-        resetButton.anchor(left: view.leftAnchor,
-                          bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                          paddingLeft: 20,
-                          paddingBottom: 20)
-        resetButton.setDimensions(height: 50, width: 50)
-        resetButton.layer.cornerRadius = 25
+        resetButton.anchor(right: view.rightAnchor,
+                           paddingRight: 30)
+        resetButton.setDimensions(height: 30, width: 30)
+        resetButton.centerY(inView: captureButton)
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            right: view.rightAnchor,
-                           paddingTop: 20,
                            paddingRight: 20)
-        closeButton.setDimensions(height: 50, width: 50)
-        closeButton.layer.cornerRadius = 25
+        closeButton.setDimensions(height: 40, width: 40)
         
         view.addSubview(targetAreaView)
         targetAreaView.frame = CGRect(x: 0, y: 200,
@@ -191,6 +168,13 @@ class CameraViewController: UIViewController {
                         paddingLeft: 20,
                         paddingRight: 20,
                         height: 150)
+    }
+    
+    func createButton(selector: Selector, image: UIImage) -> UIButton {
+        let button = UIButton()
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        button.setImage(image, for: .normal)
+        return button
     }
     
     func configureGesture() {

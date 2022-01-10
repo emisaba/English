@@ -45,7 +45,8 @@ extension CardViewController: CaptureCardViewDelegate {
         guard let topCard = topCard as? CaptureCardView else { return }
         
         if card == topCard {
-            card.captureTextView.text = text
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 17), .foregroundColor: UIColor.white, .kern: 2]
+            card.captureTextView.attributedText = NSAttributedString(string: text, attributes: attributes)
         }
     }
     

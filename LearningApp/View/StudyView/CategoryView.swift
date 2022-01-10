@@ -37,7 +37,7 @@ class CategoryView: UICollectionViewCell {
         let blurEffect = UIBlurEffect(style: .dark)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = bounds
-        visualEffectView.alpha = 0.7
+        visualEffectView.alpha = 0.3
         return visualEffectView
     }()
     
@@ -74,9 +74,9 @@ class CategoryView: UICollectionViewCell {
         
         gradientLayer.frame = frame
         addSubview(selectedBar)
-        selectedBar.frame = CGRect(x: 25,
-                                   y: frame.height - 40,
-                                   width: 50,
+        selectedBar.frame = CGRect(x: 45,
+                                   y: frame.height - 50,
+                                   width: 10,
                                    height: 10)
     }
     
@@ -84,7 +84,7 @@ class CategoryView: UICollectionViewCell {
     
     @objc func didTapUserCategoryButton() {
         UIView.animate(withDuration: 0.25) {
-            self.selectedBar.frame.origin.x = 25
+            self.selectedBar.frame.origin.x = 45
         }
         delegate?.didSelectCategory(categoryType: .user)
     }
@@ -123,14 +123,13 @@ class CategoryView: UICollectionViewCell {
             
             let selectCategoryStackView = UIStackView(arrangedSubviews: [userCategoryButton, downloadCategoryButton])
             selectCategoryStackView.distribution = .fillEqually
-            selectCategoryStackView.spacing = 20
 
             addSubview(selectCategoryStackView)
             selectCategoryStackView.anchor(left: leftAnchor,
                                            bottom: bottomAnchor,
                                            paddingLeft: 20,
                                            paddingBottom: 50)
-            selectCategoryStackView.setDimensions(height: 60, width: 140)
+            selectCategoryStackView.setDimensions(height: 60, width: 120)
         }
     }
 }

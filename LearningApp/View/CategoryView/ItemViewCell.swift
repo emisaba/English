@@ -24,18 +24,18 @@ class ItemViewCell: UITableViewCell {
     
     private var japaneseOptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .lexendDecaRegular(size: 16)
         label.textColor = .white
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 14), .kern: 5]
-        label.attributedText = NSAttributedString(string:  "Japanese", attributes: attrubutes)
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 16)]
+        label.attributedText = NSAttributedString(string:  "日本語", attributes: attrubutes)
         return label
     }()
     
     private lazy var japaneseOffSwitch: UISwitch = {
         let sw = UISwitch()
         sw.addTarget(self, action: #selector(didSwitch), for: .touchUpInside)
-        sw.tintColor = .white
+        sw.layer.cornerRadius = 15
         sw.onTintColor = .systemGray
+        sw.backgroundColor = .white.withAlphaComponent(0.3)
         return sw
     }()
     
@@ -46,6 +46,13 @@ class ItemViewCell: UITableViewCell {
         sc.selectedSegmentTintColor = .systemGray
         sc.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         sc.selectedSegmentIndex = 0
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: 16), .foregroundColor: UIColor.systemGray]
+        sc.setTitleTextAttributes(attrubutes, for: .normal)
+        
+        let selectedAttrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: 16), .foregroundColor: UIColor.white]
+        sc.setTitleTextAttributes(selectedAttrubutes, for: .selected)
+        
         return sc
     }()
     
@@ -109,8 +116,8 @@ class ItemViewCell: UITableViewCell {
         japaneseOffSwitch.frame = CGRect(x: frame.width - 50, y: 0, width: 0, height: frame.height)
         contentView.addSubview(japaneseOffSwitch)
         
-        questionTypeSegment.frame = CGRect(x: 0, y: 0, width: frame.width - 20, height: frame.height)
-        questionTypeSegment.center.x = frame.width / 2 + 5
+        questionTypeSegment.frame = CGRect(x: 20, y: 0, width: frame.width - 20, height: frame.height)
+//        questionTypeSegment.center.x = frame.width / 2 + 5
         contentView.addSubview(questionTypeSegment)
     }
     

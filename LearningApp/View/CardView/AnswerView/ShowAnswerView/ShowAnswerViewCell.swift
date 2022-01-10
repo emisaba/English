@@ -4,11 +4,7 @@ class ShowAnswerViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    public let label: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        return label
-    }()
+    public let label = UILabel()
     
     private var selectedCell: Bool = false
     

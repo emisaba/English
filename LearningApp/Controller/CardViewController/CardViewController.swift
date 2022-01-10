@@ -23,8 +23,9 @@ class CardViewController: UIViewController {
     
     public lazy var closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "arrow-down"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "close-line"), for: .normal)
         button.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         return button
     }()
     
@@ -65,7 +66,7 @@ class CardViewController: UIViewController {
     }()
     
     private lazy var answerButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.titleLabel?.font = .lexendDecaRegular(size: 16)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.textColor = .white
@@ -157,6 +158,15 @@ class CardViewController: UIViewController {
     }
     
     @objc func didTapAnswerButton() {
+        
+        UIView.animate(withDuration: 0.1) {
+            self.answerButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        } completion: {_ in
+            UIView.animate(withDuration: 0.1) {
+                self.answerButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }
+        }
+        
         switch cardType {
         
         case .listening:
@@ -206,9 +216,9 @@ class CardViewController: UIViewController {
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                           right: view.rightAnchor, paddingTop: 10,
+                           right: view.rightAnchor,
                            paddingRight: 20)
-        closeButton.setDimensions(height: 50, width: 50)
+        closeButton.setDimensions(height: 60, width: 60)
         
         configureCard()
     }
@@ -219,9 +229,9 @@ class CardViewController: UIViewController {
         
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                           right: view.rightAnchor, paddingTop: 10,
+                           right: view.rightAnchor,
                            paddingRight: 20)
-        closeButton.setDimensions(height: 50, width: 50)
+        closeButton.setDimensions(height: 60, width: 60)
         
         view.addSubview(deckView)
         deckView.anchor(top: closeButton.bottomAnchor,
@@ -238,9 +248,11 @@ class CardViewController: UIViewController {
     }
     
     func showDictionaryViewController() {
+        
         if cardType == .capture {
             
             NotificationCenter.default.addObserver(forName: Notification.Name("targetWord"), object: nil, queue: .main) { notification in
+                self.showLoader(true)
                 
                 guard let word = notification.object as? String else { return }
                 

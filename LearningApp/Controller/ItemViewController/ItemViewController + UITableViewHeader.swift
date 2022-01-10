@@ -72,7 +72,7 @@ extension ItemViewController {
         titleLabel.textColor  = .white
         titleLabel.backgroundColor = .clear
         titleLabel.textAlignment = .center
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 8]
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 20), .kern: 3]
         titleLabel.attributedText = NSAttributedString(string: sections[section].title, attributes: attrubutes)
         view.addSubview(titleLabel)
         

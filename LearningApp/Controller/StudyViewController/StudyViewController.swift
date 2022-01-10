@@ -54,12 +54,6 @@ class StudyViewController: UIViewController {
         tabBar.tabBarView.isHidden = false
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        guard let tabBar = tabBarController as? TabBarController else { return }
-        tabBar.tabBarView.isHidden = true
-    }
-    
     // MARK: - API
     
     func fetchCategory() {

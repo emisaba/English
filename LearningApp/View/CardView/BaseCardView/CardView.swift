@@ -75,6 +75,14 @@ class CardView: UIView {
     
     @objc func didTapStartButton() {
         
+        UIView.animate(withDuration: 0.1) {
+            self.startButton.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        } completion: {_ in
+            UIView.animate(withDuration: 0.1) {
+                self.startButton.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }
+        }
+        
         if cardType == .shadowing { return }
         TextToSpeechService.startSpeech(text: cardType == .word ? viewModel.wordEnglish : viewModel.sentenceEnglish)
     }

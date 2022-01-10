@@ -31,6 +31,7 @@ extension CardView {
         textView.backgroundColor = .lightGray.withAlphaComponent(0.3)
         textView.layer.cornerRadius = 5
         textView.font = .lexendDecaRegular(size: 16)
+        textView.textColor = .white
         textView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         
         if cardType == .capture {

@@ -14,15 +14,20 @@ class AddCategoryViewController: UIViewController {
     
     private let imageSelectButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
         button.contentMode = .scaleAspectFill
-        button.contentEdgeInsets = UIEdgeInsets(top: 60, left: 60, bottom: 60, right: 60)
         button.clipsToBounds = true
         button.layer.cornerRadius = 75
         button.layer.borderWidth = 3
         button.layer.borderColor = UIColor.lightColor().cgColor
         button.addTarget(self, action: #selector(didTapImageSelectButton), for: .touchUpInside)
         return button
+    }()
+    
+    private let plusImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "add-fill")
+        iv.contentMode = .scaleAspectFit
+        return iv
     }()
     
     private var selectedImage: UIImage?
@@ -54,6 +59,7 @@ class AddCategoryViewController: UIViewController {
     func createNewCategory(categoryInfo: CategoryInfo) {
         
         CardService.createUserCategory(categoryInfo: categoryInfo) { id in
+            self.showLoader(false)
             
             guard let collectionImage = self.selectedImage else { return }
             let itemInfo = ItemInfo(categoryID: id.category,
@@ -89,10 +95,12 @@ class AddCategoryViewController: UIViewController {
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
         present(imagePicker, animated: true)
+        
+        plusImageView.isHidden = true
     }
     
     @objc func didTapSaveButton() {
-        view.endEditing(true)
+        showLoader(true)
         
         guard let categoryTitle = categoryTextField.text else { return }
         guard let collectionTitle = collectionTextField.text else { return }
@@ -120,6 +128,11 @@ class AddCategoryViewController: UIViewController {
         imageSelectButton.setDimensions(height: 150, width: 150)
         imageSelectButton.centerX(inView: view)
         
+        imageSelectButton.addSubview(plusImageView)
+        plusImageView.setDimensions(height: 30, width: 30)
+        plusImageView.centerY(inView: imageSelectButton)
+        plusImageView.centerX(inView: imageSelectButton)
+        
         let stackView = UIStackView(arrangedSubviews: [categoryTextField, collectionTextField, saveButton])
         stackView.spacing = 20
         stackView.distribution = .fillEqually
@@ -144,6 +157,8 @@ extension AddCategoryViewController: UIImagePickerControllerDelegate, UINavigati
         guard let image = info[.editedImage] as? UIImage else { return }
         imageSelectButton.setImage(image, for: .normal)
         selectedImage = image
+        
+        
         
         dismiss(animated: true)
     }
