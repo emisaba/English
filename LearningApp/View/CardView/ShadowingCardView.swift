@@ -5,20 +5,17 @@ class ShadowingCardView: CardView {
     
     // MARK: - Properties
     
-    private lazy var stepper : CustomStepper = {
-        let stepper = CustomStepper()
-        stepper.setDimensions(height: 50, width: 200)
-        stepper.delegate = self
-        return stepper
-    }()
-    
     private lazy var countLabel: UILabel = {
         let label = UILabel()
         label.text = "\(setValue)"
-        label.textColor = .black
+        label.textColor = .white
         label.font = .lexendDecaBold(size: 18)
+        label.textAlignment = .center
         return label
     }()
+    
+    private lazy var minusButton = createButton(symbol: "-")
+    private lazy var plusButton = createButton(symbol: "+")
     
     private var setValue: Int = 0
     private lazy var playCount: Int = setValue
@@ -43,42 +40,51 @@ class ShadowingCardView: CardView {
         prepareToSpeech()
     }
     
+    @objc func didChangeValue(sender: UIButton) {
+        
+        switch sender {
+        case minusButton:
+            setValue -= 1
+            
+            let value = max(0, setValue)
+            countLabel.text = "\(value)"
+            
+        case plusButton:
+            setValue += 1
+            
+            let value = min(10, setValue)
+            countLabel.text = "\(value)"
+            
+        default:
+            break
+        }
+    }
+    
     // MARK: - Helpers
     
     func configureUI() {
         
-        addSubview(englishLabel)
-        englishLabel.textAlignment = .center
-        englishLabel.anchor(top: topAnchor,
-                            left: leftAnchor,
-                            right: rightAnchor,
-                            paddingTop: 50,
-                            paddingLeft: 10,
-                            paddingRight: 10)
-        
-        addSubview(japaneseLabel)
-        japaneseLabel.isHidden = shouldHideJapanese
-        japaneseLabel.textAlignment = .center
-        japaneseLabel.anchor(top: englishLabel.bottomAnchor,
-                            left: leftAnchor,
-                            right: rightAnchor,
-                            paddingTop: 30,
-                            paddingLeft: 10,
-                            paddingRight: 10)
-        
-        let stackView = UIStackView(arrangedSubviews: [countLabel, stepper])
+        let stackView = UIStackView(arrangedSubviews: [minusButton, countLabel, plusButton])
         stackView.spacing = 10
         stackView.distribution = .fillEqually
-        
+
         addSubview(stackView)
-        stackView.anchor(top: japaneseLabel.bottomAnchor,
-                         paddingTop: 50)
-        stackView.setDimensions(height: 50, width: 300)
+        stackView.setDimensions(height: 50, width: 170)
         stackView.centerX(inView: self)
+        stackView.centerY(inView: self)
+        
+        addSubview(englishLabel)
+        englishLabel.textAlignment = .center
+        englishLabel.anchor(left: leftAnchor,
+                            bottom: stackView.topAnchor,
+                            right: rightAnchor,
+                            paddingLeft: 10,
+                            paddingBottom: 70,
+                            paddingRight: 10)
         
         addSubview(startButton)
         startButton.anchor(top: stackView.bottomAnchor,
-                           paddingTop: 50)
+                           paddingTop: 70)
         startButton.centerX(inView: self)
     }
     
@@ -91,24 +97,15 @@ class ShadowingCardView: CardView {
             playCount = setValue
         }
     }
-}
-
-// MARK: - CustomStepperDelegate
-
-extension ShadowingCardView: CustomStepperDelegate {
     
-    func setMinus() {
-        setValue -= 1
-        
-        let value = max(0, setValue)
-        countLabel.text = "\(value)"
-    }
-    
-    func setPlus() {
-        setValue += 1
-        
-        let value = min(10, setValue)
-        countLabel.text = "\(value)"
+    func createButton(symbol: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(symbol, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .lightGray.withAlphaComponent(0.3)
+        button.addTarget(self, action: #selector(didChangeValue(sender:)), for: .touchUpInside)
+        button.layer.cornerRadius = 5
+        return button
     }
 }
 

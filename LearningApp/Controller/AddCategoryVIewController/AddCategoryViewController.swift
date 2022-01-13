@@ -16,9 +16,9 @@ class AddCategoryViewController: UIViewController {
         let button = UIButton()
         button.contentMode = .scaleAspectFill
         button.clipsToBounds = true
-        button.layer.cornerRadius = 75
-        button.layer.borderWidth = 3
-        button.layer.borderColor = UIColor.lightColor().cgColor
+        button.layer.cornerRadius = 60
+        button.layer.borderWidth = 1.5
+        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(didTapImageSelectButton), for: .touchUpInside)
         return button
     }()
@@ -37,12 +37,14 @@ class AddCategoryViewController: UIViewController {
     
     private let saveButton: UIButton = {
         let button = UIButton()
-        button.setTitle("save", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .lexendDecaBold(size: 18)
+        button.addTarget(self, action: #selector(didTapImageSelectButton), for: .touchUpInside)
         button.layer.cornerRadius = 30
-        button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
-        button.backgroundColor = UIColor.redColor()
+        button.layer.borderWidth = 1.5
+        button.layer.borderColor = UIColor.white.cgColor
+        
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 18), .foregroundColor: UIColor.white, .kern: 2]
+        let attributeTitle = NSAttributedString(string: "登録", attributes: attrubutes)
+        button.setAttributedTitle(attributeTitle, for: .normal)
         return button
     }()
     
@@ -120,12 +122,12 @@ class AddCategoryViewController: UIViewController {
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            left: view.leftAnchor,
-                           paddingTop: 10, paddingLeft: 20)
-        closeButton.setDimensions(height: 50, width: 50)
+                           paddingLeft: 20)
+        closeButton.setDimensions(height: 30, width: 30)
         
         view.addSubview(imageSelectButton)
         imageSelectButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 20)
-        imageSelectButton.setDimensions(height: 150, width: 150)
+        imageSelectButton.setDimensions(height: 120, width: 120)
         imageSelectButton.centerX(inView: view)
         
         imageSelectButton.addSubview(plusImageView)
@@ -133,8 +135,25 @@ class AddCategoryViewController: UIViewController {
         plusImageView.centerY(inView: imageSelectButton)
         plusImageView.centerX(inView: imageSelectButton)
         
-        let stackView = UIStackView(arrangedSubviews: [categoryTextField, collectionTextField, saveButton])
-        stackView.spacing = 20
+        categoryTextField.backgroundColor = .clear
+        collectionTextField.backgroundColor = .clear
+        
+        let categoryTextFieldLine = createUnderLine()
+        categoryTextField.addSubview(categoryTextFieldLine)
+        categoryTextFieldLine.anchor(left: categoryTextField.leftAnchor,
+                                     bottom: categoryTextField.bottomAnchor,
+                                     right: categoryTextField.rightAnchor,
+                                     height: 1.5)
+        
+        let collectionTextFieldLine = createUnderLine()
+        collectionTextField.addSubview(collectionTextFieldLine)
+        collectionTextFieldLine.anchor(left: collectionTextField.leftAnchor,
+                                     bottom: collectionTextField.bottomAnchor,
+                                     right: collectionTextField.rightAnchor,
+                                     height: 1.5)
+        
+        let stackView = UIStackView(arrangedSubviews: [categoryTextField, collectionTextField])
+        stackView.spacing = 10
         stackView.distribution = .fillEqually
         stackView.axis = .vertical
         
@@ -142,10 +161,22 @@ class AddCategoryViewController: UIViewController {
         stackView.anchor(top: imageSelectButton.bottomAnchor,
                          left: view.leftAnchor,
                          right: view.rightAnchor,
-                         paddingTop: 30,
+                         paddingTop: 20,
                          paddingLeft: 30,
                          paddingRight: 30,
-                         height: 220)
+                         height: 140)
+        
+        view.addSubview(saveButton)
+        saveButton.anchor(top: stackView.bottomAnchor,
+                          paddingTop: 60)
+        saveButton.setDimensions(height: 60, width: 120)
+        saveButton.centerX(inView: view)
+    }
+    
+    func createUnderLine() -> UIView {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
     }
 }
 

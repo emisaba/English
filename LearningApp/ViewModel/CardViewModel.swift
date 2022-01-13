@@ -15,7 +15,7 @@ struct CardViewModel {
         self.sentence = sentence ?? Sentence(dictionary: ["" : ""])
         
         self.sentenceEnglish = sentence?.sentence ?? ""
-        self.sentenceJapanese = sentence?.transratedSentence ?? ""
+        self.sentenceJapanese = sentence?.translatedSentence ?? ""
         self.englishArray = sentence?.sentenceArray ?? []
         
         self.word = word ?? Word(dictionary: ["" : ""])

@@ -6,7 +6,7 @@ class SpeakingCardView: CardView {
     // MARK: - Properties
     
     private lazy var micButton = createButton(image: #imageLiteral(resourceName: "mic"), selector: #selector(didTapMicButton))
-    public lazy var speakingLabel = createLabel(language: nil)
+    public lazy var speakingLabel = createLabel(language: nil, isJapanese: false)
     
     public let speechRecognizer = SFSpeechRecognizer()
     public let request = SFSpeechAudioBufferRecognitionRequest()
@@ -40,7 +40,7 @@ class SpeakingCardView: CardView {
         englishLabel.anchor(top: topAnchor,
                                     left: leftAnchor,
                                     right: rightAnchor,
-                                    paddingTop: 30,
+                                    paddingTop: 20,
                                     paddingLeft: 20,
                                     paddingRight: 20,
                                     height: 80)
@@ -51,30 +51,29 @@ class SpeakingCardView: CardView {
         showAnswerView.anchor(top: englishLabel.bottomAnchor,
                                    left: leftAnchor,
                                    right: rightAnchor,
-                                   paddingTop: 30,
+                                   paddingTop: 10,
                                    paddingLeft: 20,
                                    paddingRight: 20,
-                                   height: 150)
+                                   height: 165)
         showAnswerView.centerX(inView: self)
         showAnswerView.englishArray = viewModel.englishArray
-        
-        addSubview(micButton)
-        micButton.anchor(top: showAnswerView.bottomAnchor,
-                         paddingTop: 30)
-        micButton.centerX(inView: self)
-        micButton.setDimensions(height: 80, width: 80)
         
         speakingLabel.font = .lexendDecaBold(size: 20)
         speakingLabel.backgroundColor = .lightGray.withAlphaComponent(0.3)
         speakingLabel.layer.cornerRadius = 5
         addSubview(speakingLabel)
-        speakingLabel.anchor(top: micButton.bottomAnchor,
+        speakingLabel.anchor(top: showAnswerView.bottomAnchor,
                              left: leftAnchor,
-                             bottom: bottomAnchor,
                              right: rightAnchor,
-                             paddingTop: 30,
+                             paddingTop: 20,
                              paddingLeft: 20,
-                             paddingBottom: 30,
-                             paddingRight: 20)
+                             paddingRight: 20,
+                             height: 165)
+        
+        addSubview(micButton)
+        micButton.anchor(top: speakingLabel.bottomAnchor,
+                         paddingTop: 30)
+        micButton.centerX(inView: self)
+        micButton.setDimensions(height: 80, width: 80)
     }
 }

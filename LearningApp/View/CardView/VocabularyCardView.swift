@@ -38,7 +38,7 @@ class VocabularyCardView: CardView {
                              paddingLeft: 10,
                              paddingRight: 10)
         japaneseLabel.centerX(inView: self)
-        japaneseLabel.text = viewModel.wordJapanese
+        japaneseLabelText(text: viewModel.wordJapanese)
         
         addSubview(vocabraryTextView)
         vocabraryTextView.anchor(top: japaneseLabel.bottomAnchor,
@@ -49,6 +49,11 @@ class VocabularyCardView: CardView {
                             paddingRight: 20,
                             height: 50)
         vocabraryTextView.centerX(inView: self)
+    }
+    
+    func japaneseLabelText(text: String) {
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: 18), .foregroundColor: UIColor.white]
+        japaneseLabel.attributedText = NSAttributedString(string:text, attributes: attrubutes)
     }
 }
 

@@ -52,12 +52,12 @@ class ItemViewController: UIViewController {
     
     private var testCardType: QuestionType = .all
     
-    public var sections: [Section] = [Section(title: "シャドーイング", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
-                                      Section(title: "リスニング", iconImage: #imageLiteral(resourceName: "search"),  isOpened: false),
-                                      Section(title: "スピーキング", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
-                                      Section(title: "ライティング", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
-                                      Section(title: "ディクテーション", iconImage: #imageLiteral(resourceName: "search"), isOpened: false),
-                                      Section(title: "ボキャブラリ", iconImage: #imageLiteral(resourceName: "search"), isOpened: false)]
+    public var sections: [Section] = [Section(title: "シャドーイング", isOpened: false),
+                                      Section(title: "リスニング",  isOpened: false),
+                                      Section(title: "スピーキング", isOpened: false),
+                                      Section(title: "ライティング", isOpened: false),
+                                      Section(title: "ディクテーション", isOpened: false),
+                                      Section(title: "ボキャブラリ", isOpened: false)]
     
     private let selectedCollection: CollectionViewCell
     
@@ -124,27 +124,27 @@ class ItemViewController: UIViewController {
         var viewController = UIViewController()
         
         switch sender.accessibilityLabel {
-        case "shadowing":
+        case "シャドーイング":
             viewController = CardViewController(cardType: .shadowing, itemInfo: itemInfo, sentences: sentences,
                                                 words: words, testCardType: testCardType, japanese: shoudHideJapanese,
                                                 itemViewController: self)
-        case "Listening":
+        case "リスニング":
             viewController = CardViewController(cardType: .listening, itemInfo: itemInfo, sentences: sentences,
                                                 words: words, testCardType: testCardType, japanese: shoudHideJapanese,
                                                 itemViewController: self)
-        case "Speaking":
+        case "スピーキング":
             viewController = CardViewController(cardType: .speaking, itemInfo: itemInfo, sentences: sentences,
                                                 words: words, testCardType: testCardType, japanese: shoudHideJapanese,
                                                 itemViewController: self)
-        case "writing":
+        case "ライティング":
             viewController = CardViewController(cardType: .writing, itemInfo: itemInfo, sentences: sentences,
                                                 words: words, testCardType: testCardType, japanese: shoudHideJapanese,
                                                 itemViewController: self)
-        case "dictation":
+        case "ディクテーション":
             viewController = CardViewController(cardType: .dictation, itemInfo: itemInfo, sentences: sentences,
                                                 words: words, testCardType: testCardType, japanese: shoudHideJapanese,
                                                 itemViewController: self)
-        case "vocabulary":
+        case "ボキャブラリ":
             viewController = CardViewController(cardType: .word, itemInfo: itemInfo, sentences: sentences,
                                                 words: words, testCardType: testCardType, japanese: shoudHideJapanese,
                                                 itemViewController: self)

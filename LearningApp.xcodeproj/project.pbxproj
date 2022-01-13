@@ -29,7 +29,6 @@
 		8234FCAE26E87B2D00376323 /* UserCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8234FCAD26E87B2D00376323 /* UserCategory.swift */; };
 		8234FCB026E87E6400376323 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8234FCAF26E87E6400376323 /* HomeCollectionViewCell.swift */; };
 		8234FCB226E87F5F00376323 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8234FCB126E87F5F00376323 /* CategoryViewModel.swift */; };
-		823A159627020A46008D3513 /* CustomStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823A159527020A46008D3513 /* CustomStepper.swift */; };
 		8246546C2786BC49002BD067 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546B2786BC47002BD067 /* UIColor + Extension.swift */; };
 		8246546E2786D1FB002BD067 /* CollectionViewController + UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */; };
 		824654702786E8DA002BD067 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8246546F2786E8DA002BD067 /* UILabel + Extension.swift */; };
@@ -176,7 +175,6 @@
 		8234FCAD26E87B2D00376323 /* UserCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCategory.swift; sourceTree = "<group>"; };
 		8234FCAF26E87E6400376323 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		8234FCB126E87F5F00376323 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
-		823A159527020A46008D3513 /* CustomStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStepper.swift; sourceTree = "<group>"; };
 		8246546B2786BC47002BD067 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
 		8246546D2786D1F9002BD067 /* CollectionViewController + UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewController + UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		8246546F2786E8DA002BD067 /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
@@ -423,7 +421,6 @@
 				82A9BC0826E7B1B2002E7461 /* CustomAlertView.swift */,
 				8295C2D826EF075D00B7AB75 /* CustomTextView.swift */,
 				8201B23326FF0F07007FBFF3 /* CustomTextField.swift */,
-				823A159527020A46008D3513 /* CustomStepper.swift */,
 				82D6421A2760B63700346190 /* CustomTabBar.swift */,
 			);
 			path = Custom;
@@ -1151,7 +1148,6 @@
 				82D6423827645FB600346190 /* SelectedCategoryViewController.swift in Sources */,
 				8201B23226FF05DB007FBFF3 /* AddCategoryViewController.swift in Sources */,
 				82FBC8A826FC3D8C00241DEC /* SearchCell.swift in Sources */,
-				823A159627020A46008D3513 /* CustomStepper.swift in Sources */,
 				82D5463A26E4E87B007727C9 /* ShowAnswerViewCell.swift in Sources */,
 				8210707B274F7FE60033F56C /* SentenceInfo.swift in Sources */,
 				8234FCB026E87E6400376323 /* HomeCollectionViewCell.swift in Sources */,

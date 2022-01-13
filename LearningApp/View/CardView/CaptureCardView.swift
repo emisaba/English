@@ -111,11 +111,11 @@ class CaptureCardView: CardView {
             if shoudDismissCard {
                 
                 guard let sentence = self.captureTextView.text else { return }
-                guard let transratedSentence = self.translatedTextView.text else { return }
+                guard let translatedSentence = self.translatedTextView.text else { return }
                 let sentenceInfo = SentenceInfo(categoryID: self.id.category,
                                                 collectionID: self.id.collection,
                                                 sentence:  sentence.lowercased(),
-                                                transratedSentence: transratedSentence,
+                                                translatedSentence: translatedSentence,
                                                 sentenceArray: self.wordsArray)
                 
                 self.captureCardDelegate?.saveInfo(view: self, sentenceInfo: sentenceInfo)

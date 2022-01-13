@@ -11,8 +11,11 @@ class SelectedCategoryViewController: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.register(SelectedCategoryViewCell.self, forCellReuseIdentifier: identifier)
-        tv.rowHeight = 60
+        tv.rowHeight = 120
         tv.separatorInset = .zero
+        tv.tableHeaderView = createHeader()
+        tv.separatorStyle = .none
+        tv.backgroundColor = .extraLightGray()
         return tv
     }()
     
@@ -40,6 +43,7 @@ class SelectedCategoryViewController: UIViewController {
         super.viewDidLoad()
         fetchCategory()
         
+        view.backgroundColor = .white
         view.addSubview(tableView)
         tableView.fillSuperview()
     }
@@ -50,6 +54,18 @@ class SelectedCategoryViewController: UIViewController {
         CardService.fetchUserCategories { categories in
             self.categories = categories
         }
+    }
+    
+    // MARK: - Helper
+    
+    func createHeader() -> UILabel {
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 22),
+                                                         .foregroundColor: UIColor.darkColor(),
+                                                         .kern: 2,]
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 120))
+        label.attributedText = NSAttributedString(string: "カテゴリを選択", attributes: attrubutes)
+        label.textAlignment = .center
+        return label
     }
 }
 
@@ -62,7 +78,7 @@ extension SelectedCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! SelectedCategoryViewCell
-        cell.category = categories[indexPath.row].categoryTitle
+        cell.viewModel = CategoryViewModel(category: categories[indexPath.row])
         return cell
     }
 }

@@ -79,30 +79,33 @@ class CustomTabBar: UIView {
     
     // MARK: - Helper
     
-    func createTabButton(image: UIImage, tag: Int, title: String) -> UIView {
-        let baseView = UIView()
-        baseView.layer.cornerRadius = 30
+    func createTabButton(image: UIImage, tag: Int, title: String) -> UIButton {
         
         let button = UIButton()
-        button.setImage(image, for: .normal)
         button.clipsToBounds = true
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
         button.tag = tag
         
-        let titleLabel = UILabel()
-        titleLabel.textColor = .white
-        titleLabel.textAlignment = .left
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 5]
-        titleLabel.attributedText = NSAttributedString(string: title, attributes: attrubutes)
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 5, .foregroundColor: UIColor.white]
+        let attributeString = NSAttributedString(string: title, attributes: attrubutes)
         
-        baseView.addSubview(button)
-        button.frame = CGRect(x: 10, y: 10, width: 40, height: 40)
+        button.setAttributedTitle(attributeString, for: .normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         
-        baseView.addSubview(titleLabel)
-        titleLabel.frame = CGRect(x: 50, y: 0, width: selectedButtonWidth - 65, height: 60)
+        let imageView = UIImageView()
+        imageView.image = image
+        imageView.frame = CGRect(x: 20, y: 20, width: 20, height: 20)
         
-        return baseView
+        button.addSubview(imageView)
+        
+        return button
+    }
+    
+    func createAttributeString(title: String) -> NSAttributedString {
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 5, .foregroundColor: UIColor.white]
+        let attributeString = NSAttributedString(string: title, attributes: attrubutes)
+        return attributeString
     }
     
     func configureUI() {
@@ -149,6 +152,9 @@ class CustomTabBar: UIView {
         self.notificationButton.frame.origin.x = self.notificationButtonOriginalX
         self.searchButton.frame.origin.x = self.searchButtonOriginalX
         self.myPageButton.frame.origin.x = self.myPageButtonOriginalX
+        
+        studyButton.setAttributedTitle(createAttributeString(title: "study"), for: .normal)
+        searchButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
     }
     
     func selectSearchButtonAnimation() {
@@ -162,6 +168,9 @@ class CustomTabBar: UIView {
         
         self.notificationButton.frame.origin.x = self.notificationButtonOriginalX
         self.myPageButton.frame.origin.x = self.myPageButtonOriginalX
+        
+        studyButton.setAttributedTitle(NSAttributedString(string: ""), for: .normal)
+        searchButton.setAttributedTitle(createAttributeString(title: "search"), for: .normal)
     }
     
     func selectNotificationButtonAnimation() {

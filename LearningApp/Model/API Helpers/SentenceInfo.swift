@@ -4,6 +4,6 @@ struct SentenceInfo {
     let categoryID: String
     let collectionID: String
     let sentence: String
-    let transratedSentence: String
+    let translatedSentence: String
     let sentenceArray: [String]
 }

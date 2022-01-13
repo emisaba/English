@@ -17,8 +17,8 @@ class CardView: UIView {
     public var viewModel: CardViewModel
     
     public lazy var startButton = createButton(image: #imageLiteral(resourceName: "play"), selector: #selector(didTapStartButton))
-    public lazy var japaneseLabel = createLabel(language: viewModel.sentenceJapanese)
-    public lazy var englishLabel = createLabel(language: viewModel.sentenceEnglish)
+    public lazy var japaneseLabel = createLabel(language: viewModel.sentenceJapanese, isJapanese: true)
+    public lazy var englishLabel = createLabel(language: viewModel.sentenceEnglish, isJapanese: false)
     
     private let identifier = "identifier"
     public lazy var showAnswerView: ShowAnswerView = {

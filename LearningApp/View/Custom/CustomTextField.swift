@@ -11,8 +11,8 @@ class CustomTextField: UITextField {
         leftViewMode = .always
         
         attributedPlaceholder = NSAttributedString(string: placeholderText,
-                                                   attributes: [.font: UIFont.lexendDecaRegular(size: 16),
-                                                                .foregroundColor: UIColor.white])
+                                                   attributes: [.font: UIFont.senobiMedium(size: 16),
+                                                                .foregroundColor: UIColor.white.withAlphaComponent(0.3)])
         
         layer.cornerRadius = 5
         backgroundColor = UIColor.lightColor()

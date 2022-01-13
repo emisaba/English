@@ -10,7 +10,7 @@ extension CardViewController: CaptureCardViewDelegate {
         let sentenceInfo = SentenceInfo(categoryID: sentenceInfo.categoryID,
                                         collectionID: sentenceInfo.collectionID,
                                         sentence: sentenceInfo.sentence,
-                                        transratedSentence: sentenceInfo.transratedSentence,
+                                        translatedSentence: sentenceInfo.translatedSentence,
                                         sentenceArray: sentenceInfo.sentenceArray)
         
         CardService.createSentence(sentenceInfo: sentenceInfo) { _ in

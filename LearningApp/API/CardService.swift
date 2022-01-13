@@ -130,7 +130,7 @@ struct CardService {
                                     "collectionID": sentenceInfo.collectionID,
                                     "sentenceID": sentenceID,
                                     "sentence": sentenceInfo.sentence,
-                                    "transratedSentence": sentenceInfo.transratedSentence,
+                                    "translatedSentence": sentenceInfo.translatedSentence,
                                     "sentenceArray": sentenceInfo.sentenceArray]
         
         ref.setData(data, completion: completion)

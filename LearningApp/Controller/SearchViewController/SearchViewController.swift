@@ -91,7 +91,7 @@ class SearchViewController: UIViewController {
     // MARK: - Helper
     
     func configureUI() {
-        view.backgroundColor = UIColor.darkColor()
+        view.backgroundColor = .darkColor()
         
         view.addSubview(searchBar)
         searchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -139,16 +139,11 @@ extension SearchViewController: UICollectionViewDelegate {
 
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (view.frame.width - 60) / 2
-        return CGSize(width: width, height: width + 50)
+        return CGSize(width: view.frame.width - 20, height: 180)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 40
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 20
     }
 }
 

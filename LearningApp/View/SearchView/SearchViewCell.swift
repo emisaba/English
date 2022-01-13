@@ -15,27 +15,7 @@ class SearchViewCell: UICollectionViewCell {
         didSet { configureViewModel() }
     }
     
-    private let iconImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 20
-        iv.clipsToBounds = true
-        return iv
-    }()
-    
-    private let userNameLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        return label
-    }()
-    
-    private let cardImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 5
-        iv.clipsToBounds = true
-        return iv
-    }()
+    private lazy var cardImageView = createImageView(cornerRadius: 5)
     
     private let effectView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
@@ -44,40 +24,21 @@ class SearchViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let sentenceCountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "フレーズ: 12"
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = .lexendDecaBold(size: 16)
-        return label
-    }()
+    private lazy var titleLabel = createLabel(firstText: "", secondText: "", size: 28)
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = .lexendDecaBold(size: 16)
-        return label
-    }()
-    
-    private let wordCountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "単語: 12"
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = .lexendDecaBold(size: 16)
-        return label
-    }()
+    private lazy var sentenceCountLabel = createLabel(firstText: "センテンス\n", secondText: "12", size: 28)
+    private lazy var wordCountLabel = createLabel(firstText: "単語\n", secondText: "12", size: 28)
     
     private lazy var downloadButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "import"), for: .normal)
-        button.backgroundColor = UIColor.lightColor()
-        button.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        button.backgroundColor = UIColor.darkColor()
+        button.imageEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         button.layer.cornerRadius = 30
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(didTapDownloadButton), for: .touchUpInside)
+        button.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
+        button.layer.borderWidth = 2
         return button
     }()
     
@@ -104,51 +65,97 @@ class SearchViewCell: UICollectionViewCell {
     
     func configureUI() {
         
-        addSubview(iconImageView)
-        iconImageView.anchor(top: topAnchor,
-                             left: leftAnchor,
-                             paddingTop: 10)
-        iconImageView.setDimensions(height: 40, width: 40)
-        
-        addSubview(userNameLabel)
-        userNameLabel.anchor(left: iconImageView.rightAnchor,
-                             paddingLeft: 10)
-        userNameLabel.centerY(inView: iconImageView)
-        
         addSubview(cardImageView)
-        cardImageView.anchor(top: iconImageView.bottomAnchor,
+        cardImageView.anchor(top: topAnchor,
                              left: leftAnchor,
-                             bottom: bottomAnchor, right: rightAnchor,
-                             paddingTop: 10)
+                             bottom: bottomAnchor,
+                             right: rightAnchor,
+                             paddingTop: 10,
+                             paddingRight: 30)
         
         cardImageView.addSubview(effectView)
         effectView.fillSuperview()
         
+        cardImageView.addSubview(titleLabel)
+        titleLabel.anchor(top: cardImageView.topAnchor, paddingTop: 20)
+        titleLabel.centerX(inView: cardImageView)
+        
+        createStackView()
+        
         addSubview(downloadButton)
-        downloadButton.anchor(bottom: bottomAnchor,
-                              paddingBottom: -30)
-        downloadButton.centerX(inView: self)
+        downloadButton.anchor(right: rightAnchor)
+        downloadButton.centerY(inView: cardImageView)
         downloadButton.setDimensions(height: 60, width: 60)
-        
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, sentenceCountLabel, wordCountLabel])
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
-        
-        addSubview(stackView)
-        stackView.centerY(inView: cardImageView)
-        stackView.centerX(inView: cardImageView)
     }
     
     func configureViewModel() {
         guard let viewModel = viewModel else { return }
         
         titleLabel.text = viewModel.title
-        
-        iconImageView.sd_setImage(with: viewModel.userImageUrl, completed: nil)
         cardImageView.sd_setImage(with: viewModel.cardImageUrl, completed: nil)
+    }
+    
+    func createImageView(cornerRadius: CGFloat) -> UIImageView {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.layer.cornerRadius = 20
+        iv.clipsToBounds = true
+        iv.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
+        iv.layer.borderWidth = 1.5
+        return iv
+    }
+    
+    func createLabel(firstText: String, secondText: String, size: CGFloat) -> UILabel {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .senobiMedium(size: size)
+        label.numberOfLines = 0
         
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 6]
-        userNameLabel.attributedText = NSAttributedString(string: viewModel.userName, attributes: attrubutes)
+        let firstAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: 16)]
+        let secondAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 20)]
+        
+        let attributesText = NSMutableAttributedString(string: firstText, attributes: firstAttributes)
+        attributesText.append(NSAttributedString(string: secondText, attributes: secondAttributes))
+        
+        label.attributedText = attributesText
+        
+        return label
+    }
+    
+    func createStackView() {
+        let stackView = UIStackView(arrangedSubviews: [sentenceCountLabel, wordCountLabel])
+        stackView.spacing = 20
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        
+        cardImageView.addSubview(stackView)
+        stackView.anchor(bottom: bottomAnchor, paddingBottom: 30)
+        stackView.centerX(inView: cardImageView)
+        
+        let stackViewFrame = UIView()
+        stackViewFrame.backgroundColor = .clear
+        stackViewFrame.layer.borderColor = UIColor.white.withAlphaComponent(0.8).cgColor
+        stackViewFrame.layer.borderWidth = 1.5
+        stackViewFrame.layer.cornerRadius = 5
+        
+        addSubview(stackViewFrame)
+        stackViewFrame.anchor(top: stackView.topAnchor,
+                              left: stackView.leftAnchor,
+                              bottom: stackView.bottomAnchor,
+                              right: stackView.rightAnchor,
+                              paddingTop: -10,
+                              paddingLeft: -10,
+                              paddingBottom: -8,
+                              paddingRight: -10)
+        
+        let stackViewDivider = UIView()
+        stackViewDivider.backgroundColor = .white.withAlphaComponent(0.8)
+        
+        addSubview(stackViewDivider)
+        stackViewDivider.anchor(top: stackViewFrame.topAnchor,
+                                bottom: stackViewFrame.bottomAnchor,
+                                width: 1.5)
+        stackViewDivider.centerX(inView: stackViewFrame)
     }
 }

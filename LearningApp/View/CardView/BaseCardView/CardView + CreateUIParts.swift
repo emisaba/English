@@ -2,14 +2,20 @@ import UIKit
 
 extension CardView {
     
-    func createLabel(language: String? = nil) -> UILabel {
+    func createLabel(language: String? = nil, isJapanese: Bool) -> UILabel {
         let label = UILabel()
         label.numberOfLines = 0
-        label.textColor = .systemGray
         label.textAlignment = cardType == .shadowing ? .left : .center
         label.text = cardType == .speaking ? nil : language
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 6]
-        label.attributedText = NSAttributedString(string: language ?? "", attributes: attrubutes)
+        
+        if isJapanese {
+            let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: 18), .foregroundColor: UIColor.white]
+            label.attributedText = NSAttributedString(string: language ?? "", attributes: attrubutes)
+        } else {
+            let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 2, .foregroundColor: UIColor.white]
+            label.attributedText = NSAttributedString(string: language ?? "", attributes: attrubutes)
+        }
+        
         return label
     }
     

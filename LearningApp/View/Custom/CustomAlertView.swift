@@ -28,6 +28,7 @@ class CustomAlertView: UIView {
     public lazy var nameTextField: CustomTextField = {
         let tf = CustomTextField(placeholderText: "コレクションを入力")
         tf.delegate = self
+        tf.backgroundColor = .clear
         return tf
     }()
     
@@ -39,16 +40,17 @@ class CustomAlertView: UIView {
     
     private lazy var saveButton: UIButton = {
         let button = UIButton()
-        button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(didTapSaveButton), for: .touchUpInside)
-        button.backgroundColor = .redColor()
-        button.layer.cornerRadius = 30
+        button.backgroundColor = .lightGray.withAlphaComponent(0.3)
         
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 6]
-        let attributedString = NSAttributedString(string: "save", attributes: attrubutes)
-        button.setAttributedTitle(attributedString, for: .normal)
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 18), .foregroundColor: UIColor.white, .kern: 2]
+        let attributeTitle = NSAttributedString(string: "登録", attributes: attrubutes)
+        button.setAttributedTitle(attributeTitle, for: .normal)
+        
         return button
     }()
+    
+    private lazy var backgroundView = createEffectiveView()
     
     private var isSaved = false
     
@@ -77,9 +79,10 @@ class CustomAlertView: UIView {
     // MARK: - Helpers
     
     func configureUI() {
-        
-        backgroundColor = .lightColor()
         layer.cornerRadius = 10
+        
+        addSubview(backgroundView)
+        backgroundView.fillSuperview()
         
         addSubview(addImageButton)
         addImageButton.anchor(top: topAnchor,
@@ -102,6 +105,7 @@ class CustomAlertView: UIView {
                                        right: nameTextField.rightAnchor,
                                        height: 1)
         
+        
         addSubview(saveButton)
         saveButton.anchor(left: leftAnchor,
                           bottom: bottomAnchor,
@@ -110,6 +114,16 @@ class CustomAlertView: UIView {
                           paddingBottom: 20,
                           paddingRight: 20,
                           height: 60)
+    }
+    
+    func createEffectiveView() -> UIVisualEffectView {
+        let blurEffect = UIBlurEffect(style: .regular)
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)
+        visualEffectView.frame = bounds
+        visualEffectView.alpha = 0.85
+        visualEffectView.layer.cornerRadius = 10
+        visualEffectView.clipsToBounds = true
+        return visualEffectView
     }
 }
 

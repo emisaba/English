@@ -32,7 +32,7 @@ class DictationCardView: CardView {
         
         addSubview(startButton)
         startButton.anchor(top: topAnchor,
-                           paddingTop: 60)
+                           paddingTop: 40)
         startButton.centerX(inView: self)
         startButton.setDimensions(height: 80, width: 80)
         
@@ -40,30 +40,27 @@ class DictationCardView: CardView {
         japaneseLabel.anchor(top: startButton.bottomAnchor,
                              left: leftAnchor,
                              right: rightAnchor,
-                             paddingTop: 30,
                              paddingLeft: 10,
-                             paddingRight: 10)
-        japaneseLabel.centerX(inView: self)
-        japaneseLabel.text = viewModel.sentenceJapanese
+                             paddingRight: 10, height: 100)
         
         addSubview(dictationTextView)
         dictationTextView.anchor(top: japaneseLabel.bottomAnchor,
                                  left: leftAnchor,
+                                 bottom: bottomAnchor,
                                  right: rightAnchor,
-                                 paddingTop: 30,
                                  paddingLeft: 20,
-                                 paddingRight: 20,
-                                 height: 250)
+                                 paddingBottom: 20,
+                                 paddingRight: 20)
         
-        addSubview(answerCollectionView)
-        answerCollectionView.anchor(top: japaneseLabel.bottomAnchor,
-                                    left: leftAnchor,
-                                    right: rightAnchor,
-                                    paddingTop: 30,
-                                    paddingLeft: 20,
-                                    paddingRight: 20,
-                                    height: 250)
-        answerCollectionView.isHidden = true
+//        addSubview(answerCollectionView)
+//        answerCollectionView.anchor(top: japaneseLabel.bottomAnchor,
+//                                    left: leftAnchor,
+//                                    right: rightAnchor,
+//                                    paddingTop: 30,
+//                                    paddingLeft: 20,
+//                                    paddingRight: 20,
+//                                    height: 250)
+//        answerCollectionView.isHidden = true
     }
     
     func showAnswer() {

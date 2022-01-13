@@ -8,13 +8,12 @@ extension CardViewController {
         
         if cardType == .word {
             configureWordCard()
-            deckView.anchor(top: closeButton.bottomAnchor,
-                            left: view.leftAnchor,
+            deckView.anchor(left: view.leftAnchor,
                             right: view.rightAnchor,
-                            paddingTop: 50,
                             paddingLeft: 20,
                             paddingRight: 20,
                             height: 375)
+            deckView.centerY(inView: view)
         } else {
             configureSentenceCard()
             deckView.anchor(top: closeButton.bottomAnchor,

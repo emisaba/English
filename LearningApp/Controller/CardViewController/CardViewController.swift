@@ -75,8 +75,8 @@ class CardViewController: UIViewController {
         button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(didTapAnswerButton), for: .touchUpInside)
         
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 14), .kern: 6]
-        let attributedString = NSAttributedString(string: "answer", attributes: attrubutes)
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 16)]
+        let attributedString = NSAttributedString(string: "答え", attributes: attrubutes)
         button.setAttributedTitle(attributedString, for: .normal)
         return button
     }()
@@ -132,6 +132,11 @@ class CardViewController: UIViewController {
         }
         
         view.backgroundColor = .clear
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     // MARK: - Actions
