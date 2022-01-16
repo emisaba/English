@@ -20,4 +20,8 @@ extension UIFont {
     static func senobiRegular(size: CGFloat) -> UIFont {
         return UIFont(name: "Senobi-Gothic-Regular", size: size) ?? .systemFont(ofSize: size)
     }
+    
+    static func rocknRollOneRegular(size: CGFloat) -> UIFont {
+        return UIFont(name: "RocknRollOne-Regular", size: size) ?? .systemFont(ofSize: size)
+    }
 }

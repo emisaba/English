@@ -37,7 +37,7 @@ class CategoryView: UICollectionViewCell {
         let blurEffect = UIBlurEffect(style: .dark)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = bounds
-        visualEffectView.alpha = 0.3
+        visualEffectView.alpha = 0.8
         return visualEffectView
     }()
     
@@ -103,7 +103,7 @@ class CategoryView: UICollectionViewCell {
         
         imageView.sd_setImage(with: viewModel.imageUrl)
         
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 25), .kern: 8]
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.rocknRollOneRegular(size: 25), .kern: 5]
         titleLabel.attributedText = NSAttributedString(string: viewModel.categoryTitle ?? "", attributes: attrubutes)
     }
     

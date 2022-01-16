@@ -1,4 +1,5 @@
 import UIKit
+import MLKitTranslate
 
 // MARK: - CaptureCardViewDelegate
 
@@ -34,6 +35,25 @@ extension CardViewController: CaptureCardViewDelegate {
     }
     
     // MARK: - Helpers
+    
+    func topViewtTranslatedSentence(card: CaptureCardView, text: String) {
+        let options = TranslatorOptions(sourceLanguage: .english, targetLanguage: .japanese)
+        let translator = Translator.translator(options: options)
+        let conditions = ModelDownloadConditions(allowsCellularAccess: false, allowsBackgroundDownloading: true)
+        
+        translator.downloadModelIfNeeded(with: conditions) { error in
+            guard error == nil else { return }
+            
+            translator.translate(text) { translatedText, error in
+                guard error == nil else { return }
+                guard let topCard = self.topCard as? CaptureCardView else { return }
+                
+                if card == topCard {
+                    card.translationTextFont(string: translatedText ?? "")
+                }
+            }
+        }
+    }
     
     func saveInfo(view: CaptureCardView, sentenceInfo: SentenceInfo) {
         view.removeFromSuperview()

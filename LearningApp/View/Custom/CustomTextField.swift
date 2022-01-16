@@ -9,14 +9,14 @@ class CustomTextField: UITextField {
         spacer.setDimensions(height: 50, width: 12)
         leftView = spacer
         leftViewMode = .always
+        tintColor = .white
+        textColor = .white
+        layer.cornerRadius = 5
+        backgroundColor = UIColor.lightColor()
         
         attributedPlaceholder = NSAttributedString(string: placeholderText,
                                                    attributes: [.font: UIFont.senobiMedium(size: 16),
                                                                 .foregroundColor: UIColor.white.withAlphaComponent(0.3)])
-        
-        layer.cornerRadius = 5
-        backgroundColor = UIColor.lightColor()
-        textColor = .white
     }
     
     required init?(coder: NSCoder) {

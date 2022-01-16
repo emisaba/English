@@ -15,7 +15,15 @@ class CollectionViewController: UIViewController {
     public let identifier = "identifier"
     
     private lazy var backToHomeButton = UIButton.createImageButton(image: #imageLiteral(resourceName: "angle-left"), target: self, action: #selector(didTapBackToHome))
-    private lazy var addCardButton = UIButton.createImageButton(image: #imageLiteral(resourceName: "plus"), target: self, action: #selector(didTapAddCardButton))
+    
+    private lazy var addCardButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "add-fill"), for: .normal)
+        button.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(didTapAddCardButton), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+        return button
+    }()
     
     private lazy var addCollectionAlert: CustomAlertView = {
         let alert = CustomAlertView()
@@ -237,15 +245,21 @@ class CollectionViewController: UIViewController {
             alertView.nameTextField.text = ""
         }
     }
-    
-    func createButton(image: UIImage) {
-        
-    }
 }
 
 // MARK: - CustomAlertViewDelegate
 
 extension CollectionViewController: CustomAlertViewDelegate {
+    func imagePicker(view: CustomAlertView) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
+        present(imagePicker, animated: true) {
+            view.showImagePickerUI()
+        }
+    }
+    
     func beginEditing() {
         UIView.animate(withDuration: 0.3) {
             self.addCollectionAlert.center.y -= 150
@@ -262,13 +276,6 @@ extension CollectionViewController: CustomAlertViewDelegate {
                                             image: image)
         
         self.createNewCollection(collectionInfo: collectionInfo, alertView: view)
-    }
-    
-    func imagePicker() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        present(imagePicker, animated: true)
     }
 }
 

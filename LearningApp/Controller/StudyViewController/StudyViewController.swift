@@ -19,14 +19,10 @@ class StudyViewController: UIViewController {
     
     private lazy var addCategoryButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 25
-        button.layer.shadowOffset = CGSize(width: 5, height: 5)
-        button.layer.shadowColor = UIColor.black.withAlphaComponent(0.3).cgColor
-        button.layer.shadowRadius = 5
+        button.setImage(#imageLiteral(resourceName: "add-fill"), for: .normal)
+        button.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        button.contentEdgeInsets = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
         return button
     }()
     
@@ -137,7 +133,7 @@ extension StudyViewController: UICollectionViewDelegate {
 extension StudyViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: view.frame.height / 3)
+        return CGSize(width: view.frame.width, height: view.frame.height / 4)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

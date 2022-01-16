@@ -11,6 +11,11 @@ class SearchViewController: UIViewController {
         searchBar.setImage(#imageLiteral(resourceName: "search"), for: .search, state: .normal)
         searchBar.delegate = self
         searchBar.backgroundImage = UIImage()
+        searchBar.tintColor = .white.withAlphaComponent(0.5)
+        searchBar.delegate = self
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.lightGray, .font: UIFont.senobiMedium(size: 14)]
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "検索", attributes: attributes)
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).title = "キャンセル"
         return searchBar
     }()
     
@@ -143,7 +148,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 40
+        return 20
     }
 }
 
@@ -158,6 +163,12 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredCollections = []
         filteredCollections = collections.filter { $0.collectionTitle.contains(searchText) }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 16)]
+        searchBar.searchTextField.attributedText = NSAttributedString(string: searchBar.text ?? "", attributes: attributes)
+        return true
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

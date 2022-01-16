@@ -20,9 +20,9 @@ extension CardViewController {
                             left: view.leftAnchor,
                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
                             right: view.rightAnchor,
-                            paddingTop: 25,
+                            paddingTop: 20,
                             paddingLeft: 30,
-                            paddingBottom: 100,
+                            paddingBottom: 110,
                             paddingRight: 30)
         }
     }

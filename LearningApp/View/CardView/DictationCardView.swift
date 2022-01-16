@@ -51,16 +51,6 @@ class DictationCardView: CardView {
                                  paddingLeft: 20,
                                  paddingBottom: 20,
                                  paddingRight: 20)
-        
-//        addSubview(answerCollectionView)
-//        answerCollectionView.anchor(top: japaneseLabel.bottomAnchor,
-//                                    left: leftAnchor,
-//                                    right: rightAnchor,
-//                                    paddingTop: 30,
-//                                    paddingLeft: 20,
-//                                    paddingRight: 20,
-//                                    height: 250)
-//        answerCollectionView.isHidden = true
     }
     
     func showAnswer() {

@@ -112,7 +112,7 @@ class CustomTabBar: UIView {
         let baseView = UIView()
         baseView.frame = bounds
         baseView.backgroundColor = UIColor.darkColor()
-        baseView.layer.cornerRadius = frame.height / 2
+//        baseView.layer.cornerRadius = 30
         addSubview(baseView)
         
         baseView.addSubview(studyButton)

@@ -20,6 +20,14 @@ struct SearchCollectionViewModel {
         return URL(string: collection.collectionImageUrl)
     }
     
+    var sentenceCount: String {
+        return "\(collection.sentenceCount)"
+    }
+    
+    var wordCount: String {
+        return "\(collection.wordCount)"
+    }
+    
     init(collection: AllCollection, cellNumber: Int) {
         self.collection = collection
         self.cellNumber = cellNumber

@@ -61,6 +61,7 @@ class SpeakingCardView: CardView {
         speakingLabel.font = .lexendDecaBold(size: 20)
         speakingLabel.backgroundColor = .lightGray.withAlphaComponent(0.3)
         speakingLabel.layer.cornerRadius = 5
+        speakingLabel.clipsToBounds = true
         addSubview(speakingLabel)
         speakingLabel.anchor(top: showAnswerView.bottomAnchor,
                              left: leftAnchor,

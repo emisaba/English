@@ -36,7 +36,9 @@ struct CardService {
                                                      "collectionImageUrl": imageUrl,
                                                      "userName": userName,
                                                      "usesrImageUrl": usesrImageUrl,
-                                                     "currentUid": currentUid]
+                                                     "currentUid": currentUid,
+                                                     "sentenceCount": 0,
+                                                     "wordCount": 0]
             
                 collectionRef.setData(collectionData) { error in
                     
@@ -83,7 +85,9 @@ struct CardService {
                                                      "collectionImageUrl": imageUrl,
                                                      "userName": userName,
                                                      "usesrImageUrl": usesrImageUrl,
-                                                     "currentUid": currentUid]
+                                                     "currentUid": currentUid,
+                                                     "sentenceCount": 0,
+                                                     "wordCount": 0]
                 
                 collectionRef.setData(collectionData) { error in
                     COLLECTION_CATEGORIES
@@ -93,6 +97,23 @@ struct CardService {
                     
                     completion(collectionID)
                 }
+            }
+        }
+    }
+    
+    static func updateCollectionCardCount(collectionID: String, completion: @escaping(Error?) -> Void) {
+        
+        COLLECTION_SENTENCES.whereField("collectionID", isEqualTo: collectionID).getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents else { return }
+            let sentenceCount = documents.count
+            
+            COLLECTION_WORDS.whereField("collectionID", isEqualTo: collectionID).getDocuments { snapshot, _ in
+                guard let documents = snapshot?.documents else { return }
+                let wordCount = documents.count
+                
+                let data = ["sentenceCount": sentenceCount, "wordCount": wordCount]
+                
+                COLLECTION_COLLECTIONS.document(collectionID).updateData(data, completion: completion)
             }
         }
     }

@@ -25,7 +25,7 @@ class CardViewController: UIViewController {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "close-line"), for: .normal)
         button.addTarget(self, action: #selector(didTapCloseButton), for: .touchUpInside)
-        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         return button
     }()
     
@@ -139,9 +139,23 @@ class CardViewController: UIViewController {
         view.endEditing(true)
     }
     
+    // MARK: - API
+    
+    func updateCollectionCardCount() {
+        CardService.updateCollectionCardCount(collectionID: itemInfo.collectionID) { error in
+            if let error = error {
+                print("failed to update counts: \(error.localizedDescription)")
+                return
+            }
+            self.itemViewController?.configureUIParts()
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - Actions
     
     @objc func didTapCloseButton() {
+        if cardType == .capture { updateCollectionCardCount() }
         
         if cardType == .capture && sentences == nil {
             
@@ -156,7 +170,9 @@ class CardViewController: UIViewController {
                 }
             }
             
-        } else {
+        } else  {
+            if cardType == .capture { return }
+            
             itemViewController?.configureUIParts()
             dismiss(animated: true, completion: nil)
         }
@@ -222,6 +238,7 @@ class CardViewController: UIViewController {
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                            right: view.rightAnchor,
+                           paddingBottom: -20,
                            paddingRight: 20)
         closeButton.setDimensions(height: 60, width: 60)
         
@@ -263,7 +280,7 @@ class CardViewController: UIViewController {
                 
                 let dictionaryViewController = DictionaryViewController(term: word)
                 dictionaryViewController.modalPresentationStyle = .fullScreen
-                dictionaryViewController.inputEnglishView.text = word
+                dictionaryViewController.setEnglishWord(text: word)
                 
                 dictionaryViewController.completion = { words in
                     

@@ -1,9 +1,9 @@
 import UIKit
-import MLKitTranslate
 
 protocol CaptureCardViewDelegate {
     func showCameraView()
     func topViewWordArray(card: CaptureCardView, words: [String])
+    func topViewtTranslatedSentence(card: CaptureCardView, text: String)
     func topViewSentence(card: CaptureCardView, text: String)
     func saveInfo(view: CaptureCardView, sentenceInfo: SentenceInfo)
 }
@@ -123,23 +123,6 @@ class CaptureCardView: CardView {
         }
     }
     
-    func translate(text: String) {
-        
-        let options = TranslatorOptions(sourceLanguage: .english, targetLanguage: .japanese)
-        let translator = Translator.translator(options: options)
-        let conditions = ModelDownloadConditions(allowsCellularAccess: false, allowsBackgroundDownloading: true)
-        
-        translator.downloadModelIfNeeded(with: conditions) { error in
-            guard error == nil else { return }
-            
-            translator.translate(text) { translatedText, error in
-                guard error == nil else { return }
-                
-                self.translationTextFont(string: translatedText ?? "")
-            }
-        }
-    }
-    
     func getInfoFromCameraView() {
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("capturedWords"), object: nil, queue: .main) { notification in
@@ -149,8 +132,7 @@ class CaptureCardView: CardView {
             self.wordsArray = words
             self.captureCardDelegate?.topViewWordArray(card: self, words: words)
             self.captureCardDelegate?.topViewSentence(card: self, text: sentence)
-            
-            self.translate(text: sentence)
+            self.captureCardDelegate?.topViewtTranslatedSentence(card: self, text: sentence)
         }
     }
     
@@ -162,6 +144,15 @@ class CaptureCardView: CardView {
         
         let replacingArray = replacingString.components(separatedBy: " ")
         return replacingArray
+    }
+    
+    func createLabel(text: String) -> UILabel {
+        let label = UILabel()
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.lightColor().withAlphaComponent(0.1),
+                                                         .font: UIFont.senobiMedium(size: 14)]
+        label.attributedText = NSAttributedString(string: "\(text)", attributes: attributes)
+        label.numberOfLines = 0
+        return label
     }
 }
 

@@ -2,7 +2,7 @@ import UIKit
 
 protocol CustomAlertViewDelegate {
     func showRegisterView(view: CustomAlertView)
-    func imagePicker()
+    func imagePicker(view: CustomAlertView)
     func beginEditing()
 }
 
@@ -14,15 +14,20 @@ class CustomAlertView: UIView {
     
     public lazy var addImageButton: UIButton = {
         let button = UIButton()
-        button.setImage(#imageLiteral(resourceName: "plus"), for: .normal)
         button.contentMode = .scaleAspectFill
-        button.contentEdgeInsets = UIEdgeInsets(top: 45, left: 45, bottom: 45, right: 45)
         button.clipsToBounds = true
         button.layer.cornerRadius = 60
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(didTapAddImageButton), for: .touchUpInside)
         return button
+    }()
+    
+    public let plusImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.image = #imageLiteral(resourceName: "add-fill")
+        iv.contentMode = .scaleAspectFit
+        return iv
     }()
     
     public lazy var nameTextField: CustomTextField = {
@@ -73,7 +78,7 @@ class CustomAlertView: UIView {
     }
     
     @objc func didTapAddImageButton() {
-        delegate?.imagePicker()
+        delegate?.imagePicker(view: self)
     }
     
     // MARK: - Helpers
@@ -89,6 +94,11 @@ class CustomAlertView: UIView {
                               paddingTop: 30)
         addImageButton.setDimensions(height: 120, width: 120)
         addImageButton.centerX(inView: self)
+        
+        addImageButton.addSubview(plusImageView)
+        plusImageView.setDimensions(height: 20, width: 20)
+        plusImageView.centerY(inView: addImageButton)
+        plusImageView.centerX(inView: addImageButton)
         
         addSubview(nameTextField)
         nameTextField.anchor(top: addImageButton.bottomAnchor,
@@ -125,6 +135,11 @@ class CustomAlertView: UIView {
         visualEffectView.clipsToBounds = true
         return visualEffectView
     }
+    
+    func showImagePickerUI() {
+        plusImageView.isHidden = true
+        addImageButton.layer.borderWidth = 0
+    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -133,5 +148,11 @@ extension CustomAlertView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if isSaved { return }
         delegate?.beginEditing()
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == nameTextField {
+            let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 18)]
+            textField.attributedText = NSAttributedString(string: textField.text ?? "", attributes: attributes)
+        }
     }
 }

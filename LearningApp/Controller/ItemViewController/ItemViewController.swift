@@ -24,7 +24,7 @@ class ItemViewController: UIViewController {
     public let visualEffectView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
         let effectView = UIVisualEffectView(effect: blur)
-        effectView.alpha = 1
+        effectView.alpha = 0.7
         return effectView
     }()
     
@@ -42,7 +42,23 @@ class ItemViewController: UIViewController {
     }()
     
     private lazy var closeButton = UIButton.createImageButton(image: #imageLiteral(resourceName: "arrow-down"), target: self, action: #selector(didTapCloseButton))
-    private lazy var addCardButton =  UIButton.createImageButton(image: #imageLiteral(resourceName: "add-circle-fill"), target: self, action: #selector(didTapAddButton))
+    
+    private lazy var addCardButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "add-fill"), for: .normal)
+        button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
+        button.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        return button
+    }()
+    
+    private let addCardButtonBackground: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .extraLight)
+        let effectView = UIVisualEffectView(effect: blur)
+        effectView.alpha = 0.3
+        effectView.layer.cornerRadius = 30
+        effectView.clipsToBounds = true
+        return effectView
+    }()
     
     private var category: UserCategory?
     private var itemInfo: ItemInfo
@@ -52,12 +68,12 @@ class ItemViewController: UIViewController {
     
     private var testCardType: QuestionType = .all
     
-    public var sections: [Section] = [Section(title: "シャドーイング", isOpened: false),
-                                      Section(title: "リスニング",  isOpened: false),
+    public var sections: [Section] = [Section(title: "リスニング",  isOpened: false),
                                       Section(title: "スピーキング", isOpened: false),
-                                      Section(title: "ライティング", isOpened: false),
+                                      Section(title: "ボキャブラリ", isOpened: false),
+                                      // Section(title: "ライティング", isOpened: false),
                                       Section(title: "ディクテーション", isOpened: false),
-                                      Section(title: "ボキャブラリ", isOpened: false)]
+                                      Section(title: "シャドーイング", isOpened: false)]
     
     private let selectedCollection: CollectionViewCell
     
@@ -181,26 +197,31 @@ class ItemViewController: UIViewController {
     func configureUIParts() {
         view.addSubview(closeButton)
         closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                                right: view.rightAnchor,
-                                paddingRight: 20)
+                           right: view.rightAnchor,
+                           paddingTop: -10,
+                           paddingRight: 20)
         closeButton.setDimensions(height: 60, width: 60)
         
         view.addSubview(tableView)
         tableView.anchor(top: closeButton.bottomAnchor,
-                              left: view.leftAnchor,
-                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                              right: view.rightAnchor,
-                              paddingTop: 25,
-                              paddingLeft: 25,
-                              paddingBottom: 30,
-                              paddingRight: 25)
+                         left: view.leftAnchor,
+                         bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                         right: view.rightAnchor,
+                         paddingTop: 30,
+                         paddingLeft: 25,
+                         paddingBottom: 90,
+                         paddingRight: 25)
         tableView.setDimensions(height: 500, width: view.frame.width - 50)
         
+        view.addSubview(addCardButtonBackground)
+        addCardButtonBackground.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
+        addCardButtonBackground.setDimensions(height: 60, width: 60)
+        addCardButtonBackground.centerX(inView: view)
+
         view.addSubview(addCardButton)
         addCardButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
-        addCardButton.setDimensions(height: 80, width: 80)
+        addCardButton.setDimensions(height: 60, width: 60)
         addCardButton.centerX(inView: view)
-        addCardButton.layer.cornerRadius = 30
     }
     
     func moveToCardView(vc: UIViewController) {
