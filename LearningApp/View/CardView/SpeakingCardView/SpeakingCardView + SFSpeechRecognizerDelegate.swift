@@ -39,19 +39,20 @@ extension SpeakingCardView: SFSpeechRecognizerDelegate {
     
     func checkIfInputTextIsCorrect(result: SFSpeechRecognitionResult) {
         var splitMessage = [String]()
-        var checkNumber = 0
         
-        if checkNumber >= self.viewModel.englishArray.count { return }
+        if speechCheckNumber >= self.viewModel.englishArray.count { return }
         
         let message = result.bestTranscription.formattedString
         splitMessage = message.split(separator: " ").map { String($0) }
         
         guard let lastText = splitMessage.last else { return }
-        self.speakingLabel.text = lastText
         
-        if self.viewModel.englishArray[checkNumber].lowercased() == lastText.lowercased() {
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 16), .kern: 2, .foregroundColor: UIColor.white]
+        self.speakingLabel.attributedText = NSAttributedString(string: lastText, attributes: attrubutes)
+        
+        if self.viewModel.englishArray[speechCheckNumber].lowercased() == lastText.lowercased() {
             NotificationCenter.default.post(name: Notification.Name("speach"), object: lastText)
-            checkNumber += 1
+            speechCheckNumber += 1
         }
     }
     

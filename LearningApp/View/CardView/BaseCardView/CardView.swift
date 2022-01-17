@@ -7,6 +7,7 @@ enum SwipeDirection: Int {
 
 protocol CardViewDelegate {
     func saveSentence(correct: Bool, cardID: String, view: CardView)
+    func prepareForNextCard(cardView: CardView)
 }
 
 class CardView: UIView {
@@ -91,6 +92,7 @@ class CardView: UIView {
         switch sender.state {
         case .began:
             superview?.subviews.forEach { $0.layer.removeAllAnimations() }
+            delegate?.prepareForNextCard(cardView: self)
         case .changed:
             panCard(sender: sender)
         case .ended:

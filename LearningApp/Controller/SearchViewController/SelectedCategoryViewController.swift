@@ -15,8 +15,15 @@ class SelectedCategoryViewController: UIViewController {
         tv.separatorInset = .zero
         tv.tableHeaderView = createHeader()
         tv.separatorStyle = .none
-        tv.backgroundColor = .extraLightGray()
+        tv.backgroundColor = .clear
         return tv
+    }()
+    
+    private let blurEffectView: UIVisualEffectView = {
+        let blur = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blur)
+        view.alpha = 0.9
+        return view
     }()
     
     public var categories: [UserCategory] = [] {
@@ -43,7 +50,8 @@ class SelectedCategoryViewController: UIViewController {
         super.viewDidLoad()
         fetchCategory()
         
-        view.backgroundColor = .white
+        view.addSubview(blurEffectView)
+        blurEffectView.fillSuperview()
         view.addSubview(tableView)
         tableView.fillSuperview()
     }
@@ -60,7 +68,7 @@ class SelectedCategoryViewController: UIViewController {
     
     func createHeader() -> UILabel {
         let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 22),
-                                                         .foregroundColor: UIColor.darkColor(),
+                                                         .foregroundColor: UIColor.white,
                                                          .kern: 2,]
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 120))
         label.attributedText = NSAttributedString(string: "カテゴリを選択", attributes: attrubutes)

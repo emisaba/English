@@ -8,13 +8,13 @@ class SearchViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.searchTextField.backgroundColor = .lightColor()
         searchBar.searchTextField.textColor = .white
-        searchBar.setImage(#imageLiteral(resourceName: "search"), for: .search, state: .normal)
+        searchBar.searchTextField.leftView?.tintColor = .white.withAlphaComponent(0.8)
         searchBar.delegate = self
         searchBar.backgroundImage = UIImage()
         searchBar.tintColor = .white.withAlphaComponent(0.5)
         searchBar.delegate = self
         let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.lightGray, .font: UIFont.senobiMedium(size: 14)]
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "検索", attributes: attributes)
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: " 検索", attributes: attributes)
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).title = "キャンセル"
         return searchBar
     }()
@@ -166,7 +166,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 16)]
+        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 16), .kern: 2]
         searchBar.searchTextField.attributedText = NSAttributedString(string: searchBar.text ?? "", attributes: attributes)
         return true
     }

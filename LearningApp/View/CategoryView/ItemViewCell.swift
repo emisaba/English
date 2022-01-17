@@ -26,7 +26,7 @@ class ItemViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .white
         let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 16)]
-        label.attributedText = NSAttributedString(string:  "日本語表示", attributes: attrubutes)
+        label.attributedText = NSAttributedString(string:  "日本非表示", attributes: attrubutes)
         return label
     }()
     

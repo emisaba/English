@@ -1,8 +1,14 @@
 import UIKit
 
+protocol DictationCardViewDelegate {
+    func didBeginTextViewEditing()
+}
+
 class DictationCardView: CardView {
     
     // MARK: - Properties
+    
+    public var dictationCardViewDelegate: DictationCardViewDelegate?
     
     private lazy var dictationTextView = createTextView()
     
@@ -32,9 +38,9 @@ class DictationCardView: CardView {
         
         addSubview(startButton)
         startButton.anchor(top: topAnchor,
-                           paddingTop: 40)
+                           paddingTop: 30)
         startButton.centerX(inView: self)
-        startButton.setDimensions(height: 80, width: 80)
+        startButton.setDimensions(height: 60, width: 60)
         
         addSubview(japaneseLabel)
         japaneseLabel.anchor(top: startButton.bottomAnchor,
@@ -69,9 +75,20 @@ class DictationCardView: CardView {
 
 extension DictationCardView: UITextViewDelegate {
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        dictationCardViewDelegate?.didBeginTextViewEditing()
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         changeTextColorIfCorrect(textView: textView)
         didTapAnswerButton(textView: textView)
+        
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 18), .kern: 1, .foregroundColor: UIColor.white]
+        textView.attributedText = NSAttributedString(string: textView.text ?? "", attributes: attributes)
+        
+        if textView.text?.lowercased() == viewModel.sentenceEnglish.lowercased() {
+            textView.textColor = .systemGreen
+        }
     }
     
     func changeTextColorIfCorrect(textView: UITextView) {

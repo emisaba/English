@@ -130,7 +130,7 @@ class CaptureCardView: CardView {
             let sentence = words.joined(separator: " ")
             
             self.wordsArray = words
-            self.captureCardDelegate?.topViewWordArray(card: self, words: words)
+            self.captureCardDelegate?.topViewWordArray(card: self, words: self.createWordArray(text: sentence))
             self.captureCardDelegate?.topViewSentence(card: self, text: sentence)
             self.captureCardDelegate?.topViewtTranslatedSentence(card: self, text: sentence)
         }

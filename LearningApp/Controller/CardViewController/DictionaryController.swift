@@ -14,23 +14,26 @@ class DictionaryViewController: UIReferenceLibraryViewController {
     private let createCardView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = .darkColor()
+        view.backgroundColor = .white
         return view
     }()
     
     private let EnglishLabel: UILabel = {
         let label = UILabel()
         label.layer.cornerRadius = 5
-        label.textColor = .white
         label.textAlignment = .center
         label.backgroundColor = .clear
         return label
     }()
     
     private lazy var inputJapaneseTextField: CustomTextField = {
-        let tf = CustomTextField(placeholderText: " 意味を入力")
-        tf.delegate = self
+        let tf = CustomTextField(placeholderText: "")
+        tf.textColor = .black
         tf.backgroundColor = .clear
+        tf.tintColor = .lightGray
+        tf.attributedPlaceholder = NSAttributedString(string:  " 意味を入力",
+                                                   attributes: [.font: UIFont.senobiMedium(size: 16),
+                                                                .foregroundColor: UIColor.lightGray])
         return tf
     }()
     
@@ -52,14 +55,14 @@ class DictionaryViewController: UIReferenceLibraryViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
         
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 18), .foregroundColor: UIColor.white, .kern: 2]
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: 18), .foregroundColor: UIColor.darkGray, .kern: 2]
         let attributeTitle = NSAttributedString(string: "登録", attributes: attrubutes)
         button.setAttributedTitle(attributeTitle, for: .normal)
         return button
     }()
     
     private let blurEffectView: UIVisualEffectView = {
-        let blur = UIBlurEffect(style: .light)
+        let blur = UIBlurEffect(style: .dark)
         let view = UIVisualEffectView(effect: blur)
         view.alpha = 0.15
         return view
@@ -137,12 +140,12 @@ class DictionaryViewController: UIReferenceLibraryViewController {
                                  height: 50)
         
         let inputJapaneseFieldLine = UIView()
-        inputJapaneseFieldLine.backgroundColor = .white
+        inputJapaneseFieldLine.backgroundColor = .darkGray
         inputJapaneseTextField.addSubview(inputJapaneseFieldLine)
         inputJapaneseFieldLine.anchor(left: inputJapaneseTextField.leftAnchor,
                                      bottom: inputJapaneseTextField.bottomAnchor,
                                      right: inputJapaneseTextField.rightAnchor,
-                                     height: 1)
+                                     height: 0.5)
         
         view.addSubview(blurEffectView)
         blurEffectView.anchor(top: inputJapaneseTextField.bottomAnchor,
@@ -181,17 +184,8 @@ class DictionaryViewController: UIReferenceLibraryViewController {
     }
     
     func setEnglishWord(text: String) {
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 22), .foregroundColor: UIColor.white, .kern: 5]
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 22), .foregroundColor: UIColor.black, .kern: 2]
         let attributeText = NSAttributedString(string: text, attributes: attrubutes)
         EnglishLabel.attributedText = attributeText
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension DictionaryViewController: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.senobiRegular(size: 18)]
-        textField.attributedText = NSAttributedString(string: textField.text ?? "", attributes: attributes)
     }
 }

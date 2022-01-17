@@ -24,7 +24,7 @@ class ItemViewController: UIViewController {
     public let visualEffectView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .dark)
         let effectView = UIVisualEffectView(effect: blur)
-        effectView.alpha = 0.7
+        effectView.alpha = 0.8
         return effectView
     }()
     

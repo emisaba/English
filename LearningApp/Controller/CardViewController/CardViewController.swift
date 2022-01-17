@@ -205,8 +205,8 @@ class CardViewController: UIViewController {
             
         case .word:
             guard let wordTopCard = topCard as? VocabularyCardView else { return }
-            wordTopCard.vocabraryTextView.text = wordTopCard.viewModel.wordEnglish
-            wordTopCard.vocabraryTextView.textColor = .systemRed
+            wordTopCard.vocabraryField.text = wordTopCard.viewModel.wordEnglish
+            wordTopCard.vocabraryField.textColor = .systemRed
             
         default:
             break
@@ -226,11 +226,7 @@ class CardViewController: UIViewController {
     
     func configureCardUIexceptCaptureView() {
         
-        view.addSubview(answerButton)
-        answerButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                            paddingBottom: 10)
-        answerButton.setDimensions(height: 50, width: 180)
-        answerButton.centerX(inView: view)
+        
         
 //        view.layer.addSublayer(indicatorTrack)
 //        view.layer.addSublayer(indicatorAnimation)
@@ -243,6 +239,16 @@ class CardViewController: UIViewController {
         closeButton.setDimensions(height: 60, width: 60)
         
         configureCard()
+        
+        if cardType == .shadowing {
+            return
+        } else {
+            view.addSubview(answerButton)
+            answerButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+                                paddingBottom: 10)
+            answerButton.setDimensions(height: 50, width: 180)
+            answerButton.centerX(inView: view)
+        }
     }
     
     func configureCaptureCardUI() {

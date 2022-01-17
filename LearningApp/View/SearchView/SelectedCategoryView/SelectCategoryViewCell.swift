@@ -14,6 +14,8 @@ class SelectedCategoryViewCell: UITableViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 10
+        iv.layer.borderWidth = 0.3
+        iv.layer.borderColor = UIColor.white.withAlphaComponent(0.5).cgColor
         return iv
     }()
     
@@ -26,7 +28,7 @@ class SelectedCategoryViewCell: UITableViewCell {
         let blurEffect = UIBlurEffect(style: .dark)
         let visualEffectView = UIVisualEffectView(effect: blurEffect)
         visualEffectView.frame = bounds
-        visualEffectView.alpha = 0.3
+        visualEffectView.alpha = 0.7
         return visualEffectView
     }()
     
@@ -45,7 +47,7 @@ class SelectedCategoryViewCell: UITableViewCell {
     
     func configureViewModel() {
         guard let viewModel = viewModel else { return }
-        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaBold(size: 22),
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.rocknRollOneRegular(size: 18),
                                                          .foregroundColor: UIColor.white,
                                                          .kern: 2]
         categoryLabel.attributedText = NSAttributedString(string: viewModel.categoryTitle ?? "", attributes: attrubutes)
@@ -55,7 +57,7 @@ class SelectedCategoryViewCell: UITableViewCell {
     
     func configureUI() {
         selectionStyle = .none
-        backgroundColor = .extraLightGray()
+        backgroundColor = .clear
         
         addSubview(backgroundImageView)
         backgroundImageView.anchor(top: topAnchor,

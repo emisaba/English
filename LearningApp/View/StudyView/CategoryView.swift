@@ -121,6 +121,9 @@ class CategoryView: UICollectionViewCell {
         if isStudyVC == false {
             layer.addSublayer(gradientLayer)
             
+            userCategoryButton.contentEdgeInsets = UIEdgeInsets(top: 18, left: 18, bottom: 18, right: 18)
+            downloadCategoryButton.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+            
             let selectCategoryStackView = UIStackView(arrangedSubviews: [userCategoryButton, downloadCategoryButton])
             selectCategoryStackView.distribution = .fillEqually
 

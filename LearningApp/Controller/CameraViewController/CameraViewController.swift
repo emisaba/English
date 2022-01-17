@@ -15,9 +15,9 @@ class CameraViewController: UIViewController {
     public let previewLayer = AVCaptureVideoPreviewLayer()
     public let targetAreaView = UIImageView()
     
-    private lazy var captureButton = createButton(selector: #selector(didTapCaptureButton), image: #imageLiteral(resourceName: "radio"))
-    private lazy var resetButton = createButton(selector: #selector(didTapResetButton), image: #imageLiteral(resourceName: "refresh"))
-    private lazy var closeButton = createButton(selector: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow-down"))
+    private lazy var captureButton = createButton(selector: #selector(didTapCaptureButton), image: #imageLiteral(resourceName: "circle"), isCapture: true)
+    private lazy var resetButton = createButton(selector: #selector(didTapResetButton), image: #imageLiteral(resourceName: "refresh"), isCapture: false)
+    private lazy var closeButton = createButton(selector: #selector(didTapCloseButton), image: #imageLiteral(resourceName: "arrow-down"), isCapture: false)
     
     private lazy var capturedTextView: CustomTextView = {
         let tv = CustomTextView()
@@ -170,10 +170,18 @@ class CameraViewController: UIViewController {
                         height: 150)
     }
     
-    func createButton(selector: Selector, image: UIImage) -> UIButton {
+    func createButton(selector: Selector, image: UIImage, isCapture: Bool) -> UIButton {
         let button = UIButton()
         button.addTarget(self, action: selector, for: .touchUpInside)
         button.setImage(image, for: .normal)
+        
+        if isCapture {
+            button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+            button.layer.borderWidth = 2
+            button.layer.borderColor = UIColor.white.cgColor
+            button.layer.cornerRadius = 40
+        }
+        
         return button
     }
     

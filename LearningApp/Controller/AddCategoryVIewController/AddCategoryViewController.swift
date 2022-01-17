@@ -32,17 +32,8 @@ class AddCategoryViewController: UIViewController {
     
     private var selectedImage: UIImage?
     
-    private lazy var categoryTextField: CustomTextField = {
-        let tf = CustomTextField(placeholderText: " カテゴリを入力")
-        tf.delegate = self
-        return tf
-    }()
-    
-    private lazy var collectionTextField: CustomTextField = {
-        let tf = CustomTextField(placeholderText: " コレクションを入力")
-        tf.delegate = self
-        return tf
-    }()
+    private lazy var categoryTextField = CustomTextField(placeholderText: " カテゴリを入力")
+    private lazy var collectionTextField = CustomTextField(placeholderText: " コレクションを入力")
     
     private let saveButton: UIButton = {
         let button = UIButton()
@@ -218,16 +209,5 @@ extension AddCategoryViewController: UIImagePickerControllerDelegate, UINavigati
         selectedImage = image
         
         dismiss(animated: true)
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension AddCategoryViewController: UITextFieldDelegate {
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField == collectionTextField {
-            let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 18)]
-            textField.attributedText = NSAttributedString(string: textField.text ?? "", attributes: attributes)
-        }
     }
 }

@@ -56,8 +56,9 @@ class ShowAnswerView: UICollectionView {
                 let modifiedWord = word.replacingOccurrences(of: "?", with: "")
                     .replacingOccurrences(of: ",", with: "")
                     .replacingOccurrences(of: ".", with: "")
+                    .lowercased()
                 
-                if modifiedWord == correctInputWord {
+                if modifiedWord == correctInputWord.lowercased() {
                     self.modifiedWordArray.append(word)
                     self.reloadData()
                 }
@@ -71,7 +72,7 @@ class ShowAnswerView: UICollectionView {
                 cell.label.isHidden = false
                 
                 let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 16),
-                                                                 .foregroundColor: UIColor.white,
+                                                                 .foregroundColor: UIColor.systemGreen,
                                                                  .kern: 1]
                 
                 cell.label.attributedText = NSAttributedString(string: word, attributes: attrubutes)
@@ -90,10 +91,7 @@ extension ShowAnswerView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as! ShowAnswerViewCell
         
-        cell.label.text = englishArray[indexPath.row]
-        cell.label.isHidden = shouldShowAnswer ? false : true
-        cell.label.textColor = .systemRed
-        
+        cell.defaultUI(shouldShowAnswer: shouldShowAnswer, text: englishArray[indexPath.row])
         showAnswerIfInputIsCorrect(cell: cell)
         
         return cell

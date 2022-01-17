@@ -23,34 +23,50 @@ extension CardViewController: CardViewDelegate {
     
     // MARK: - Helpers
     
-    func prepareForNextCard() {
+    func prepareForNextCard(cardView: CardView) {
         self.swipeCount += 1
         
         switch self.cardType {
         
         case .listening:
-            guard let listenigCardView = view as? ListeningCardView else { return }
-            listenigCardView.removeFromSuperview()
-            self.cardViews.removeAll(where: { listenigCardView == $0 as! ListeningCardView } )
+            self.cardViews.removeAll(where: { cardView == $0 as! ListeningCardView } )
             self.topCard = self.cardViews.last
+            
+            if let topCard = self.topCard as? ListeningCardView {
+                topCard.isHidden = false
+            }
             
         case .speaking:
-            guard let speakingCardView = view as? SpeakingCardView else { return }
-            speakingCardView.removeFromSuperview()
-            self.cardViews.removeAll(where: { speakingCardView == $0 as! SpeakingCardView } )
+            self.cardViews.removeAll(where: { cardView == $0 as! SpeakingCardView } )
             self.topCard = self.cardViews.last
+            
+            if let topCard = self.topCard as? SpeakingCardView {
+                topCard.isHidden = false
+            }
             
         case .writing:
-            guard let writingCardView = view as? WritingCardView else { return }
-            writingCardView.removeFromSuperview()
-            self.cardViews.removeAll(where: { writingCardView == $0 as! WritingCardView } )
+            self.cardViews.removeAll(where: { cardView == $0 as! WritingCardView } )
             self.topCard = self.cardViews.last
             
+            if let topCard = self.topCard as? WritingCardView {
+                topCard.isHidden = false
+            }
+            
         case .dictation:
-            guard let dictationCardView = view as? DictationCardView else { return }
-            dictationCardView.removeFromSuperview()
-            self.cardViews.removeAll(where: { dictationCardView == $0 as! DictationCardView } )
+            self.cardViews.removeAll(where: { cardView == $0 as! DictationCardView } )
             self.topCard = self.cardViews.last
+            
+            if let topCard = self.topCard as? DictationCardView {
+                topCard.isHidden = false
+            }
+            
+        case .word:
+            self.cardViews.removeAll(where: { cardView == $0 as! VocabularyCardView } )
+            self.topCard = self.cardViews.last
+            
+            if let topCard = self.topCard as? VocabularyCardView {
+                topCard.isHidden = false
+            }
             
         default:
             break

@@ -13,6 +13,8 @@ class SpeakingCardView: CardView {
     public let audioEngine = AVAudioEngine()
     public var task: SFSpeechRecognitionTask?
     
+    public var speechCheckNumber = 0
+    
     // MARK: - Lifecycle
     
     override init(viewModel: CardViewModel, type: CardType, shouldHideJapanese: Bool, id: ID) {
@@ -58,7 +60,6 @@ class SpeakingCardView: CardView {
         showAnswerView.centerX(inView: self)
         showAnswerView.englishArray = viewModel.englishArray
         
-        speakingLabel.font = .lexendDecaBold(size: 20)
         speakingLabel.backgroundColor = .lightGray.withAlphaComponent(0.3)
         speakingLabel.layer.cornerRadius = 5
         speakingLabel.clipsToBounds = true

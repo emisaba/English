@@ -43,8 +43,6 @@ class SpeechToText: UIViewController, SFSpeechRecognizerDelegate {
             let dividedMessage = message.split(separator: " ")
             wordArray = dividedMessage.map { String($0) }
         })
-        
-        print("###元inputWordArray: \(wordArray)")
         return wordArray
     }
     

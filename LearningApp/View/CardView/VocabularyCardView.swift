@@ -1,10 +1,16 @@
 import UIKit
 
+protocol VocabularyCardViewDelegate {
+    func didBeginTextFieldEditing()
+}
+
 class VocabularyCardView: CardView {
     
     // MARK: - Properties
     
-    public lazy var vocabraryTextView = createTextView()
+    public var vocabularyCardViewDelegate: VocabularyCardViewDelegate?
+    
+    public lazy var vocabraryField = createTextField()
     
     // MARK: - Lifecycle
     
@@ -12,7 +18,7 @@ class VocabularyCardView: CardView {
         super.init(viewModel: viewModel, type: type, shouldHideJapanese: shouldHideJapanese, id: id)
         
         configureUI()
-        vocabraryTextView.delegate = self
+        vocabraryField.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -23,32 +29,27 @@ class VocabularyCardView: CardView {
     
     func configureUI() {
         
+        addSubview(japaneseLabel)
+        japaneseLabel.isHidden = shouldHideJapanese
+        japaneseLabel.centerX(inView: self)
+        japaneseLabel.centerY(inView: self)
+        japaneseLabelText(text: viewModel.wordJapanese)
+        
         addSubview(startButton)
-        startButton.anchor(top: topAnchor,
-                           paddingTop: 90)
+        startButton.anchor(bottom: japaneseLabel.topAnchor,
+                           paddingBottom: 40)
         startButton.setDimensions(height: 50, width: 50)
         startButton.centerX(inView: self)
         
-        addSubview(japaneseLabel)
-        japaneseLabel.isHidden = shouldHideJapanese
-        japaneseLabel.anchor(top: startButton.bottomAnchor,
-                             left: leftAnchor,
-                             right: rightAnchor,
-                             paddingTop: 40,
-                             paddingLeft: 10,
-                             paddingRight: 10)
-        japaneseLabel.centerX(inView: self)
-        japaneseLabelText(text: viewModel.wordJapanese)
-        
-        addSubview(vocabraryTextView)
-        vocabraryTextView.anchor(top: japaneseLabel.bottomAnchor,
-                            left: leftAnchor,
-                            right: rightAnchor,
-                            paddingTop: 40,
-                            paddingLeft: 20,
-                            paddingRight: 20,
-                            height: 50)
-        vocabraryTextView.centerX(inView: self)
+        addSubview(vocabraryField)
+        vocabraryField.anchor(top: japaneseLabel.bottomAnchor,
+                                 left: leftAnchor,
+                                 right: rightAnchor,
+                                 paddingTop: 40,
+                                 paddingLeft: 20,
+                                 paddingRight: 20,
+                                 height: 50)
+        vocabraryField.centerX(inView: self)
     }
     
     func japaneseLabelText(text: String) {
@@ -59,10 +60,21 @@ class VocabularyCardView: CardView {
 
 // MARK: - UITextViewDelegate
 
-extension VocabularyCardView: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        if textView.text.lowercased() == viewModel.wordEnglish.lowercased() {
-            textView.textColor = .systemGreen
+extension VocabularyCardView: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        vocabularyCardViewDelegate?.didBeginTextFieldEditing()
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 16),
+                                                         .foregroundColor: UIColor.white, .kern: 1]
+        vocabraryField.attributedText = NSAttributedString(string: text, attributes: attributes)
+        
+        if textField.text?.lowercased() == viewModel.wordEnglish.lowercased() {
+            textField.textColor = .systemGreen
         }
     }
 }

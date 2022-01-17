@@ -37,24 +37,24 @@ class ListeningCardView: CardView {
         
         addSubview(showAnswerView)
         showAnswerView.anchor(top: japaneseLabel.bottomAnchor,
-                                   left: leftAnchor,
-                                   right: rightAnchor,
-                                   paddingTop: 30,
-                                   paddingLeft: 20,
-                                   paddingRight: 20,
-                                   height: 150)
+                              left: leftAnchor,
+                              right: rightAnchor,
+                              paddingTop: 30,
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                              height: 150)
         showAnswerView.centerX(inView: self)
         showAnswerView.englishArray = viewModel.englishArray
         
         addSubview(inputAnswerView)
         inputAnswerView.anchor(top: showAnswerView.bottomAnchor,
-                                    left: leftAnchor,
-                                    bottom: bottomAnchor,
-                                    right: rightAnchor,
-                                    paddingTop: 20,
-                                    paddingLeft: 20,
-                                    paddingBottom: 30,
-                                    paddingRight: 20)
+                               left: leftAnchor,
+                               bottom: bottomAnchor,
+                               right: rightAnchor,
+                               paddingTop: 20,
+                               paddingLeft: 20,
+                               paddingBottom: 30,
+                               paddingRight: 20)
         inputAnswerView.centerX(inView: self)
         inputAnswerView.englishArray = viewModel.englishArray
     }

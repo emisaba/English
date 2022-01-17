@@ -4,7 +4,10 @@ class ShowAnswerViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    public let label = UILabel()
+    public let label: UILabel = {
+        let label = UILabel()
+        return label
+    }()
     
     private var selectedCell: Bool = false
     
@@ -36,5 +39,13 @@ class ShowAnswerViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func defaultUI(shouldShowAnswer: Bool, text: String) {
+        let attrubutes: [NSAttributedString.Key: Any] = [.font: UIFont.lexendDecaRegular(size: 16),
+                                                         .foregroundColor: UIColor.redColor(),
+                                                         .kern: 1]
+        label.attributedText = NSAttributedString(string: text, attributes: attrubutes)
+        label.isHidden = shouldShowAnswer ? false : true
     }
 }

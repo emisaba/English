@@ -78,13 +78,13 @@ class ShadowingCardView: CardView {
         englishLabel.anchor(left: leftAnchor,
                             bottom: stackView.topAnchor,
                             right: rightAnchor,
-                            paddingLeft: 10,
-                            paddingBottom: 70,
-                            paddingRight: 10)
+                            paddingLeft: 20,
+                            paddingBottom: 50,
+                            paddingRight: 20)
         
         addSubview(startButton)
         startButton.anchor(top: stackView.bottomAnchor,
-                           paddingTop: 70)
+                           paddingTop: 50)
         startButton.centerX(inView: self)
     }
     

@@ -38,7 +38,8 @@ extension CardView {
         textView.layer.cornerRadius = 5
         textView.font = .lexendDecaRegular(size: 16)
         textView.textColor = .white
-        textView.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 5, bottom: 5, right: 5)
+        textView.tintColor = .lightGray
         
         if cardType == .capture {
             textView.setDimensions(height: 200, width: 100)
@@ -60,5 +61,21 @@ extension CardView {
         toolBar.items = [spacer, doneButton]
         
         return toolBar
+    }
+    
+    func createTextField() -> UITextField {
+        let textfield = UITextField()
+        
+        let spacer = UIView()
+        spacer.setDimensions(height: 50, width: 12)
+        textfield.leftView = spacer
+        textfield.leftViewMode = .always
+        textfield.tintColor = .white
+        textfield.layer.cornerRadius = 5
+        textfield.backgroundColor = .lightGray.withAlphaComponent(0.3)
+        textfield.layer.borderWidth = 1
+        textfield.layer.borderColor = UIColor.white.withAlphaComponent(0.3).cgColor
+        
+        return textfield
     }
 }
