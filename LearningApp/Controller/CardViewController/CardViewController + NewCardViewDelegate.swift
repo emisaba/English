@@ -34,6 +34,16 @@ extension CardViewController: CardViewDelegate {
             
             if let topCard = self.topCard as? ListeningCardView {
                 topCard.isHidden = false
+                
+                var targetIndexItem = 0
+                
+                topCard.viewModel.englishArray.forEach { word in
+                    
+                    let targetIndexPath = IndexPath(item: targetIndexItem, section: 0)
+                    guard let cell = topCard.showAnswerView.cellForItem(at: targetIndexPath) as? ShowAnswerViewCell else { return }
+                    cell.defaultUI(shouldShowAnswer: false, text: word)
+                    targetIndexItem += 1
+                }
             }
             
         case .speaking:

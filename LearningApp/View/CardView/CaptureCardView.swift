@@ -6,6 +6,8 @@ protocol CaptureCardViewDelegate {
     func topViewtTranslatedSentence(card: CaptureCardView, text: String)
     func topViewSentence(card: CaptureCardView, text: String)
     func saveInfo(view: CaptureCardView, sentenceInfo: SentenceInfo)
+    func didChangeTextView()
+    func didEndTextView()
 }
 
 class CaptureCardView: CardView {
@@ -40,6 +42,11 @@ class CaptureCardView: CardView {
     
     @objc func didTapCaptureButton() {
         captureCardDelegate?.showCameraView()
+    }
+    
+    @objc override func didTapDoneButton() {
+        endEditing(true)
+        captureCardDelegate?.didEndTextView()
     }
     
     // MARK: - Helpers
@@ -159,6 +166,10 @@ class CaptureCardView: CardView {
 // MARK: - UITextView
 
 extension CaptureCardView: UITextViewDelegate {
+    
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        captureCardDelegate?.didChangeTextView()
+    }
     
     func textViewDidChange(_ textView: UITextView) {
         captureTextView.text = captureTextView.text

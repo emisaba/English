@@ -31,7 +31,7 @@ class CustomAlertView: UIView {
     }()
     
     public lazy var nameTextField: CustomTextField = {
-        let tf = CustomTextField(placeholderText: "コレクションを入力")
+        let tf = CustomTextField(placeholderText: "タイトルを入力")
         tf.delegate = self
         tf.backgroundColor = .clear
         return tf

@@ -18,7 +18,7 @@ class CustomTabBar: UIView {
     public var delegate: CustomTabBarDelegate?
     
     public lazy var studyButton = createTabButton(image: #imageLiteral(resourceName: "pen"), tag: 0, title: "study")
-    public lazy var searchButton = createTabButton(image: #imageLiteral(resourceName: "search"), tag: 1, title: "")
+    public lazy var searchButton = createTabButton(image: #imageLiteral(resourceName: "import"), tag: 1, title: "")
     public lazy var notificationButton = createTabButton(image: #imageLiteral(resourceName: "notification-line"), tag: 2, title: "")
     public lazy var myPageButton = createTabButton(image: #imageLiteral(resourceName: "user"), tag: 3, title: "")
     

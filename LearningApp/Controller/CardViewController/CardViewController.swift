@@ -226,8 +226,6 @@ class CardViewController: UIViewController {
     
     func configureCardUIexceptCaptureView() {
         
-        
-        
 //        view.layer.addSublayer(indicatorTrack)
 //        view.layer.addSublayer(indicatorAnimation)
         

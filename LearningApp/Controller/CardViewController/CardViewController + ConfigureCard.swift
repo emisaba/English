@@ -28,6 +28,9 @@ extension CardViewController {
                             paddingLeft: 30,
                             paddingBottom: 110,
                             paddingRight: 30)
+            
+//            deckView.frame = CGRect(x: 20, y: 0, width: view.frame.width - 40, height: view.frame.height - 150)
+//            deckView.center.y = view.frame.height / 2
         }
     }
     

@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
     }
     
     private var isSearchMode: Bool {
-        return searchBar.isFirstResponder && searchBar.text!.count > 0
+        return searchBar.text!.count > 0
     }
     
     // MARK: - LifeCycle
@@ -163,13 +163,16 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredCollections = []
         filteredCollections = collections.filter { $0.collectionTitle.contains(searchText) }
+        
+//        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 16), .kern: 2]
+//        searchBar.searchTextField.attributedText = NSAttributedString(string: searchBar.text ?? "", attributes: attributes)
     }
     
-    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 16), .kern: 2]
-        searchBar.searchTextField.attributedText = NSAttributedString(string: searchBar.text ?? "", attributes: attributes)
-        return true
-    }
+//    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        let attributes: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.white, .font: UIFont.lexendDecaRegular(size: 16), .kern: 2]
+//        searchBar.searchTextField.attributedText = NSAttributedString(string: searchBar.text ?? "", attributes: attributes)
+//        return true
+//    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
@@ -194,5 +197,13 @@ extension SearchViewController: SearchViewCellDelegate {
         }
         
         present(vc, animated: true, completion: nil)
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension SearchViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }

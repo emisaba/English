@@ -83,4 +83,16 @@ extension CardViewController: CaptureCardViewDelegate {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true)
     }
+    
+    func didChangeTextView() {
+        UIView.animate(withDuration: 0.3) {
+            self.deckView.center.y -= 50
+        }
+    }
+    
+    func didEndTextView() {
+        UIView.animate(withDuration: 0.3) {
+            self.deckView.center.y += 50
+        }
+    }
 }

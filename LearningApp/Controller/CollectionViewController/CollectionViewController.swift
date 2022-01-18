@@ -145,6 +145,10 @@ class CollectionViewController: UIViewController {
     }
     
     func createNewCollection(collectionInfo: CollectionInfo, alertView: CustomAlertView) {
+        UIView.animate(withDuration: 0.3) {
+            self.addCollectionAlert.center.y += 150
+        }
+        showLoader(true)
         
         CardService.createUserCollection(collectionInfo: collectionInfo) { collectionID in
             
@@ -243,6 +247,9 @@ class CollectionViewController: UIViewController {
             `self`.backgroundViewForAlert.alpha = 0
 
             alertView.nameTextField.text = ""
+            
+            self.view.endEditing(true)
+            self.showLoader(false)
         }
     }
 }

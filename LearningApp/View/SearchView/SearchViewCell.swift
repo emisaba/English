@@ -100,13 +100,15 @@ class SearchViewCell: UICollectionViewCell {
         
         titleLabel.attributedText = createAtributesText(firstText: viewModel.title,
                                                         secondText: "",
-                                                        size: 28)
+                                                        size: 22,
+                                                        isTitle: true)
         sentenceCountLabel.attributedText = createAtributesText(firstText: "センテンス\n",
                                                                 secondText: viewModel.sentenceCount,
-                                                                size: 16)
+                                                                size: 16,
+                                                                isTitle: false)
         wordCountLabel.attributedText = createAtributesText(firstText: "単語\n",
                                                             secondText: viewModel.wordCount,
-                                                            size: 18)
+                                                            size: 18, isTitle: false)
     }
     
     func createImageView(cornerRadius: CGFloat) -> UIImageView {
@@ -165,8 +167,11 @@ class SearchViewCell: UICollectionViewCell {
         return view
     }
     
-    func createAtributesText(firstText: String, secondText: String, size: CGFloat) -> NSAttributedString {
-        let firstAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiMedium(size: size)]
+    func createAtributesText(firstText: String, secondText: String, size: CGFloat, isTitle: Bool) -> NSAttributedString {
+        let font = isTitle ? UIFont.lexendDecaBold(size: size) : UIFont.senobiMedium(size: size)
+        let kern = isTitle ? 2 : 0
+        
+        let firstAttributes: [NSAttributedString.Key: Any] = [.font: font, .kern: kern]
         let secondAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.senobiBold(size: size)]
         
         let attributesText = NSMutableAttributedString(string: firstText, attributes: firstAttributes)

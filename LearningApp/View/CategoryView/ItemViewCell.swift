@@ -40,7 +40,7 @@ class ItemViewCell: UITableViewCell {
     }()
     
     private lazy var questionTypeSegment: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["全て", "未正解のみ", "正解のみ"])
+        let sc = UISegmentedControl(items: ["未正解のみ", "正解のみ", "全て"])
         sc.tintColor = .white
         sc.backgroundColor = .white
         sc.selectedSegmentTintColor = .systemGray
